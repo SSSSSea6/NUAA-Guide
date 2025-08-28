@@ -1,0 +1,11 @@
+{{ define "main" }}
+    <h2>最新学习资料</h2>
+    <ul class="post-list">
+    {{ range where .Site.RegularPages "Type" "materials" }}
+        <li>
+            <a href=" ">{{ .Title }}</a >
+            <p><small>标签: {{ delimit .Params.tags ", " }}</small></p >
+        </li>
+    {{ end }}
+    </ul>
+{{ end }}
