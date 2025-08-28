@@ -10,3 +10,4 @@ enableRobotsTXT = true
 [outputFormats.JSON]
   baseName = "index"
   mediaType = "application/json"
+
