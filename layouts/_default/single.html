@@ -1,0 +1,14 @@
+{{ define "main" }}
+    <article>
+        <h2>{{ .Title }}</h2>
+        <p>{{ .Content }}</p >
+        {{ if .Params.file_url }}
+            <p>
+                <a href=" " target="_blank" style="font-weight: bold; background-color: #28a745; color: white; padding: 10px 15px; border-radius: 5px;">
+                    点击下载资料
+                </a >
+                {{ if .Params.file_size }} (大小: {{ .Params.file_size }}) {{ end }}
+            </p >
+        {{ end }}
+    </article>
+{{ end }}
