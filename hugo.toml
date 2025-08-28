@@ -1,0 +1,12 @@
+baseURL = "https://nuaaguide.online/"
+languageCode = "zh-cn"
+title = "NUAA Guide 校园指北"
+enableRobotsTXT = true
+
+[outputs]
+  home = ["HTML", "JSON"]
+  section = ["HTML", "JSON"]
+
+[outputFormats.JSON]
+  baseName = "index"
+  mediaType = "application/json"
