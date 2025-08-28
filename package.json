@@ -1,0 +1,11 @@
+{
+  "name": "nuaaguide-search",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "algoliasearch": "^4.20.0"
+  },
+  "scripts": {
+    "push-algolia": "node scripts/push-to-algolia.js"
+  }
+}
