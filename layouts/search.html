@@ -1,0 +1,51 @@
+{{ define "main" }}
+<h2>搜索学习资料</h2>
+
+<div id="search-box"></div>
+<div id="hits"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@8/themes/satellite-min.css">
+
+<style>
+  .ais-Hits-item { border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 10px; }
+</style>
+
+<script>
+  // ！！！请将下面两行替换成你自己的 Key！！！
+  const searchClient = algoliasearch(
+    '你的_APPLICATION_ID',
+    '你的_SEARCH_ONLY_API_KEY'
+  );
+
+  const search = instantsearch({
+    indexName: 'nuaaguide',
+    searchClient,
+  });
+
+  search.addWidgets([
+    instantsearch.widgets.searchBox({
+      container: '#search-box',
+      placeholder: '输入课程名或关键词搜索...',
+    }),
+
+    instantsearch.widgets.hits({
+      container: '#hits',
+      templates: {
+        item: `
+          <article>
+            <a href=" ">
+              <h4>{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</h4>
+            </a >
+            <p>{{#helpers.highlight}}{ "attribute": "summary" }{{/helpers.highlight}}</p >
+          </article>
+        `,
+        empty: `没有找到与 "{{ query }}" 相关的资料。`,
+      },
+    })
+  ]);
+
+  search.start();
+</script>
+{{ end }}
