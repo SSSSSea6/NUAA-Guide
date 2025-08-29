@@ -1,48 +1,89 @@
+<!-- layouts/index.html -->
 {{ define "main" }}
 <section class="welcome-section">
-    <h2>欢迎来到 NUAA Guide 校园指北</h2>
-    <p>我们致力于消除校园课程资源的碎片化，整合各类实用信息。这里的一切，永远免费，为你领航。</p >
+    <h1>欢迎来到 NUAA Guide 校园指北</h1>
+    <p class="welcome-text">我们致力于消除校园课程资源的碎片化，整合各类实用信息。<br><strong>这里的一切，永远免费</strong>，为你的大学生活领航。</p >
 </section>
 
-{{/* --- 学习资料分区 --- */}}
-<section class="content-section">
-    <div class="section-header">
-        <h3><a href=" ">📚 最新学习资料</a ></h3>
-        <a href="/materials/" class="view-all">查看全部 &rarr;</a >
-    </div>
-    <div class="card-container">
-        {{ range first 4 (where.Site.RegularPages "Section" "materials") }}
-            {{ partial "card.html". }}
-        {{ end }}
-    </div>
-</section>
+<div class="main-grid">
+    <!-- 学习资料区块 -->
+    <section class="content-block">
+        <div class="block-header">
+            <h2><a href=" ">📚 学习资料</a ></h2>
+            <a href="/materials/" class="view-all">查看全部 →</a >
+        </div>
+        <div class="card-grid">
+            {{ range first 4 (where .Site.RegularPages "Section" "materials") }}
+            <article class="resource-card">
+                <a href="{{ .Permalink }}">
+                    <h3>{{ .Title }}</h3>
+                    <p>{{ .Summary }}</p >
+                    <div class="card-meta">
+                        <span>{{ delimit .Params.tags ", " }}</span>
+                        <time>{{ .Date.Format "01-02" }}</time>
+                    </div>
+                </a >
+            </article>
+            {{ end }}
+        </div>
+    </section>
 
-{{/* --- 生活指南分区 --- */}}
-<section class="content-section">
-    <div class="section-header">
-        <h3><a href="/guides/">🧭 大学生活指南</a ></h3>
-        <a href="/guides/" class="view-all">查看全部 &rarr;</a >
-    </div>
-    <div class="card-container">
-        {{ range first 4 (where.Site.RegularPages "Section" "guides") }}
-            {{ partial "card.html". }}
-        {{ end }}
-    </div>
-</section>
+    <!-- 生活指南区块 -->
+    <section class="content-block">
+        <div class="block-header">
+            <h2><a href="/guides/">🧭 生活指南</a ></h2>
+            <a href="/guides/" class="view-all">查看全部 →</a >
+        </div>
+        <div class="card-grid">
+            {{ range first 4 (where .Site.RegularPages "Section" "guides") }}
+            <article class="guide-card">
+                <a href="{{ .Permalink }}">
+                    <h3>{{ .Title }}</h3>
+                    <p>{{ .Summary }}</p >
+                </a >
+            </article>
+            {{ end }}
+        </div>
+    </section>
 
-{{/* --- 高分食堂分区 --- */}}
-<section class="content-section">
-    <div class="section-header">
-        <h3><a href="/canteens/">🍜 高分食堂推荐</a ></h3>
-        <a href="/canteens/" class="view-all">查看全部 &rarr;</a >
-    </div>
-    <div class="card-container">
-        {{ range first 4 (where.Site.RegularPages "Section" "canteens") }}
-            {{ partial "card.html". }}
-        {{ end }}
-    </div>
-</section>
+    <!-- 高分食堂区块 -->
+    <section class="content-block">
+        <div class="block-header">
+            <h2><a href="/canteens/">🍜 高分食堂</a ></h2>
+            <a href="/canteens/" class="view-all">查看全部 →</a >
+        </div>
+        <div class="card-grid">
+            {{ range first 4 (where .Site.RegularPages "Section" "canteens") }}
+            <article class="canteen-card">
+                <a href="{{ .Permalink }}">
+                    <h3>{{ .Title }}</h3>
+                    <p>{{ .Summary }}</p >
+                    {{ if .Params.rating }}
+                    <div class="rating">评分: {{ .Params.rating }}/5</div>
+                    {{ end }}
+                </a >
+            </article>
+            {{ end }}
+        </div>
+    </section>
 
+    <!-- 其他功能区块 -->
+    <div class="utility-grid">
+        <a href="/software/" class="utility-card">
+            <h3>💻 正版软件</h3>
+            <p>学校提供的免费正版软件下载</p >
+        </a >
+        <a href="/links/" class="utility-card">
+            <h3>🔗 常用网址</h3>
+            <p>校园生活必备网站链接合集</p >
+        </a >
+        <a href="/search/" class="utility-card search-card">
+            <h3>🔍 搜索资料</h3>
+            <p>快速找到你需要的学习资源</p >
+        </a >
+    </div>
+</div>
+{{ end }}
 {{/* --- 你可以继续为 software 和 links 添加类似的分区 --- */}}
 
 {{ end }}
