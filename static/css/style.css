@@ -1,0 +1,186 @@
+/* --- 1. 全局设计系统 --- */
+:root {
+    --primary-color: #0056b3; /* 主题蓝 */
+    --secondary-color: #4a90e2; /* 辅助蓝 */
+    --text-color: #333333; /* 主要文本颜色 */
+    --text-light: #666666; /* 次要文本颜色 */
+    --background-color: #f4f7f9; /* 页面背景色 */
+    --card-background: #ffffff; /* 卡片背景色 */
+    --border-color: #e0e6ed; /* 边框颜色 */
+    --shadow-color: rgba(0, 0, 0, 0.08); /* 阴影颜色 */
+    --font-family: 'Noto Sans SC', sans-serif; /* 字体 */
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.7;
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.site-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4 {
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+/* --- 2. 头部与尾部 --- */
+.site-header {
+    background: var(--card-background);
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 0;
+    margin-bottom: 30px;
+}
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo a {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--text-color);
+    text-decoration: none;
+}
+.main-nav a {
+    margin: 0 15px;
+    font-weight: 500;
+    color: var(--text-light);
+    text-decoration: none;
+}
+.main-nav a:hover {
+    color: var(--primary-color);
+}
+.nav-search-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+.nav-search-button:hover {
+    background-color: var(--secondary-color);
+    color: white;
+    text-decoration: none;
+}
+
+.site-footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9em;
+    color: var(--text-light);
+}
+
+/* --- 3. 主页特定样式 --- */
+.welcome-section {
+    text-align: center;
+    background: var(--card-background);
+    padding: 40px 20px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+.welcome-section h2 {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+}
+.welcome-section p {
+    font-size: 1.1em;
+    color: var(--text-light);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.content-section {
+    margin-bottom: 40px;
+}
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.section-header h3 a {
+    font-size: 1.8em;
+    color: var(--text-color);
+    text-decoration: none;
+}
+.view-all {
+    font-weight: 500;
+}
+
+/* --- 4. 卡片布局 (Flexbox) --- */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 控制卡片间距 */
+}
+.card {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex: 1 1 300px; /* Flexbox 核心: 基础宽度300px, 可伸缩 */
+    display: flex; /* 让卡片本身也成为flex容器，方便内部对齐 */
+    flex-direction: column;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px var(--shadow-color);
+}
+.card a {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 20px;
+    text-decoration: none;
+    color: inherit;
+}
+.card h4 {
+    font-size: 1.2em;
+    margin: 0 0 10px 0;
+    color: var(--primary-color);
+}
+.card p {
+    margin: 0 0 15px 0;
+    color: var(--text-light);
+    flex-grow: 1; /* 让p标签占据多余空间，将日期推到底部 */
+}
+.card small {
+    color: #999;
+    align-self: flex-start; /* 日期在底部左对齐 */
+}
+
+/* --- 5. 搜索页面样式 --- */
+#search-box { margin-bottom: 20px; }
+.ais-Hits-item {
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background: var(--card-background);
+}
+.ais-Highlight-highlighted { background-color: #fbeeb8; }
+.hit-title { margin: 0 0 8px 0; }
+.hit-summary { margin: 0; color: var(--text-light); }
