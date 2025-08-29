@@ -5,25 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ .Title }} | {{ .Site.Title }}</title>
     <style>
-        body { font-family: sans-serif; line-height: 1.6; margin: 20px; max-width: 800px; margin: 20px auto; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; margin: 0; background-color: #f8f9fa; color: #212529; }
+        .container { max-width: 800px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         header, footer { text-align: center; margin: 20px 0; }
-        a { text-decoration: none; color: #0056b3; }
+        h1, h2 { color: #343a40; }
+        a { text-decoration: none; color: #007bff; }
         a:hover { text-decoration: underline; }
-        .post-list a { font-size: 1.2em; }
+        header h1 a { color: #343a40; }
+        nav a { margin: 0 15px; font-weight: 500; }
+        .post-list li { list-style: none; margin-bottom: 1.5em; }
+        .post-list a { font-size: 1.2em; font-weight: bold; color: #0056b3; }
+        .post-list p { margin: 0.3em 0 0 0; color: #6c757d; }
+        footer { font-size: 0.9em; color: #6c757d; }
     </style>
 </head>
 <body>
-    <header>
-        <h1><a href=" ">{{ .Site.Title }}</a ></h1>
-        <nav>
-            <a href="/">首页</a > | <a href="/search">搜索资料</a >
-        </nav>
-    </header>
-    <main>
-        {{- block "main" . }}{{- end }}
-    </main>
-    <footer>
-        <p>&copy; 2025 {{ .Site.Title }}. All rights reserved.</p >
-    </footer>
+    <div class="container">
+        <header>
+            <h1><a href=" ">{{ .Site.Title }}</a ></h1>
+            <nav>
+                <a href="/">首页</a > | <a href="/search">搜索资料</a >
+            </nav>
+        </header>
+        <main>
+            {{- block "main" . }}{{- end }}
+        </main>
+        <footer>
+            <p>&copy; 2025 {{ .Site.Title }}. All rights reserved.</p >
+        </footer>
+    </div>
 </body>
 </html>
+
