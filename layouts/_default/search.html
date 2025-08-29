@@ -35,13 +35,13 @@
       templates: {
         item: `
           <article>
-            <a href=" ">
-              <h4>{{`{{#helpers.highlight}}`}}{ "attribute": "title" }{{`{{/helpers.highlight}}`}}</h4>
+            <a href=" > permalink }}">
+              <h4>{{</* */>#helpers.highlight}}{ "attribute": "title" }{{</* */>/helpers.highlight}}</h4>
             </a >
-            <p>{{`{{#helpers.highlight}}`}}{ "attribute": "summary" }{{`{{/helpers.highlight}}`}}</p >
+            <p>{{</* */>#helpers.highlight}}{ "attribute": "summary" }{{</* */>/helpers.highlight}}</p >
           </article>
         `,
-        empty: `没有找到与 "{{`{{ query }}`}}" 相关的资料。`,
+        empty: `没有找到与 "{{</* */> query }}" 相关的资料。`,
       },
     })
   ]);
