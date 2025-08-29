@@ -1,6 +1,6 @@
 const searchClient = algoliasearch(
   'SMA85IWFQN',        // <--- ！！！在这里填入你自己的 Application ID
-  'acba6f34201778549de792ebd57bea2c'  // <--- ！！！在这里填入你自己的 Search-Only API Key
+  '8a00c461ba4a78c16cb8862108e7e83a'  // <--- ！！！在这里填入你自己的 Search-Only API Key
 );
 
 const search = instantsearch({
