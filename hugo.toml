@@ -1,7 +1,12 @@
+# hugo.toml
 baseURL = "https://nuaaguide.online/"
 languageCode = "zh-cn"
 title = "NUAA Guide 校园指北"
 enableRobotsTXT = true
+
+[params]
+  description = "南京航空航天大学校园指北 - 免费的学习资料、生活指南与实用信息分享平台"
+  keywords = ["NUAA", "南航", "学习资料", "校园指南", "大学生活"]
 
 [outputs]
   home = ["HTML", "JSON"]
@@ -10,4 +15,31 @@ enableRobotsTXT = true
 [outputFormats.JSON]
   baseName = "index"
   mediaType = "application/json"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[menu]
+  [[menu.main]]
+    name = "学习资料"
+    url = "/materials/"
+    weight = 1
+  [[menu.main]]
+    name = "生活指南"
+    url = "/guides/"
+    weight = 2
+  [[menu.main]]
+    name = "食堂推荐"
+    url = "/canteens/"
+    weight = 3
+  [[menu.main]]
+    name = "正版软件"
+    url = "/software/"
+    weight = 4
+  [[menu.main]]
+    name = "常用网址"
+    url = "/links/"
+    weight = 5
 
