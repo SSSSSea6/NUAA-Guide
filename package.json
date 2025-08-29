@@ -9,3 +9,8 @@
     "push-algolia": "node scripts/push-to-algolia.js"
   }
 }
+{
+  "scripts": {
+    "upload": "node scripts/upload.js"
+  }
+}
