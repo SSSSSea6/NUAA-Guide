@@ -35,13 +35,13 @@ jobs:
       - name: Build website
         run: hugo --minify
 
-      - name: Update search index
-        env:
-          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
-          ALGOLIA_ADMIN_API_KEY: ${{ secrets.ALGOLIA_ADMIN_API_KEY }}
-          ALGOLIA_INDEX_NAME: 'nuaaguide'
-        run: npm run push-algolia
-
+      - name: Push search index to Algolia
+  env:
+    ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+    ALGOLIA_ADMIN_API_KEY: ${{ secrets.ALGOLIA_ADMIN_API_KEY }}
+    ALGOLIA_INDEX_NAME: 'nuaaguide'
+  run: npm run push-algolia
+  
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
