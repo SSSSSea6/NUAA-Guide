@@ -6,7 +6,6 @@
     "algoliasearch": "^4.20.0"
   },
   "scripts": {
-    "push-algolia": "node scripts/push-to-algolia.js",
-    "upload": "node scripts/upload.js"
+    "push-algolia": "node scripts/push-to-algolia.js"
   }
 }
