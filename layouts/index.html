@@ -1,89 +1,137 @@
-<!-- layouts/index.html -->
 {{ define "main" }}
 <section class="welcome-section">
-    <h1>欢迎来到 NUAA Guide 校园指北</h1>
-    <p class="welcome-text">我们致力于消除校园课程资源的碎片化，整合各类实用信息。<br><strong>这里的一切，永远免费</strong>，为你的大学生活领航。</p >
+    <h2>欢迎来到 NUAA Guide 校园指北</h2>
+    <p>我们致力于消除校园课程资源的碎片化，整合各类实用信息。这里的一切，永远免费，为你领航。</p>
 </section>
 
-<div class="main-grid">
-    <!-- 学习资料区块 -->
-    <section class="content-block">
-        <div class="block-header">
-            <h2><a href=" ">📚 学习资料</a ></h2>
-            <a href="/materials/" class="view-all">查看全部 →</a >
-        </div>
-        <div class="card-grid">
-            {{ range first 4 (where .Site.RegularPages "Section" "materials") }}
-            <article class="resource-card">
-                <a href="{{ .Permalink }}">
-                    <h3>{{ .Title }}</h3>
-                    <p>{{ .Summary }}</p >
-                    <div class="card-meta">
-                        <span>{{ delimit .Params.tags ", " }}</span>
-                        <time>{{ .Date.Format "01-02" }}</time>
-                    </div>
-                </a >
-            </article>
-            {{ end }}
-        </div>
-    </section>
-
-    <!-- 生活指南区块 -->
-    <section class="content-block">
-        <div class="block-header">
-            <h2><a href="/guides/">🧭 生活指南</a ></h2>
-            <a href="/guides/" class="view-all">查看全部 →</a >
-        </div>
-        <div class="card-grid">
-            {{ range first 4 (where .Site.RegularPages "Section" "guides") }}
-            <article class="guide-card">
-                <a href="{{ .Permalink }}">
-                    <h3>{{ .Title }}</h3>
-                    <p>{{ .Summary }}</p >
-                </a >
-            </article>
-            {{ end }}
-        </div>
-    </section>
-
-    <!-- 高分食堂区块 -->
-    <section class="content-block">
-        <div class="block-header">
-            <h2><a href="/canteens/">🍜 高分食堂</a ></h2>
-            <a href="/canteens/" class="view-all">查看全部 →</a >
-        </div>
-        <div class="card-grid">
-            {{ range first 4 (where .Site.RegularPages "Section" "canteens") }}
-            <article class="canteen-card">
-                <a href="{{ .Permalink }}">
-                    <h3>{{ .Title }}</h3>
-                    <p>{{ .Summary }}</p >
-                    {{ if .Params.rating }}
-                    <div class="rating">评分: {{ .Params.rating }}/5</div>
-                    {{ end }}
-                </a >
-            </article>
-            {{ end }}
-        </div>
-    </section>
-
-    <!-- 其他功能区块 -->
-    <div class="utility-grid">
-        <a href="/software/" class="utility-card">
-            <h3>💻 正版软件</h3>
-            <p>学校提供的免费正版软件下载</p >
-        </a >
-        <a href="/links/" class="utility-card">
-            <h3>🔗 常用网址</h3>
-            <p>校园生活必备网站链接合集</p >
-        </a >
-        <a href="/search/" class="utility-card search-card">
-            <h3>🔍 搜索资料</h3>
-            <p>快速找到你需要的学习资源</p >
-        </a >
+<section class="content-section">
+    <div class="section-header">
+        <h3><a href="/materials/">📚 最新学习资料</a></h3>
+        <a href="/materials/" class="view-all">查看全部 &rarr;</a>
     </div>
-</div>
-{{ end }}
-{{/* --- 你可以继续为 software 和 links 添加类似的分区 --- */}}
+    <div class="card-container">
+        {{ range first 4 (where .Site.RegularPages "Section" "materials") }}
+            <div class="card">
+                <a href="{{ .Permalink }}">
+                    <h4>{{ .Title }}</h4>
+                    <p>{{ .Summary }}</p>
+                    <div class="meta">
+                        {{ if .Params.tags }}标签: {{ delimit .Params.tags ", " }}{{ end }}
+                        {{ if .Params.file_size }} | {{ .Params.file_size }}{{ end }}
+                    </div>
+                </a>
+            </div>
+        {{ end }}
+    </div>
+</section>
 
+<section class="content-section">
+    <div class="section-header">
+        <h3><a href="/canteens/">🍜 高分食堂推荐</a></h3>
+        <a href="/canteens/" class="view-all">查看全部 &rarr;</a>
+    </div>
+    <div class="card-container">
+        {{ range first 4 (where .Site.RegularPages "Section" "canteens") }}
+            <div class="card">
+                <a href="{{ .Permalink }}">
+                    <h4>{{ .Title }}</h4>
+                    <p>{{ .Summary }}</p>
+                    {{ if .Params.rating }}<div class="meta">评分: {{ .Params.rating }}/5</div>{{ end }}
+                </a>
+            </div>
+        {{ else }}
+            <div class="card featured-card">
+                <h4>食堂评测征集</h4>
+                <p>欢迎分享你心中的南航美食！告诉我们你最喜欢的食堂和菜品。</p>
+            </div>
+        {{ end }}
+    </div>
+</section>
+
+<section class="content-section">
+    <div class="section-header">
+        <h3><a href="/guides/">🧭 大学生活指南</a></h3>
+        <a href="/guides/" class="view-all">查看全部 &rarr;</a>
+    </div>
+    <div class="card-container">
+        {{ range first 4 (where .Site.RegularPages "Section" "guides") }}
+            <div class="card">
+                <a href="{{ .Permalink }}">
+                    <h4>{{ .Title }}</h4>
+                    <p>{{ .Summary }}</p>
+                </a>
+            </div>
+        {{ else }}
+            <div class="card featured-card">
+                <h4>新生指南筹备中</h4>
+                <p>我们正在准备全面的新生入学指南，包括选课、宿舍、社团等信息。</p>
+            </div>
+        {{ end }}
+    </div>
+</section>
+
+<section class="content-section">
+    <div class="section-header">
+        <h3><a href="/software/">💻 正版软件下载</a></h3>
+        <a href="/software/" class="view-all">查看全部 &rarr;</a>
+    </div>
+    <div class="card-container">
+        {{ range first 4 (where .Site.RegularPages "Section" "software") }}
+            <div class="card">
+                <a href="{{ .Permalink }}">
+                    <h4>{{ .Title }}</h4>
+                    <p>{{ .Summary }}</p>
+                    {{ if .Params.platform }}<div class="meta">平台: {{ .Params.platform }}</div>{{ end }}
+                </a>
+            </div>
+        {{ else }}
+            <div class="card featured-card">
+                <h4>软件资源整理中</h4>
+                <p>我们正在整理学校提供的正版软件资源，包括MATLAB、Office等。</p>
+            </div>
+        {{ end }}
+    </div>
+</section>
+
+<section class="content-section">
+    <div class="section-header">
+        <h3><a href="/links/">🔗 常用网址跳转</a></h3>
+        <a href="/links/" class="view-all">查看全部 &rarr;</a>
+    </div>
+    <div class="card-container">
+        {{ range first 8 (where .Site.RegularPages "Section" "links") }}
+            <div class="card">
+                <a href="{{ .Params.target_url }}" target="_blank">
+                    <h4>{{ .Title }}</h4>
+                    <p>{{ .Summary }}</p>
+                </a>
+            </div>
+        {{ else }}
+            <div class="card">
+                <a href="http://www.nuaa.edu.cn/" target="_blank">
+                    <h4>南京航空航天大学官网</h4>
+                    <p>南京航空航天大学官方网站</p>
+                </a>
+            </div>
+            <div class="card">
+                <a href="http://aao.nuaa.edu.cn/" target="_blank">
+                    <h4>教务处</h4>
+                    <p>教务信息、选课系统等</p>
+                </a>
+            </div>
+            <div class="card">
+                <a href="http://lib.nuaa.edu.cn/" target="_blank">
+                    <h4>图书馆</h4>
+                    <p>图书检索、电子资源等</p>
+                </a>
+            </div>
+            <div class="card">
+                <a href="http://mail.nuaa.edu.cn/" target="_blank">
+                    <h4>校园邮箱</h4>
+                    <p>南京航空航天大学电子邮箱系统</p>
+                </a>
+            </div>
+        {{ end }}
+    </div>
+</section>
 {{ end }}
