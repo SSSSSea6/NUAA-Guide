@@ -19,7 +19,7 @@ search.addWidgets([
   templates: {
     item: `
       <article>
-        <a href=" " style="color: #0056b3; font-weight: bold;">
+        <a href="{{permalink}}" style="color: #0056b3; font-weight: bold;">
           <h4>{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</h4>
         </a >
         <p style="color: #6c757d; margin-top: 4px;">{{#helpers.highlight}}{ "attribute": "summary" }{{/helpers.highlight}}</p >
