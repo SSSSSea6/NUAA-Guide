@@ -1,5 +1,11 @@
 {{- $.Scratch.Add "index" slice -}}
 {{- range where .Site.RegularPages "Type" "materials" -}}
-  {{- $.Scratch.Add "index" (dict "objectID" .File.UniqueID "title" .Title "permalink" .Permalink "tags" .Params.tags "file_url" .Params.file_url "summary" .Summary) -}}
+  {{- $.Scratch.Add "index" (dict 
+    "objectID" .File.UniqueID 
+    "title" .Title 
+    "permalink" .Permalink
+    "file_url" .Params.file_url
+    "tags" .Params.tags 
+    "summary" .Summary) -}}
 {{- end -}}
 {{- $.Scratch.Get "index" | jsonify -}}
