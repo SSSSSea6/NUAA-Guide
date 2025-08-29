@@ -1,5 +1,5 @@
 {{- $.Scratch.Add "index" slice -}}
-{{- range where .Site.RegularPages "Type" "materials" -}}
+{{- range where .Site.RegularPages "Section" "materials" -}}
   {{- $.Scratch.Add "index" (dict 
     "objectID" .File.UniqueID 
     "title" .Title 
