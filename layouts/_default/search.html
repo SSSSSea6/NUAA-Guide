@@ -1,12 +1,50 @@
-<!-- layouts/_default/search.html -->
 {{ define "main" }}
-<h2>搜索学习资料</h2>
+<div class="content-section">
+    <h2>搜索学习资料</h2>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@8/themes/satellite-min.css">
-<div id="search-box"></div>
-<div id="hits"></div>
+    <div id="search-box"></div>
+    <div id="hits"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>
-<script src="/js/search.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@8/themes/satellite-min.css">
+
+    <script>
+      // 确保这里使用的是正确的Algolia密钥
+      const searchClient = algoliasearch(
+        '你的_APPLICATION_ID',        // 替换为你的Application ID
+        '你的_SEARCH_ONLY_API_KEY'  // 替换为你的Search-Only API Key
+      );
+
+      const search = instantsearch({
+        indexName: 'nuaaguide',
+        searchClient,
+      });
+
+      search.addWidgets([
+        instantsearch.widgets.searchBox({
+          container: '#search-box',
+          placeholder: '输入课程名、老师或关键词搜索...',
+        }),
+
+        instantsearch.widgets.hits({
+          container: '#hits',
+          templates: {
+            item: `
+              <article>
+                <a href="{{permalink}}" style="color: #0056b3; font-weight: bold;">
+                  <h4>{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</h4>
+                </a>
+                <p style="color: #6c757d; margin-top: 4px;">{{#helpers.highlight}}{ "attribute": "summary" }{{/helpers.highlight}}</p>
+                {{#file_url}}<small>下载资源</small>{{/file_url}}
+              </article>
+            `,
+            empty: `没有找到与 "{{query}}" 相关的资料。`,
+          },
+        })
+      ]);
+
+      search.start();
+    </script>
+</div>
 {{ end }}
