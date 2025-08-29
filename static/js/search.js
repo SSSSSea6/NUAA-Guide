@@ -16,19 +16,20 @@ search.addWidgets([
   }),
 
   instantsearch.widgets.hits({
-    container: '#hits',
-    templates: {
-      item: `
-        <article style="border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
-          <a href=" " style="color: #0056b3; font-weight: bold; text-decoration: none;">
-            <h4 style="margin: 0 0 8px 0;">{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</h4>
-          </a >
-          <p style="color: #666; margin: 0;">{{#helpers.highlight}}{ "attribute": "summary" }{{/helpers.highlight}}</p >
-        </article>
-      `,
-      empty: `<p>没有找到与 "{{ query }}" 相关的资料。</p >`,
-    },
-  })
+  container: '#hits',
+  templates: {
+    item: `
+      <article>
+        <a href="{{permalink}}" style="color: #0056b3; font-weight: bold;">
+          <h4>{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</h4>
+        </a>
+        <p style="color: #6c757d; margin-top: 4px;">{{#helpers.highlight}}{ "attribute": "summary" }{{/helpers.highlight}}</p>
+        {{#file_url}}<small>下载资源</small>{{/file_url}}
+      </article>
+    `,
+    empty: `没有找到与 "{{query}}" 相关的资料。`,
+  },
+})
 ]);
 
 search.start();
