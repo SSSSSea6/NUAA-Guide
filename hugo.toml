@@ -1,7 +1,7 @@
 # hugo.toml
 baseURL = "https://nuaaguide.online/"
 languageCode = "zh-cn"
-title = "NUAA Guide 校园指北"
+title = "  NUAA Guide 校园指北"
 enableRobotsTXT = true
 
 [params]
