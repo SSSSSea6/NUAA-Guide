@@ -20,6 +20,8 @@ def parse_filename(filename):
     """
     解析文件名格式：[资源名称]__[标签1]_[标签2]_[标签3]__[可选描述].pdf
     """
+    print(f"解析文件名: {filename}")
+    
     # 移除文件扩展名
     name_without_ext = os.path.splitext(filename)[0]
     
@@ -41,6 +43,7 @@ def parse_filename(filename):
         
         # 将标签字符串转换为列表
         tags = [tag.strip() for tag in tags_str.split('_') if tag.strip()]
+        print(f"解析结果 - 资源名称: '{resource_name}', 标签: {tags}, 描述: '{description}'")
     
     # 清理资源名称中的多余字符
     resource_name = re.sub(r'_+', ' ', resource_name)  # 将多个下划线转换为空格
@@ -69,54 +72,53 @@ file_url: "/files/{pdf_filename}"
 """
     return md_content
 
-def get_changed_pdf_files():
+def get_all_pdf_files():
     """
-    获取本次提交中更改的PDF文件
-    """
-    changed_files = []
-    
-    # 获取最后一次提交的信息
-    result = os.popen('git log -1 --name-only --pretty=format:').read()
-    changed_files = result.strip().split('\n')
-    
-    # 筛选出static/files目录下的PDF文件
-    pdf_files = [f for f in changed_files if f.startswith('static/files/') and f.endswith('.pdf')]
-    
-    return pdf_files
-
-def process_pdf_files():
-    """
-    处理所有PDF文件并生成对应的Markdown文件
+    获取 static/files 目录中的所有PDF文件
     """
     pdf_dir = Path("static/files")
+    
+    if not pdf_dir.exists():
+        print("static/files 目录不存在")
+        return []
+    
+    # 查找所有PDF文件
+    pdf_files = list(pdf_dir.glob("*.pdf"))
+    
+    # 也查找其他常见文档格式
+    doc_files = list(pdf_dir.glob("*.doc"))
+    docx_files = list(pdf_dir.glob("*.docx"))
+    
+    all_files = pdf_files + doc_files + docx_files
+    
+    print(f"找到 {len(all_files)} 个文件:")
+    for file in all_files:
+        print(f"  - {file.name}")
+    
+    return all_files
+
+def process_files():
+    """
+    处理所有文件并生成对应的Markdown文件
+    """
     content_dir = Path("content/materials")
     
     # 确保目录存在
     content_dir.mkdir(parents=True, exist_ok=True)
     
-    # 获取更改的PDF文件
-    changed_pdfs = get_changed_pdf_files()
+    # 获取所有文件
+    files = get_all_pdf_files()
     
-    if changed_pdfs:
-        print(f"检测到 {len(changed_pdfs)} 个更改的PDF文件:")
-        for pdf in changed_pdfs:
-            print(f"  - {pdf}")
-    
-    # 查找所有PDF文件
-    pdf_files = list(pdf_dir.glob("*.pdf"))
-    
-    if not pdf_files:
-        print("在 static/files/ 目录中没有找到PDF文件")
-        return
+    if not files:
+        print("在 static/files/ 目录中没有找到文件")
+        return 0
     
     processed_count = 0
     skipped_count = 0
     
-    print(f"找到 {len(pdf_files)} 个PDF文件")
-    
-    for pdf_file in pdf_files:
-        filename = pdf_file.name
-        print(f"处理文件: {filename}")
+    for file in files:
+        filename = file.name
+        print(f"\n处理文件: {filename}")
         
         resource_name, tags, description = parse_filename(filename)
         
@@ -154,11 +156,7 @@ def process_pdf_files():
     print(f"成功创建: {processed_count} 个Markdown文件")
     print(f"跳过: {skipped_count} 个文件")
     
-    # 如果有处理的文件，返回非零退出码
-    if processed_count > 0:
-        sys.exit(0)
-    else:
-        sys.exit(1)
+    return processed_count
 
 def main():
     """主函数"""
@@ -167,7 +165,10 @@ def main():
     print("示例: '高等数学期末试卷__2024_高数_试卷__包含所有章节.pdf'")
     print()
     
-    process_pdf_files()
+    processed_count = process_files()
+    
+    # 根据处理结果返回适当的退出码
+    sys.exit(0 if processed_count > 0 else 1)
 
 if __name__ == "__main__":
     main()
