@@ -1,7 +1,7 @@
 {{ define "main" }}
 <section class="welcome-section">
     <h2>欢迎来到 NUAA Guide 校园指北</h2>
-    <p>我们致力于消除校园课程资源的碎片化，整合各类实用信息。这里的一切，永远免费，为你领航。</p>
+    <p>我们致力于消除校园课程资源的碎片化，整合各类实用信息。</p>
 </section>
 
 <section class="content-section">
@@ -20,29 +20,6 @@
                         {{ if .Params.file_size }} | {{ .Params.file_size }}{{ end }}
                     </div>
                 </a>
-            </div>
-        {{ end }}
-    </div>
-</section>
-
-<section class="content-section">
-    <div class="section-header">
-        <h3><a href="/canteens/">🍜 高分食堂推荐</a></h3>
-        <a href="/canteens/" class="view-all">查看全部 &rarr;</a>
-    </div>
-    <div class="card-container">
-        {{ range first 4 (where .Site.RegularPages "Section" "canteens") }}
-            <div class="card">
-                <a href="{{ .Permalink }}">
-                    <h4>{{ .Title }}</h4>
-                    <p>{{ .Summary }}</p>
-                    {{ if .Params.rating }}<div class="meta">评分: {{ .Params.rating }}/5</div>{{ end }}
-                </a>
-            </div>
-        {{ else }}
-            <div class="card featured-card">
-                <h4>食堂评测征集</h4>
-                <p>欢迎分享你心中的南航美食！告诉我们你最喜欢的食堂和菜品。</p>
             </div>
         {{ end }}
     </div>
