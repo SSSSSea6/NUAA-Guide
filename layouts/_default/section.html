@@ -1,0 +1,36 @@
+{{ define "main" }}
+<div class="content-section">
+    <div class="section-header">
+        <h1>{{ .Title }}</h1>
+    </div>
+    
+    <div class="card-container">
+        {{ range .Paginator.Pages }}
+            <div class="card">
+                <a href="{{ .Permalink }}">
+                    <h4>{{ .Title }}</h4>
+                    <p>{{ .Summary }}</p>
+                    <div class="meta">
+                        {{ if .Params.tags }}标签: {{ delimit .Params.tags ", " }}{{ end }}
+                        {{ if .Params.file_size }} | {{ .Params.file_size }}{{ end }}
+                        {{ if .Params.rating }} | 评分: {{ .Params.rating }}/5{{ end }}
+                        {{ if .Params.platform }} | 平台: {{ .Params.platform }}{{ end }}
+                    </div>
+                </a>
+            </div>
+        {{ end }}
+    </div>
+    
+    {{ if gt .Paginator.TotalPages 1 }}
+    <div class="pagination">
+        {{ if .Paginator.HasPrev }}
+            <a href="{{ .Paginator.Prev.URL }}">上一页</a>
+        {{ end }}
+        <span>第 {{ .Paginator.PageNumber }} 页/共 {{ .Paginator.TotalPages }} 页</span>
+        {{ if .Paginator.HasNext }}
+            <a href="{{ .Paginator.Next.URL }}">下一页</a>
+        {{ end }}
+    </div>
+    {{ end }}
+</div>
+{{ end }}
