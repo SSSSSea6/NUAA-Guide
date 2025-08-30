@@ -1,0 +1,47 @@
+name: Validate Site Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
+      - name: Install Hugo
+        run: |
+          curl -L https://github.com/gohugoio/hugo/releases/download/v0.121.1/hugo_extended_0.121.1_linux-amd64.deb -o hugo.deb
+          sudo dpkg -i hugo.deb
+          
+      - name: Validate Markdown files
+        run: |
+          python scripts/validate_md_files.py
+          
+      - name: Build site
+        run: |
+          hugo --minify
+          
+      - name: Verify build output
+        run: |
+          echo "检查构建输出:"
+          ls -la public/
+          echo "检查 materials 页面:"
+          find public/ -name "*material*" -o -name "*学习*" | head -10
+          echo "检查首页:"
+          if [ -f public/index.html ]; then
+            echo "首页存在"
+            grep -o "学习资料" public/index.html | wc -l | xargs echo "首页中'学习资料'出现次数:"
+          else
+            echo "错误: 首页不存在"
+            exit 1
+          fi
