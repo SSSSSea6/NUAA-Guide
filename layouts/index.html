@@ -10,20 +10,27 @@
         <a href="/materials/" class="view-all">查看全部 &rarr;</a>
     </div>
     <div class="card-container">
-        {{ range first 4 (where .Site.RegularPages "Section" "materials") }}
-            <div class="card">
-                <a href="{{ .Permalink }}">
-                    <h4>{{ .Title }}</h4>
-                    <p>{{ .Summary }}</p>
-                    <div class="meta">
-                        {{ if .Params.tags }}标签: {{ delimit .Params.tags ", " }}{{ end }}
-                    </div>
-                </a>
+        {{ $materials := where .Site.RegularPages "Section" "materials" }}
+        {{ if $materials }}
+            {{ range first 4 $materials }}
+                <div class="card">
+                    <a href="{{ .Permalink }}">
+                        <h4>{{ .Title }}</h4>
+                        <p>{{ .Summary }}</p>
+                        <div class="meta">
+                            {{ if .Params.tags }}标签: {{ delimit .Params.tags ", " }}{{ end }}
+                        </div>
+                    </a>
+                </div>
+            {{ end }}
+        {{ else }}
+            <div class="card featured-card">
+                <h4>暂无学习资料</h4>
+                <p>目前还没有上传任何学习资料。</p>
             </div>
         {{ end }}
     </div>
 </section>
-
 <section class="content-section">
     <div class="section-header">
         <h3><a href="/guides/">🧭 大学生活指南</a></h3>
