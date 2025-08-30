@@ -1,0 +1,11 @@
+{{ define "main" }}
+<div class="content-section">
+    <article>
+        <h2>{{ .Title }}</h2>
+        <p>{{ .Summary }}</p>
+        {{ if .Truncated }}
+            <a href="{{ .Permalink }}">阅读更多...</a>
+        {{ end }}
+    </article>
+</div>
+{{ end }}
