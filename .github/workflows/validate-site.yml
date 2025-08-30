@@ -25,7 +25,7 @@ jobs:
           
       - name: Validate Markdown files
         run: |
-          python scripts/validate_md_files.py
+          python scripts/simple_validate.py
           
       - name: Build site
         run: |
