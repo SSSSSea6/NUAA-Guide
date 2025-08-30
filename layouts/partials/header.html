@@ -4,19 +4,16 @@
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
     <link rel="stylesheet" href="/css/style.css?v={{ now.Unix }}">
 
-
-
-
 <header class="site-header">
     <div class="header-content">
         <div class="logo">
             <a href="/">{{ .Site.Title }}</a>
         </div>
         <div class="inspirational-quote">
-            “你好，这里的一切都是免费的。”
+            “信息本该自由，学习本应简单。”
         </div>
         <nav class="main-nav">
-            <!-- 移除了所有导航链接 -->
+      
             <a href="/search/" class="nav-search-button">🔍</a>
         </nav>
     </div>
