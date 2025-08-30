@@ -3,7 +3,7 @@ name: Auto Generate Markdown Files
 on:
   push:
     paths:
-      - 'static/files/*.pdf'
+      - 'static/files/**'
   workflow_dispatch:  # 允许手动触发
 
 jobs:
@@ -14,34 +14,44 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # 获取所有历史记录，便于检测更改
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Debug - List files in static/files
+        run: |
+          echo "当前 static/files 目录中的文件:"
+          ls -la static/files/ || echo "static/files 目录不存在"
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-
       - name: Run improved auto-generate script
         run: |
           python scripts/improved_auto_generate.py
 
+      - name: List generated files
+        run: |
+          echo "生成的 Markdown 文件:"
+          ls -la content/materials/ || echo "content/materials 目录不存在"
+
       - name: Check for changes
         id: check_changes
         run: |
+          git status
           git add content/materials/
           if git diff --staged --quiet; then
             echo "changes=false" >> $GITHUB_OUTPUT
+            echo "没有检测到更改"
           else
             echo "changes=true" >> $GITHUB_OUTPUT
+            echo "检测到更改，准备提交"
           fi
 
       - name: Commit and push changes
         if: steps.check_changes.outputs.changes == 'true'
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git commit -m "自动生成Markdown文件 [skip ci]"
           git push
