@@ -1,14 +1,16 @@
 {{ define "main" }}
+<div class="content-section">
     <article>
         <h2>{{ .Title }}</h2>
-        <p>{{ .Content }}</p >
+        <p>{{ .Content }}</p>
         {{ if .Params.file_url }}
             <p>
-                <a href=" " target="_blank" style="font-weight: bold; background-color: #28a745; color: white; padding: 10px 15px; border-radius: 5px;">
-                    点击下载资料
-                </a >
+                <a href="{{ .Params.file_url }}" target="_blank" style="display: inline-block; font-weight: bold; background-color: #28a745; color: white; padding: 12px 20px; border-radius: 5px; text-decoration: none; margin-top: 10px;">
+                    🚀 点击下载资料
+                </a>
                 {{ if .Params.file_size }} (大小: {{ .Params.file_size }}) {{ end }}
-            </p >
+            </p>
         {{ end }}
     </article>
+</div>
 {{ end }}
