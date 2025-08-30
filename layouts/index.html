@@ -17,7 +17,6 @@
                     <p>{{ .Summary }}</p>
                     <div class="meta">
                         {{ if .Params.tags }}标签: {{ delimit .Params.tags ", " }}{{ end }}
-                        {{ if .Params.file_size }} | {{ .Params.file_size }}{{ end }}
                     </div>
                 </a>
             </div>
