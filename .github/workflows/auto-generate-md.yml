@@ -9,6 +9,9 @@ on:
 jobs:
   generate-markdown:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 添加写入权限
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -54,4 +57,5 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git commit -m "自动生成Markdown文件 [skip ci]"
-          git push
+          # 使用 GitHub Token 进行推送
+          git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
