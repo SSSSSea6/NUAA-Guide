@@ -137,6 +137,75 @@ def get_all_files():
     
     return all_files
 
+def get_existing_markdown_files():
+    """
+    获取 content/materials 目录中现有的所有Markdown文件
+    """
+    content_dir = Path("content/materials")
+    
+    if not content_dir.exists():
+        return []
+    
+    md_files = list(content_dir.glob("*.md"))
+    return md_files
+
+def find_markdown_for_file(filename):
+    """
+    查找与给定文件对应的Markdown文件
+    """
+    content_dir = Path("content/materials")
+    md_files = list(content_dir.glob("*.md"))
+    
+    for md_file in md_files:
+        try:
+            with open(md_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # 检查文件URL是否匹配
+            if f'file_url: "/files/{filename}"' in content:
+                return md_file
+                
+        except Exception as e:
+            print(f"错误: 无法读取文件 {md_file}: {e}")
+    
+    return None
+
+def remove_orphaned_markdown_files(existing_files):
+    """
+    移除没有对应资源文件的Markdown文件
+    """
+    content_dir = Path("content/materials")
+    
+    if not content_dir.exists():
+        return 0
+    
+    md_files = list(content_dir.glob("*.md"))
+    removed_count = 0
+    
+    # 获取所有现有文件的文件名集合
+    existing_filenames = {file.name for file in existing_files}
+    
+    for md_file in md_files:
+        try:
+            with open(md_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # 提取文件URL
+            file_url_match = re.search(r'file_url: "/files/([^"]+)"', content)
+            if file_url_match:
+                referenced_file = file_url_match.group(1)
+                
+                # 检查引用的文件是否存在
+                if referenced_file not in existing_filenames:
+                    print(f"移除孤立的Markdown文件: {md_file.name} (引用的文件 {referenced_file} 不存在)")
+                    os.remove(md_file)
+                    removed_count += 1
+                    
+        except Exception as e:
+            print(f"错误: 处理文件 {md_file} 时出错: {e}")
+    
+    return removed_count
+
 def process_files():
     """
     处理所有文件并生成对应的Markdown文件
@@ -148,6 +217,11 @@ def process_files():
     
     # 获取所有文件
     files = get_all_files()
+    
+    # 首先移除孤立的Markdown文件（没有对应资源文件的）
+    removed_count = remove_orphaned_markdown_files(files)
+    if removed_count > 0:
+        print(f"已移除 {removed_count} 个孤立的Markdown文件")
     
     if not files:
         print("在 static/files/ 目录中没有找到文件")
@@ -195,21 +269,68 @@ def process_files():
     print(f"\n处理完成!")
     print(f"成功创建: {processed_count} 个Markdown文件")
     print(f"跳过: {skipped_count} 个文件")
+    print(f"移除: {removed_count} 个孤立的Markdown文件")
     
     return processed_count
 
+def remove_file(filename):
+    """
+    移除指定文件及其对应的Markdown文件
+    """
+    files_dir = Path("static/files")
+    content_dir = Path("content/materials")
+    
+    # 检查文件是否存在
+    file_path = files_dir / filename
+    if not file_path.exists():
+        print(f"错误: 文件 {filename} 不存在")
+        return False
+    
+    # 查找对应的Markdown文件
+    md_file = find_markdown_for_file(filename)
+    
+    # 移除文件
+    try:
+        os.remove(file_path)
+        print(f"已移除文件: {filename}")
+        
+        # 移除对应的Markdown文件
+        if md_file and md_file.exists():
+            os.remove(md_file)
+            print(f"已移除对应的Markdown文件: {md_file.name}")
+        else:
+            print(f"警告: 未找到 {filename} 对应的Markdown文件")
+            
+        return True
+        
+    except Exception as e:
+        print(f"错误: 移除文件时出错: {e}")
+        return False
+
 def main():
     """主函数"""
-    print("开始自动生成Markdown文件...")
-    print("命名规则: [资源名称]__[标签1]_[标签2]_[标签3]__[可选描述].扩展名")
-    print("支持的文件格式: PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, ZIP, RAR, 7Z, TXT, JPG, JPEG, PNG, GIF, MP4, MOV, AVI, MP3, WAV")
-    print("示例: '高等数学期末试卷__2024_高数_试卷__包含所有章节.pdf'")
-    print()
+    import argparse
     
-    processed_count = process_files()
+    parser = argparse.ArgumentParser(description="自动化处理学习资源文件")
+    parser.add_argument("--remove", help="移除指定的文件及其对应的Markdown文件")
+    args = parser.parse_args()
     
-    # 根据处理结果返回适当的退出码
-    sys.exit(0 if processed_count > 0 else 1)
+    if args.remove:
+        # 移除指定文件
+        success = remove_file(args.remove)
+        sys.exit(0 if success else 1)
+    else:
+        # 正常处理文件
+        print("开始自动生成Markdown文件...")
+        print("命名规则: [资源名称]__[标签1]_[标签2]_[标签3]__[可选描述].扩展名")
+        print("支持的文件格式: PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, ZIP, RAR, 7Z, TXT, JPG, JPEG, PNG, GIF, MP4, MOV, AVI, MP3, WAV")
+        print("示例: '高等数学期末试卷__2024_高数_试卷__包含所有章节.pdf'")
+        print()
+        
+        processed_count = process_files()
+        
+        # 根据处理结果返回适当的退出码
+        sys.exit(0 if processed_count > 0 else 1)
 
 if __name__ == "__main__":
     main()
