@@ -1,44 +1,29 @@
 {{ define "main" }}
 <div class="content-section">
-    <h2>搜索资料</h2>
-    
+    <h2>搜索学习资料</h2>
+
+    <!-- 添加加载提示 -->
     <div class="search-notice">
-        <p>🔍 搜索可能较慢，请耐心等待。如果长时间没有结果，可能是无相关资源。</p>
+        <p>🔍 搜索可能加载较慢，请耐心等待。如果长时间没有结果，可能是尚未上传相关资源。</p>
     </div>
 
     <div id="search-box"></div>
- <div id="search-loading" style="display: none; text-align: center; padding: 20px;">
-        <div style="display: inline-block; width: 20px; height: 20px; border: 3px solid #f3f3f3; border-top: 3px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-        <p style="margin-top: 10px; color: #6c757d;">搜索中，请稍候...</p>
-    </div>
-
-    
     <div id="hits"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@8/themes/satellite-min.css">
 
-    <!-- 设置 Algolia 配置 -->
     <script>
-      window.algoliaConfig = {
-        appId: 'SMA85IWFQN',
-        searchKey: '8a00c461ba4a78c16cb8862108e7e83a',
-        indexName: 'nuaaguide'
-      };
+      // 确保这里使用的是正确的Algolia密钥
+      const searchClient = algoliasearch(
+        'SMA85IWFQN',
+        '8a00c461ba4a78c16cb8862108e7e83a'
+      );
 
-const search = instantsearch({
+      const search = instantsearch({
         indexName: 'nuaaguide',
         searchClient,
-      });
-
-      // 添加搜索状态监听
-      search.on('render', function() {
-        document.getElementById('search-loading').style.display = 'none';
-      });
-      
-      search.on('search', function() {
-        document.getElementById('search-loading').style.display = 'block';
       });
 
       search.addWidgets([
