@@ -1,8 +1,18 @@
 {{ define "main" }}
 <div class="content-section">
     <h2>搜索资料</h2>
+    
+    <div class="search-notice">
+        <p>🔍 搜索可能加载较慢，请耐心等待。如果长时间没有结果，可能是尚未上传相关资源。</p>
+    </div>
 
     <div id="search-box"></div>
+ <div id="search-loading" style="display: none; text-align: center; padding: 20px;">
+        <div style="display: inline-block; width: 20px; height: 20px; border: 3px solid #f3f3f3; border-top: 3px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <p style="margin-top: 10px; color: #6c757d;">搜索中，请稍候...</p>
+    </div>
+
+    
     <div id="hits"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
