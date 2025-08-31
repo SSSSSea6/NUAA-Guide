@@ -18,9 +18,12 @@ def safe_filename(name):
 
 def parse_filename(filename):
     """
-    解析文件名格式：[资源名称]__[标签1]_[标签2]_[标签3]__[可选描述].pdf
+    解析文件名格式：[资源名称]__[标签1]_[标签2]_[标签3]__[可选描述].扩展名
     """
     print(f"解析文件名: {filename}")
+    
+    # 获取文件扩展名
+    file_extension = os.path.splitext(filename)[1].lower()
     
     # 移除文件扩展名
     name_without_ext = os.path.splitext(filename)[0]
@@ -49,9 +52,35 @@ def parse_filename(filename):
     resource_name = re.sub(r'_+', ' ', resource_name)  # 将多个下划线转换为空格
     resource_name = resource_name.strip()
     
-    return resource_name, tags, description
+    return resource_name, tags, description, file_extension
 
-def generate_markdown(resource_name, tags, description, pdf_filename):
+def get_file_icon(extension):
+    """根据文件扩展名返回对应的图标"""
+    icon_map = {
+        '.pdf': '📄',
+        '.doc': '📝',
+        '.docx': '📝',
+        '.ppt': '📊',
+        '.pptx': '📊',
+        '.xls': '📊',
+        '.xlsx': '📊',
+        '.zip': '📦',
+        '.rar': '📦',
+        '.7z': '📦',
+        '.txt': '📄',
+        '.jpg': '🖼️',
+        '.jpeg': '🖼️',
+        '.png': '🖼️',
+        '.gif': '🖼️',
+        '.mp4': '🎬',
+        '.mov': '🎬',
+        '.avi': '🎬',
+        '.mp3': '🎵',
+        '.wav': '🎵'
+    }
+    return icon_map.get(extension, '📁')
+
+def generate_markdown(resource_name, tags, description, filename, file_extension):
     """
     生成Markdown文件内容
     """
@@ -61,35 +90,46 @@ def generate_markdown(resource_name, tags, description, pdf_filename):
     # 构建标签部分的字符串
     tags_str = "[" + ", ".join(f'"{tag}"' for tag in tags) + "]" if tags else "[]"
     
+    # 获取文件图标
+    file_icon = get_file_icon(file_extension)
+    
     # 构建Markdown内容
     md_content = f"""---
 title: "{escaped_resource_name}"
 tags: {tags_str}
-file_url: "/files/{pdf_filename}"
+file_url: "/files/{filename}"
+file_type: "{file_extension[1:]}"  # 去掉点号
 ---
 
 {description}
+
+<!-- 文件类型: {file_extension} -->
+<!-- 文件图标: {file_icon} -->
 """
     return md_content
 
-def get_all_pdf_files():
+def get_all_files():
     """
-    获取 static/files 目录中的所有PDF文件
+    获取 static/files 目录中的所有支持的文件
     """
-    pdf_dir = Path("static/files")
+    files_dir = Path("static/files")
     
-    if not pdf_dir.exists():
+    if not files_dir.exists():
         print("static/files 目录不存在")
         return []
     
-    # 查找所有PDF文件
-    pdf_files = list(pdf_dir.glob("*.pdf"))
+    # 支持的文件扩展名
+    supported_extensions = [
+        '.pdf', '.doc', '.docx', '.ppt', '.pptx', 
+        '.xls', '.xlsx', '.zip', '.rar', '.7z', 
+        '.txt', '.jpg', '.jpeg', '.png', '.gif',
+        '.mp4', '.mov', '.avi', '.mp3', '.wav'
+    ]
     
-    # 也查找其他常见文档格式
-    doc_files = list(pdf_dir.glob("*.doc"))
-    docx_files = list(pdf_dir.glob("*.docx"))
-    
-    all_files = pdf_files + doc_files + docx_files
+    # 查找所有支持的文件
+    all_files = []
+    for ext in supported_extensions:
+        all_files.extend(files_dir.glob(f"*{ext}"))
     
     print(f"找到 {len(all_files)} 个文件:")
     for file in all_files:
@@ -107,7 +147,7 @@ def process_files():
     content_dir.mkdir(parents=True, exist_ok=True)
     
     # 获取所有文件
-    files = get_all_pdf_files()
+    files = get_all_files()
     
     if not files:
         print("在 static/files/ 目录中没有找到文件")
@@ -120,7 +160,7 @@ def process_files():
         filename = file.name
         print(f"\n处理文件: {filename}")
         
-        resource_name, tags, description = parse_filename(filename)
+        resource_name, tags, description, file_extension = parse_filename(filename)
         
         if not resource_name:
             print(f"错误: 无法从文件名 '{filename}' 提取资源名称")
@@ -128,7 +168,7 @@ def process_files():
             continue
         
         # 生成Markdown内容
-        md_content = generate_markdown(resource_name, tags, description, filename)
+        md_content = generate_markdown(resource_name, tags, description, filename, file_extension)
         
         # 创建Markdown文件名（使用资源名称）
         safe_name = safe_filename(resource_name)
@@ -161,7 +201,8 @@ def process_files():
 def main():
     """主函数"""
     print("开始自动生成Markdown文件...")
-    print("命名规则: [资源名称]__[标签1]_[标签2]_[标签3]__[可选描述].pdf")
+    print("命名规则: [资源名称]__[标签1]_[标签2]_[标签3]__[可选描述].扩展名")
+    print("支持的文件格式: PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, ZIP, RAR, 7Z, TXT, JPG, JPEG, PNG, GIF, MP4, MOV, AVI, MP3, WAV")
     print("示例: '高等数学期末试卷__2024_高数_试卷__包含所有章节.pdf'")
     print()
     
