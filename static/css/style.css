@@ -72,6 +72,12 @@ a:hover {
     width: auto; /* 保持宽高比 */
     margin-right: 10px; /* Logo 和文字之间的间距 */
     vertical-align: middle;
+    fill: var(--primary-color);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.logo-image:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
 }
 
 .inspirational-quote {
