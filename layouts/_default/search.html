@@ -1,36 +1,134 @@
 {{ define "main" }}
 <div class="content-section">
-    <h2>搜索资料</h2>
-    
+    <h2>搜索学习资料</h2>
+
+    <!-- 添加加载提示 -->
     <div class="search-notice">
-        <p>🔍 尽量详细，搜索可能较慢，请耐心等待。长时间没有结果，可能是无相关资源。界面最多显示20个</p>
+        <p>🔍 搜索可能加载较慢，请耐心等待。如果长时间没有结果，可能是尚未上传相关资源。</p>
     </div>
 
     <div id="search-box"></div>
- <div id="search-loading" style="display: none; text-align: center; padding: 20px;">
+    
+    <!-- 添加加载指示器 -->
+    <div id="search-loading" style="display: none; text-align: center; padding: 20px;">
         <div style="display: inline-block; width: 20px; height: 20px; border: 3px solid #f3f3f3; border-top: 3px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
         <p style="margin-top: 10px; color: #6c757d;">搜索中，请稍候...</p>
     </div>
-
     
     <div id="hits"></div>
+    
+    <!-- 添加分页控件 -->
+    <div id="pagination"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@8/themes/satellite-min.css">
 
-    <!-- 设置 Algolia 配置 -->
-    <script>
-      window.algoliaConfig = {
-        appId: 'SMA85IWFQN',
-        searchKey: '8a00c461ba4a78c16cb8862108e7e83a',
-        indexName: 'nuaaguide'
-      };
-
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         
+        /* 分页样式 */
+        .ais-Pagination {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .ais-Pagination-list {
+            display: inline-flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .ais-Pagination-item {
+            margin: 0 5px;
+        }
+        
+        .ais-Pagination-link {
+            display: inline-block;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        
+        .ais-Pagination-link:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .ais-Pagination-item--selected .ais-Pagination-link {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .ais-Pagination-item--disabled .ais-Pagination-link {
+            color: #6c757d;
+            pointer-events: none;
+        }
+    </style>
+
+    <script>
+      // 确保这里使用的是正确的Algolia密钥
+      const searchClient = algoliasearch(
+        'SMA85IWFQN',
+        '8a00c461ba4a78c16cb8862108e7e83a'
+      );
+
+      const search = instantsearch({
+        indexName: 'nuaaguide',
+        searchClient,
+        // 配置搜索参数
+        configure: {
+          hitsPerPage: 50 // 增加每页显示结果数量
+        }
+      });
+
+      // 添加搜索状态监听
+      search.on('render', function() {
+        document.getElementById('search-loading').style.display = 'none';
+      });
+      
+      search.on('search', function() {
+        document.getElementById('search-loading').style.display = 'block';
+      });
+
+      search.addWidgets([
+        instantsearch.widgets.searchBox({
+          container: '#search-box',
+          placeholder: '输入课程名、老师或关键词搜索...',
+        }),
+
+        instantsearch.widgets.hits({
+          container: '#hits',
+          templates: {
+            item: `
+              <article class="search-result">
+                <a href="{{permalink}}" style="color: #0056b3; font-weight: bold;">
+                  <h4>{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</h4>
+                </a>
+                <p style="color: #6c757d; margin-top: 4px;">{{#helpers.highlight}}{ "attribute": "summary" }{{/helpers.highlight}}</p>
+                {{#file_url}}<small>下载资源</small>{{/file_url}}
+              </article>
+            `,
+            empty: `没有找到与 "{{query}}" 相关的资料。`,
+          },
+        }),
+        
+        // 添加分页控件
+        instantsearch.widgets.pagination({
+          container: '#pagination',
+          padding: 2, // 显示当前页码前后的页码数量
+          showFirst: false, // 不显示"第一页"按钮
+          showLast: false, // 不显示"最后一页"按钮
+        })
+      ]);
+
+      search.start();
     </script>
-    
-    <!-- 加载搜索脚本 -->
-    <script src="/js/algolia-search.js"></script>
 </div>
 {{ end }}
