@@ -1,18 +1,20 @@
 <header class="site-header">
     <div class="header-content">
         <div class="logo">
-            <a href="/">{{ .Site.Title }}</a>
+            <a href="/">
+                <!-- 添加 Logo 图片 -->
+                <img src="/images/logo.png" alt="{{ .Site.Title }} Logo" class="logo-image">
+                {{ .Site.Title }}
+            </a>
         </div>
         <div class="inspirational-quote">
-            “信息本该自由，学习本应简单。”
+            "信息本该自由，学习本应简单。"
         </div>
         <nav class="main-nav">
-      
             <a href="/search/" class="nav-search-button">🔍</a>
         </nav>
     </div>
 </header>
-
 
 
 
