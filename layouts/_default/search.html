@@ -26,19 +26,28 @@
         searchKey: '8a00c461ba4a78c16cb8862108e7e83a',
         indexName: 'nuaaguide'
       };
-
-
-
-
-
-
-
-
-
-
-
-      
-
+search.addWidgets([
+    // 其他组件...
+    
+    instantsearch.widgets.infiniteHits({
+      container: '#hits',
+      templates: {
+        item: `
+          <article>
+            <a href="{{permalink}}" style="color: #0056b3; font-weight: bold;">
+              <h4>{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</h4>
+            </a>
+            <p style="color: #6c757d; margin-top: 4px;">{{#helpers.highlight}}{ "attribute": "summary" }{{/helpers.highlight}}</p>
+            {{#file_url}}<small>下载资源</small>{{/file_url}}
+          </article>
+        `,
+        empty: `没有找到与 "{{query}}" 相关的资料。`,
+        loadMore: `
+          <button class="load-more-btn">加载更多</button>
+        `
+      },
+    })
+  ]);
         
     </script>
     
