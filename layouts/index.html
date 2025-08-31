@@ -4,6 +4,9 @@
     <p>你的南航“外挂”，已就绪。</p>
 </section>
 
+{{ define "main" }}
+<!-- 其他内容 -->
+
 <section class="content-section">
     <div class="section-header">
         <h3><a href="/materials/">📚 学习资料</a></h3>
@@ -19,6 +22,7 @@
                         <p>{{ .Summary }}</p>
                         <div class="meta">
                             {{ if .Params.tags }}标签: {{ delimit .Params.tags ", " }}{{ end }}
+                            {{ if .Params.file_type }} | 类型: {{ .Params.file_type }}{{ end }}
                         </div>
                     </a>
                 </div>
@@ -31,6 +35,9 @@
         {{ end }}
     </div>
 </section>
+
+<!-- 其他内容 -->
+{{ end }}
 <section class="content-section">
     <div class="section-header">
         <h3><a href="/guides/">🧭 大学生活指南</a></h3>
