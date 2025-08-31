@@ -61,35 +61,32 @@ a:hover {
     font-size: 1.1em;
 }
 
+
 /* 搜索框样式调整 */
 #search-box {
     margin-bottom: 20px;
 }
 
 /* 搜索结果样式 */
-.search-result {
-    border-bottom: 1px solid #eee;
-    padding: 15px 0;
-    margin-bottom: 15px;
+.ais-Hits-item {
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background: var(--card-background);
 }
 
-.search-result:last-child {
-    border-bottom: none;
+.ais-Highlight-highlighted {
+    background-color: #fbeeb8;
 }
 
-.search-result h4 {
+.hit-title {
     margin: 0 0 8px 0;
-    font-size: 1.1em;
 }
 
-.search-result p {
-    margin: 0 0 10px 0;
-    line-height: 1.5;
-}
-
-.search-result small {
-    color: #28a745;
-    font-weight: 500;
+.hit-summary {
+    margin: 0;
+    color: var(--text-muted);
 }
 
 /* 头部样式 */
