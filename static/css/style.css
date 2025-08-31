@@ -61,7 +61,6 @@ a:hover {
     font-size: 1.1em;
 }
 
-
 /* 搜索框样式调整 */
 #search-box {
     margin-bottom: 20px;
@@ -88,7 +87,6 @@ a:hover {
     margin: 0;
     color: var(--text-muted);
 }
-
 /* 头部样式 */
 .site-header {
     background: white;
