@@ -68,7 +68,7 @@ a:hover {
 }
 
 .logo-image {
-    height: 40px; /* 根据您的 Logo 调整高度 */
+    height: 60px; /* 根据您的 Logo 调整高度 */
     width: auto; /* 保持宽高比 */
     margin-right: 10px; /* Logo 和文字之间的间距 */
     vertical-align: middle;
@@ -118,7 +118,7 @@ a:hover {
 /* 响应式设计 */
 @media (max-width: 768px) {
     .logo-image {
-        height: 32px; /* 在小屏幕上稍微缩小 Logo */
+        height: 45px; /* 在小屏幕上稍微缩小 Logo */
     }
     
     .inspirational-quote {
