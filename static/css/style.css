@@ -67,27 +67,30 @@ a:hover {
 }
 
 /* 搜索结果样式 */
-.ais-Hits-item {
-    padding: 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    margin-bottom: 10px;
-    background: var(--card-background);
+.search-result {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+    margin-bottom: 15px;
 }
 
-.ais-Highlight-highlighted {
-    background-color: #fbeeb8;
+.search-result:last-child {
+    border-bottom: none;
 }
 
-.hit-title {
+.search-result h4 {
     margin: 0 0 8px 0;
+    font-size: 1.1em;
 }
 
-.hit-summary {
-    margin: 0;
-    color: var(--text-muted);
+.search-result p {
+    margin: 0 0 10px 0;
+    line-height: 1.5;
 }
 
+.search-result small {
+    color: #28a745;
+    font-weight: 500;
+}
 
 /* 头部样式 */
 .site-header {
