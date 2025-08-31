@@ -27,3 +27,44 @@
         indexName: 'nuaaguide'
       };
 
+const search = instantsearch({
+        indexName: 'nuaaguide',
+        searchClient,
+      });
+
+      // 添加搜索状态监听
+      search.on('render', function() {
+        document.getElementById('search-loading').style.display = 'none';
+      });
+      
+      search.on('search', function() {
+        document.getElementById('search-loading').style.display = 'block';
+      });
+
+      search.addWidgets([
+        instantsearch.widgets.searchBox({
+          container: '#search-box',
+          placeholder: '输入课程名、老师或关键词搜索...',
+        }),
+
+        instantsearch.widgets.hits({
+          container: '#hits',
+          templates: {
+            item: `
+              <article>
+                <a href="{{permalink}}" style="color: #0056b3; font-weight: bold;">
+                  <h4>{{#helpers.highlight}}{ "attribute": "title" }{{/helpers.highlight}}</h4>
+                </a>
+                <p style="color: #6c757d; margin-top: 4px;">{{#helpers.highlight}}{ "attribute": "summary" }{{/helpers.highlight}}</p>
+                {{#file_url}}<small>下载资源</small>{{/file_url}}
+              </article>
+            `,
+            empty: `没有找到与 "{{query}}" 相关的资料。`,
+          },
+        })
+      ]);
+
+      search.start();
+    </script>
+</div>
+{{ end }}
