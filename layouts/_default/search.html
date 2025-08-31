@@ -26,6 +26,45 @@
         searchKey: '8a00c461ba4a78c16cb8862108e7e83a',
         indexName: 'nuaaguide'
       };
+
+
+
+
+
+
+
+
+
+
+
+        
+ const search = instantsearch({
+    indexName: 'nuaaguide',
+    searchClient,
+    // 增加每次搜索返回的结果数量
+    configure: {
+      hitsPerPage: 100 // 增加到100条结果
+    }
+  });
+
+  search.addWidgets([
+    // 添加配置组件，确保设置生效
+    instantsearch.widgets.configure({
+      hitsPerPage: 100
+    });
+
+
+        
+
+
+
+
+
+
+
+      
+
+        
     </script>
     
     <!-- 加载搜索脚本 -->
