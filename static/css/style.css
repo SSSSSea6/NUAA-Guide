@@ -68,7 +68,7 @@ a:hover {
 }
 
 .logo-image {
-    height: 60px; /* 根据您的 Logo 调整高度 */
+    height: 85px; /* 根据您的 Logo 调整高度 */
     width: auto; /* 保持宽高比 */
     margin-right: 10px; /* Logo 和文字之间的间距 */
     vertical-align: middle;
@@ -116,16 +116,28 @@ a:hover {
 }
 
 /* 响应式设计 */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .logo-image {
-        height: 45px; /* 在小屏幕上稍微缩小 Logo */
-    }
-    
-    .inspirational-quote {
-        font-size: 0.8em;
-        margin: 0 10px;
+        height: 60px; /* 稍微缩小 */
     }
 }
+
+/* 移动设备 */
+@media (max-width: 768px) {
+    .logo-image {
+        height: 50px; /* 进一步缩小 */
+        margin-right: 8px;
+    }
+}
+
+/* 小屏幕移动设备 */
+@media (max-width: 480px) {
+    .logo-image {
+        height: 45px; /* 在小屏幕上更小 */
+        margin-right: 5px;
+    }
+}
+
 /* 欢迎区域 */
 .welcome-section {
     text-align: center;
