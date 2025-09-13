@@ -5,7 +5,12 @@
         <p>{{ .Content }}</p>
 
 
-
+{{ if .Params.tags }}
+<div class="tags">
+    <strong>标签:</strong>
+    {{ range .Params.tags }}
+    <span class="tag">{{ . }}</span>
+    {{ end }}
 
         
         {{ if .Params.file_url }}
