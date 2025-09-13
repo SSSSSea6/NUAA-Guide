@@ -23,6 +23,17 @@
             </div>
         {{ end }}
     </div>
+
+
+
+
+{{ if .Params.tags }}
+<div class="meta">
+    标签: {{ delimit .Params.tags ", " }}
+</div>
+{{ end }}
+
+
     
     {{ if gt .Paginator.TotalPages 1 }}
     <div class="pagination">
