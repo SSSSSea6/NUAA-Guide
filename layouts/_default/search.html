@@ -2,64 +2,101 @@
 <div class="content-section">
     <h2>搜索学习资料</h2>
 
-    <!-- 添加加载提示 -->
-    <div class="search-notice">
-        <p>🔍 搜索可能加载较慢，请耐心等待。如果长时间没有结果，可能是尚未上传相关资源。</p>
-    </div>
-
     <div id="search-box"></div>
+    <div id="search-results"></div>
 
-
- <div id="search-loading" style="display: none; text-align: center; padding: 20px;">
-
-        <div style="display: inline-block; width: 20px; height: 20px; border: 3px solid #f3f3f3; border-top: 3px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-
-        <p style="margin-top: 10px; color: #6c757d;">搜索中，请稍候...</p>
-
-    </div>
-
-
-
-
-
-    <div id="hits"></div>
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@8/themes/satellite-min.css">
-
-
-
-    <!-- 设置 Algolia 配置 -->
+    <!-- 引入 Pagefind UI -->
+    <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+    <script src="/pagefind/pagefind-ui.js"></script>
 
     <script>
-
-      window.algoliaConfig = {
-
-        appId: 'SMA85IWFQN',
-
-        searchKey: '8a00c461ba4a78c16cb8862108e7e83a',
-
-        indexName: 'nuaaguide'
-
-      };
-
-
-
-
-
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // 初始化 Pagefind UI
+            new PagefindUI({
+                element: "#search-results",
+                showImages: false,
+                showEmptyFilters: false,
+                excerptLength: 20,
+                processResult: function(result) {
+                    // 自定义结果处理
+                    return {
+                        ...result,
+                        excerpt: result.excerpt || result.meta.description || ''
+                    };
+                },
+                processTerm: function(term) {
+                    // 处理搜索词（可选）
+                    return term.toLowerCase();
+                }
+            });
+        });
     </script>
 
+    <style>
+        /* Pagefind UI 自定义样式 */
+        .pagefind-ui__search-input {
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
 
+        .pagefind-ui__result {
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+        }
 
-    <!-- 加载搜索脚本 -->
+        .pagefind-ui__result-link {
+            font-size: 1.2em;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-    <script src="/js/algolia-search.js"></script>
+        .pagefind-ui__result-link:hover {
+            text-decoration: underline;
+        }
 
+        .pagefind-ui__result-excerpt {
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .pagefind-ui__result-tags {
+            margin-top: 8px;
+        }
+
+        .pagefind-ui__result-tag {
+            display: inline-block;
+            background-color: var(--light-color);
+            color: var(--text-muted);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
+
+        .pagefind-ui__message {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-muted);
+        }
+
+        .pagefind-ui__button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .pagefind-ui__button:hover {
+            background-color: var(--secondary-color);
+        }
+    </style>
 </div>
-
 {{ end }}
