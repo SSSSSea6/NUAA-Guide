@@ -13,9 +13,98 @@
 
 
 
-
-
-
+<script>
+       document.addEventListener('DOMContentLoaded', function() {
+    // 获取所有文档的索引
+    let pagefind = null;
+    
+    async function initPagefind() {
+        // 动态导入 Pagefind
+        const pagefindModule = await import("/pagefind/pagefind.js");
+        pagefind = await pagefindModule.getIndex();
+        
+        // 设置搜索功能
+        setupSearch();
+    }
+    
+    function setupSearch() {
+        const searchInput = document.getElementById('custom-search-input');
+        const searchButton = document.getElementById('search-button');
+        const resultsContainer = document.getElementById('search-results');
+        
+        async function performSearch() {
+            const query = searchInput.value.trim();
+            if (!query) {
+                resultsContainer.innerHTML = '';
+                return;
+            }
+            
+            try {
+                // 执行搜索
+                const search = await pagefind.search(query);
+                const results = await Promise.all(
+                    search.results.map(async result => {
+                        const data = await result.data();
+                        return data;
+                    })
+                );
+                
+                // 过滤结果，只显示学习资料
+                const filteredResults = results.filter(result => 
+                    result.url.includes('/materials/')
+                );
+                
+                // 渲染结果
+                renderResults(filteredResults, query);
+            } catch (error) {
+                console.error('搜索错误:', error);
+                resultsContainer.innerHTML = '<p class="error-message">搜索过程中出现错误，请重试。</p>';
+            }
+        }
+        
+        function renderResults(results, query) {
+            if (results.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="pagefind-ui__message">
+                        没有找到与 "${query}" 相关的学习资料。
+                    </div>
+                `;
+                return;
+            }
+            
+            resultsContainer.innerHTML = results.map(result => `
+                <div class="pagefind-ui__result">
+                    <h3 class="pagefind-ui__result-title">
+                        <a href="${result.url}" class="pagefind-ui__result-link">
+                            ${result.meta.title || '无标题'}
+                        </a>
+                    </h3>
+                    ${result.excerpt ? `
+                        <p class="pagefind-ui__result-excerpt">
+                            ${result.excerpt}
+                        </p>
+                    ` : ''}
+                    ${result.meta.tags ? `
+                        <div class="pagefind-ui__result-tags">
+                            标签: ${result.meta.tags}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+        
+        // 绑定事件
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    }
+    
+    initPagefind();
+});
+  </script>
 
 
 
