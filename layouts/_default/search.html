@@ -14,6 +14,152 @@
 
 
 <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const resultsContainer = document.getElementById('search-results');
+    let pagefind = null;
+    
+    // 初始化 Pagefind
+    async function initPagefind() {
+        const pagefindModule = await import("/pagefind/pagefind.js");
+        pagefind = await pagefindModule.getIndex();
+        setupSearch();
+    }
+    
+    function setupSearch() {
+        searchInput.addEventListener('input', debounce(performSearch, 300));
+    }
+    
+    async function performSearch() {
+        const query = searchInput.value.trim();
+        if (!query) {
+            resultsContainer.innerHTML = '';
+            return;
+        }
+        
+        try {
+            // 对中文查询进行特殊处理
+            const processedQuery = processChineseQuery(query);
+            const search = await pagefind.search(processedQuery);
+            const results = await Promise.all(
+                search.results.map(async result => {
+                    const data = await result.data();
+                    // 计算相关性分数，优先显示学习资料
+                    data.score = calculateRelevance(data, query);
+                    return data;
+                })
+            );
+            
+            // 过滤和排序结果
+            const filteredResults = results
+                .filter(result => result.url.includes('/materials/'))
+                .sort((a, b) => b.score - a.score);
+            
+            renderResults(filteredResults, query);
+        } catch (error) {
+            console.error('搜索错误:', error);
+            resultsContainer.innerHTML = '<p class="error-message">搜索过程中出现错误，请重试。</p>';
+        }
+    }
+    
+    // 处理中文查询词
+    function processChineseQuery(query) {
+        // 如果是单个中文字符，添加通配符以提高匹配率
+        if (query.length === 1 && /[\u4e00-\u9fa5]/.test(query)) {
+            return query + '*';
+        }
+        return query;
+    }
+    
+    // 计算相关性分数
+    function calculateRelevance(result, query) {
+        let score = 0;
+        const title = result.meta?.title || '';
+        const content = result.excerpt || '';
+        const tags = result.meta?.tags || '';
+        
+        // 标题匹配获得最高分数
+        if (title.includes(query)) score += 10;
+        
+        // 内容匹配
+        const contentMatches = (content.match(new RegExp(query, 'g')) || []).length;
+        score += contentMatches * 2;
+        
+        // 标签匹配
+        if (tags.includes(query)) score += 5;
+        
+        return score;
+    }
+    
+    // 渲染结果
+    function renderResults(results, query) {
+        if (results.length === 0) {
+            resultsContainer.innerHTML = `
+                <div class="pagefind-ui__message">
+                    没有找到与 "${query}" 相关的学习资料。
+                    ${query.length === 1 ? '<br><small>提示: 单字搜索可能无法返回结果，请尝试更具体的词汇。</small>' : ''}
+                </div>
+            `;
+            return;
+        }
+        
+        resultsContainer.innerHTML = results.map(result => `
+            <div class="pagefind-ui__result">
+                <h3 class="pagefind-ui__result-title">
+                    <a href="${result.url}" class="pagefind-ui__result-link">
+                        ${result.meta.title || '无标题'}
+                    </a>
+                </h3>
+                ${result.excerpt ? `
+                    <p class="pagefind-ui__result-excerpt">
+                        ${highlightQuery(result.excerpt, query)}
+                    </p>
+                ` : ''}
+                ${result.meta.tags ? `
+                    <div class="pagefind-ui__result-tags">
+                        标签: ${result.meta.tags}
+                    </div>
+                ` : ''}
+            </div>
+        `).join('');
+    }
+    
+    // 高亮显示搜索词
+    function highlightQuery(text, query) {
+        const regex = new RegExp(`(${query})`, 'gi');
+        return text.replace(regex, '<mark>$1</mark>');
+    }
+    
+    // 防抖函数
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+    
+    initPagefind();
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+    
+
+<script>
        document.addEventListener('DOMContentLoaded', function() {
     // 获取所有文档的索引
     let pagefind = null;
