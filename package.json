@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "algoliasearch": "^4.20.0"
+    // 移除 algoliasearch 依赖
   },
   "scripts": {
-    "push-algolia": "node scripts/push-to-algolia.js"
+    // 移除 push-algolia 脚本
   }
 }
