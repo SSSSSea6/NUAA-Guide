@@ -4,14 +4,13 @@
         <h2>{{ .Title }}</h2>
         <p>{{ .Content }}</p>
 
-
 {{ if .Params.tags }}
 <div class="tags">
     <strong>标签:</strong>
     {{ range .Params.tags }}
     <span class="tag">{{ . }}</span>
     {{ end }}
-
+</div>
         
         {{ if .Params.file_url }}
             <p>
