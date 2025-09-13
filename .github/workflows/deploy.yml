@@ -33,8 +33,7 @@ jobs:
         run: hugo --minify
 
         - name: Install and run Pagefind
-  run: |
-    wget https://github.com/cloudcannon/pagefind/releases/download/v1.0.4/pagefind-v1.0.4-x86_64-unknown-linux-musl.tar.gz
+  run: wget https://github.com/cloudcannon/pagefind/releases/download/v1.0.4/pagefind-v1.0.4-x86_64-unknown-linux-musl.tar.gz
     tar -xzf pagefind-v1.0.4-x86_64-unknown-linux-musl.tar.gz
     # 只索引 materials 目录下的内容
     ./pagefind --site public --include "**/materials/**"
