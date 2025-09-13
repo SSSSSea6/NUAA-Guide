@@ -340,3 +340,11 @@ a:hover {
         font-size: 1.5em;
     }
 }
+/* 在您的CSS中添加 */
+.pagefind-ui__search-input {
+    display: none !important;
+}
+
+.pagefind-ui__search-clear {
+    display: none !important;
+}
