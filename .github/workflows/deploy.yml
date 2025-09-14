@@ -28,25 +28,15 @@ jobs:
 
       - name: Install and run Pagefind
         run: |
+          # 使用特定版本的 Pagefind
           PAGEFIND_VERSION="1.1.0"
           wget https://github.com/cloudcannon/pagefind/releases/download/v${PAGEFIND_VERSION}/pagefind-v${PAGEFIND_VERSION}-x86_64-unknown-linux-musl.tar.gz
           tar -xzf pagefind-v${PAGEFIND_VERSION}-x86_64-unknown-linux-musl.tar.gz
+          ./pagefind --site public --verbose
           
-          # 运行 Pagefind，启用中文分词
-          ./pagefind --site public --language zh --verbose
-          
+          # 检查生成的文件
           echo "Pagefind 生成的文件:"
           ls -la public/pagefind/
-
-      - name: Verify Pagefind deployment
-        run: |
-          echo "检查 Pagefind 索引文件:"
-          if [ -d "public/pagefind" ]; then
-            find public/pagefind -type f -name "pagefind-*.json" | head -n 5
-          else
-            echo "错误: pagefind 目录不存在"
-            exit 1
-          fi
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
