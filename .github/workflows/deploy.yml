@@ -38,6 +38,22 @@ jobs:
           echo "Pagefind 生成的文件:"
           ls -la public/pagefind/
 
+       - name: Verify Pagefind deployment
+         run: |
+           echo "检查 Pagefind 文件:"
+           ls -la public/pagefind/ || echo "pagefind 目录不存在"
+           echo "检查索引文件:"
+           if [ -f "public/pagefind/pagefind.json" ]; then
+           echo "索引文件存在"
+           # 检查索引文件是否包含内容
+           head -c 200 public/pagefind/pagefind.json
+          else
+          echo "错误: 索引文件不存在"
+          exit 1
+          fi
+
+
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
