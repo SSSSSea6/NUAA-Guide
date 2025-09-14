@@ -26,18 +26,12 @@ jobs:
       - name: Build website
         run: hugo --minify
 
+      # 添加 Pagefind 索引构建步骤
       - name: Install and run Pagefind
         run: |
-          # 使用特定版本的 Pagefind
-          PAGEFIND_VERSION="1.1.0"
-          wget https://github.com/cloudcannon/pagefind/releases/download/v${PAGEFIND_VERSION}/pagefind-v${PAGEFIND_VERSION}-x86_64-unknown-linux-musl.tar.gz
-          tar -xzf pagefind-v${PAGEFIND_VERSION}-x86_64-unknown-linux-musl.tar.gz
-          ./pagefind --site public --verbose
-          
-          # 检查生成的文件
-          echo "Pagefind 生成的文件:"
-          ls -la public/pagefind/
-
+          wget https://github.com/cloudcannon/pagefind/releases/download/v1.0.4/pagefind-v1.0.4-x86_64-unknown-linux-musl.tar.gz
+          tar -xzf pagefind-v1.0.4-x86_64-unknown-linux-musl.tar.gz
+          ./pagefind --site public
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -51,5 +45,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4itHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
