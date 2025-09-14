@@ -2,401 +2,173 @@
 <div class="content-section">
     <h2>搜索学习资料</h2>
 
-    <div id="search-box"></div>
+    <div class="search-input-container">
+        <input type="text" id="search-input" placeholder="输入课程名、老师或关键词搜索..." class="search-input">
+        <button id="search-button" class="search-button">搜索</button>
+    </div>
+
     <div id="search-results"></div>
 
-     <!-- 引入 Pagefind UI -->
+    <!-- 引入 Pagefind UI -->
     <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
     <script src="/pagefind/pagefind-ui.js"></script>
-    <script src="/js/pagefind-search.js"></script>
 
-
-
-
-<script>
-
-    document.addEventListener('DOMContentLoaded', function() {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search-input');
             const searchButton = document.getElementById('search-button');
             const resultsContainer = document.getElementById('search-results');
-    let pagefind = null;
-    
-    // 初始化 Pagefind
-    async function initPagefind() {
-        const pagefindModule = await import("/pagefind/pagefind.js");
-        pagefind = await pagefindModule.getIndex();
-        setupSearch();
-    }
-    
-    function setupSearch() {
-        searchInput.addEventListener('input', debounce(performSearch, 300));
-    }
-    
-    async function performSearch() {
-        const query = searchInput.value.trim();
-        if (!query) {
-            resultsContainer.innerHTML = '';
-            return;
-        }
-        
-        try {
-            // 对中文查询进行特殊处理
-            const processedQuery = processChineseQuery(query);
-            const search = await pagefind.search(processedQuery);
-            const results = await Promise.all(
-                search.results.map(async result => {
-                    const data = await result.data();
-                    // 计算相关性分数，优先显示学习资料
-                    data.score = calculateRelevance(data, query);
-                    return data;
-                })
-            );
             
-            // 过滤和排序结果
-            const filteredResults = results
-                .filter(result => result.url.includes('/materials/'))
-                .sort((a, b) => b.score - a.score);
+            // 使用更稳定的 Pagefind 初始化方式
+            let pagefindUI = null;
             
-            renderResults(filteredResults, query);
-        } catch (error) {
-            console.error('搜索错误:', error);
-            resultsContainer.innerHTML = '<p class="error-message">搜索过程中出现错误，请重试。</p>';
-        }
-    }
-    
-    // 处理中文查询词
-    function processChineseQuery(query) {
-        // 如果是单个中文字符，添加通配符以提高匹配率
-        if (query.length === 1 && /[\u4e00-\u9fa5]/.test(query)) {
-            return query + '*';
-        }
-        return query;
-    }
-    
-    // 计算相关性分数
-    function calculateRelevance(result, query) {
-        let score = 0;
-        const title = result.meta?.title || '';
-        const content = result.excerpt || '';
-        const tags = result.meta?.tags || '';
-        
-        // 标题匹配获得最高分数
-        if (title.includes(query)) score += 10;
-        
-        // 内容匹配
-        const contentMatches = (content.match(new RegExp(query, 'g')) || []).length;
-        score += contentMatches * 2;
-        
-        // 标签匹配
-        if (tags.includes(query)) score += 5;
-        
-        return score;
-    }
-    
-    // 渲染结果
-    function renderResults(results, query) {
-        if (results.length === 0) {
-            resultsContainer.innerHTML = `
-                <div class="pagefind-ui__message">
-                    没有找到与 "${query}" 相关的学习资料。
-                    ${query.length === 1 ? '<br><small>提示: 单字搜索可能无法返回结果，请尝试更具体的词汇。</small>' : ''}
-                </div>
-            `;
-            return;
-        }
-        
-        resultsContainer.innerHTML = results.map(result => `
-            <div class="pagefind-ui__result">
-                <h3 class="pagefind-ui__result-title">
-                    <a href="${result.url}" class="pagefind-ui__result-link">
-                        ${result.meta.title || '无标题'}
-                    </a>
-                </h3>
-                ${result.excerpt ? `
-                    <p class="pagefind-ui__result-excerpt">
-                        ${highlightQuery(result.excerpt, query)}
-                    </p>
-                ` : ''}
-                ${result.meta.tags ? `
-                    <div class="pagefind-ui__result-tags">
-                        标签: ${result.meta.tags}
-                    </div>
-                ` : ''}
-            </div>
-        `).join('');
-    }
-    
-    // 高亮显示搜索词
-    function highlightQuery(text, query) {
-        const regex = new RegExp(`(${query})`, 'gi');
-        return text.replace(regex, '<mark>$1</mark>');
-    }
-    
-    // 防抖函数
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-    
-    initPagefind();
-});
-</script>
-
-
-
-
-
-
-
-
-
-
-    
-
-<script>
-       document.addEventListener('DOMContentLoaded', function() {
-    // 获取所有文档的索引
-    let pagefind = null;
-    
-    async function initPagefind() {
-        // 动态导入 Pagefind
-        const pagefindModule = await import("/pagefind/pagefind.js");
-        pagefind = await pagefindModule.getIndex();
-        
-        // 设置搜索功能
-        setupSearch();
-    }
-    
-    function setupSearch() {
-        const searchInput = document.getElementById('custom-search-input');
-        const searchButton = document.getElementById('search-button');
-        const resultsContainer = document.getElementById('search-results');
-        
-        async function performSearch() {
-            const query = searchInput.value.trim();
-            if (!query) {
-                resultsContainer.innerHTML = '';
-                return;
+            // 等待 Pagefind UI 加载完成
+            function initPagefind() {
+                if (typeof PagefindUI !== 'undefined') {
+                    pagefindUI = new PagefindUI({
+                        element: "#search-results",
+                        showImages: false,
+                        showEmptyFilters: false,
+                        excerptLength: 20,
+                        // 禁用自动搜索框
+                        autofocus: false,
+                        showSubResults: false,
+                        resetStyles: false,
+                        // 中文搜索优化配置
+                        indexOptions: {
+                            threshold: 0.2,
+                            prefixLength: 1,
+                            stem: false
+                        },
+                        processTerm: function(term) {
+                            return term.toLowerCase().replace(/\s+/g, '');
+                        }
+                    });
+                    
+                    // 隐藏 Pagefind 自动生成的搜索框
+                    setTimeout(() => {
+                        const pagefindSearch = document.querySelector('.pagefind-ui__search-input');
+                        if (pagefindSearch) {
+                            pagefindSearch.style.display = 'none';
+                        }
+                    }, 100);
+                    
+                    return true;
+                }
+                return false;
             }
             
-            try {
-                // 执行搜索
-                const search = await pagefind.search(query);
-                const results = await Promise.all(
-                    search.results.map(async result => {
-                        const data = await result.data();
-                        return data;
-                    })
-                );
-                
-                // 过滤结果，只显示学习资料
-                const filteredResults = results.filter(result => 
-                    result.url.includes('/materials/')
-                );
-                
-                // 渲染结果
-                renderResults(filteredResults, query);
-            } catch (error) {
-                console.error('搜索错误:', error);
-                resultsContainer.innerHTML = '<p class="error-message">搜索过程中出现错误，请重试。</p>';
-            }
-        }
-        
-        function renderResults(results, query) {
-            if (results.length === 0) {
-                resultsContainer.innerHTML = `
-                    <div class="pagefind-ui__message">
-                        没有找到与 "${query}" 相关的学习资料。
-                    </div>
-                `;
-                return;
+            // 尝试初始化 Pagefind
+            if (!initPagefind()) {
+                // 如果 PagefindUI 未定义，等待一段时间再尝试
+                let attempts = 0;
+                const checkPagefind = setInterval(() => {
+                    attempts++;
+                    if (initPagefind() || attempts > 10) {
+                        clearInterval(checkPagefind);
+                        if (attempts > 10) {
+                            resultsContainer.innerHTML = '<div class="error-message">搜索功能加载失败，请刷新页面重试。</div>';
+                        }
+                    }
+                }, 100);
             }
             
-            resultsContainer.innerHTML = results.map(result => `
-                <div class="pagefind-ui__result">
-                    <h3 class="pagefind-ui__result-title">
-                        <a href="${result.url}" class="pagefind-ui__result-link">
-                            ${result.meta.title || '无标题'}
-                        </a>
-                    </h3>
-                    ${result.excerpt ? `
-                        <p class="pagefind-ui__result-excerpt">
-                            ${result.excerpt}
-                        </p>
-                    ` : ''}
-                    ${result.meta.tags ? `
-                        <div class="pagefind-ui__result-tags">
-                            标签: ${result.meta.tags}
-                        </div>
-                    ` : ''}
-                </div>
-            `).join('');
-        }
-        
-        // 绑定事件
-        searchButton.addEventListener('click', performSearch);
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                performSearch();
+            // 搜索功能
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query && pagefindUI) {
+                    pagefindUI.search(query);
+                } else if (query) {
+                    resultsContainer.innerHTML = '<div class="error-message">搜索功能尚未准备好，请稍后再试。</div>';
+                } else {
+                    resultsContainer.innerHTML = '';
+                }
             }
-        });
-    }
-    
-    initPagefind();
-});
-  </script>
-
-
-
-
-    
-
- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 初始化 Pagefind UI 并添加配置选项
-            new PagefindUI({
-                element: "#search-results",
-                showImages: false,
-                showEmptyFilters: false,
-                excerptLength: 20,
-                // 增加这些配置来改善中文搜索
-                indexOptions: {
-                    // 降低匹配阈值，使更多结果可见
-                    threshold: 0.2,
-                    // 增加前缀长度，改善短词匹配
-                    prefixLength: 1,
-                    // 禁用词干提取（对中文更友好）
-                    stem: false
-                },
-                // 自定义搜索处理
-                processTerm: function(term) {
-                    // 对中文搜索词进行特殊处理
-                    return term.toLowerCase().replace(/\s+/g, '');
-                },
-                // 自定义结果处理
-                processResult: function(result) {
-                    return {
-                        ...result,
-                        excerpt: result.excerpt || "暂无详细描述"
-                    };
+            
+            // 绑定事件
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
                 }
             });
             
-            // 隐藏 Pagefind 自动生成的搜索框（如果不需要）
-            setTimeout(() => {
-                const pagefindSearch = document.querySelector('.pagefind-ui__search-input');
-                if (pagefindSearch) {
-                    pagefindSearch.style.display = 'none';
-                }
-            }, 100);
-        });
-    </script>
-
-
-
-
-
-
-
-
-
-
-
-    
-    <style>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            // 初始化 Pagefind UI
-            new PagefindUI({
-                element: "#search-results",
-                showImages: false,
-                showEmptyFilters: false,
-                excerptLength: 20,
-                processResult: function(result) {
-                    // 自定义结果处理
-                    return {
-                        ...result,
-                        excerpt: result.excerpt || result.meta.description || ''
-                    };
-                },
-                processTerm: function(term) {
-                    // 处理搜索词（可选）
-                    return term.toLowerCase();
-                }
-            });
+            // 检查URL参数中的搜索词
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialQuery = urlParams.get('q');
+            if (initialQuery) {
+                searchInput.value = initialQuery;
+                // 延迟执行搜索，确保Pagefind已初始化
+                setTimeout(() => performSearch(), 500);
+            }
         });
     </script>
 
     <style>
-        /* Pagefind UI 自定义样式 */
-        .pagefind-ui__search-input {
+        .search-input-container {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto 20px auto;
+        }
+        
+        .search-input {
+            flex-grow: 1;
             padding: 12px 16px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 8px 0 0 8px;
             font-size: 16px;
-            width: 100%;
-            max-width: 500px;
-            margin-bottom: 20px;
+            border-right: none;
         }
-
+        
+        .search-button {
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .search-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* Pagefind UI 样式 */
         .pagefind-ui__result {
             border-bottom: 1px solid var(--border-color);
             padding: 20px 0;
         }
-
+        
         .pagefind-ui__result-link {
             font-size: 1.2em;
             color: var(--primary-color);
             text-decoration: none;
             font-weight: bold;
         }
-
+        
         .pagefind-ui__result-link:hover {
             text-decoration: underline;
         }
-
+        
         .pagefind-ui__result-excerpt {
             color: var(--text-muted);
             margin-top: 8px;
         }
-
-        .pagefind-ui__result-tags {
-            margin-top: 8px;
-        }
-
-        .pagefind-ui__result-tag {
-            display: inline-block;
-            background-color: var(--light-color);
-            color: var(--text-muted);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            margin-right: 5px;
-        }
-
+        
         .pagefind-ui__message {
             text-align: center;
             padding: 40px 0;
             color: var(--text-muted);
         }
-
-        .pagefind-ui__button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
+        
+        .error-message {
+            color: #dc3545;
+            padding: 10px;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
             border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .pagefind-ui__button:hover {
-            background-color: var(--secondary-color);
+            text-align: center;
         }
     </style>
 </div>
