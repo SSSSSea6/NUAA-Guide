@@ -340,3 +340,69 @@ a:hover {
         font-size: 1.5em;
     }
 }
+
+
+/* =============================
+   搜索功能样式 (Pagefind)
+============================= */
+
+/* 搜索容器 */
+#search-box {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#search-input {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1em;
+    transition: all 0.2s ease;
+}
+
+#search-input:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 6px rgba(52, 152, 219, 0.3);
+}
+
+/* 搜索结果 */
+#search-results {
+    margin-top: 20px;
+}
+
+.search-result-item {
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    background: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-result-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.search-result-item h3 {
+    margin: 0 0 8px;
+    font-size: 1.2em;
+    color: var(--primary-color);
+}
+
+.search-result-item p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+/* 高亮关键字 */
+.search-result-item mark {
+    background: #fbeeb8;
+    padding: 0 2px;
+    border-radius: 2px;
+}
