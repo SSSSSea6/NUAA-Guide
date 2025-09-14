@@ -9,9 +9,9 @@
 
     <div id="search-results"></div>
 
-    <!-- 引入 Pagefind UI，路径使用 Hugo 的 relURL 以兼容 GitHub Pages -->
-    <link href="{{ "pagefind/pagefind-ui.css" | relURL }}" rel="stylesheet">
-    <script src="{{ "pagefind/pagefind-ui.js" | relURL }}"></script>
+    <!-- 引入 Pagefind UI -->
+    <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+    <script src="/pagefind/pagefind-ui.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -19,25 +19,48 @@
             const searchButton = document.getElementById('search-button');
             const resultsContainer = document.getElementById('search-results');
             
+            // 使用更稳定的 Pagefind 初始化方式
             let pagefindUI = null;
             
-            // 初始化 Pagefind
+            // 等待 Pagefind UI 加载完成
             function initPagefind() {
                 if (typeof PagefindUI !== 'undefined') {
                     pagefindUI = new PagefindUI({
                         element: "#search-results",
                         showImages: false,
+                        showEmptyFilters: false,
                         excerptLength: 20,
+                        // 禁用自动搜索框
+                        autofocus: false,
                         showSubResults: false,
-                        resetStyles: false
+                        resetStyles: false,
+                        // 中文搜索优化配置
+                        indexOptions: {
+                            threshold: 0.2,
+                            prefixLength: 1,
+                            stem: false
+                        },
+                        processTerm: function(term) {
+                            return term.toLowerCase().replace(/\s+/g, '');
+                        }
                     });
+                    
+                    // 隐藏 Pagefind 自动生成的搜索框
+                    setTimeout(() => {
+                        const pagefindSearch = document.querySelector('.pagefind-ui__search-input');
+                        if (pagefindSearch) {
+                            pagefindSearch.style.display = 'none';
+                        }
+                    }, 100);
+                    
                     return true;
                 }
                 return false;
             }
             
-            // 尝试初始化，如果未加载则等待
+            // 尝试初始化 Pagefind
             if (!initPagefind()) {
+                // 如果 PagefindUI 未定义，等待一段时间再尝试
                 let attempts = 0;
                 const checkPagefind = setInterval(() => {
                     attempts++;
@@ -50,11 +73,11 @@
                 }, 100);
             }
             
-            // 执行搜索
+            // 搜索功能
             function performSearch() {
                 const query = searchInput.value.trim();
                 if (query && pagefindUI) {
-                    pagefindUI.triggerSearch(query);
+                    pagefindUI.search(query);
                 } else if (query) {
                     resultsContainer.innerHTML = '<div class="error-message">搜索功能尚未准备好，请稍后再试。</div>';
                 } else {
@@ -70,11 +93,12 @@
                 }
             });
             
-            // 如果 URL 带有 ?q=xxx，自动执行搜索
+            // 检查URL参数中的搜索词
             const urlParams = new URLSearchParams(window.location.search);
             const initialQuery = urlParams.get('q');
             if (initialQuery) {
                 searchInput.value = initialQuery;
+                // 延迟执行搜索，确保Pagefind已初始化
                 setTimeout(() => performSearch(), 500);
             }
         });
@@ -109,8 +133,8 @@
         .search-button:hover {
             background-color: var(--secondary-color);
         }
-
-        /* Pagefind 结果样式 */
+        
+        /* Pagefind UI 样式 */
         .pagefind-ui__result {
             border-bottom: 1px solid var(--border-color);
             padding: 20px 0;
@@ -146,13 +170,6 @@
             border-radius: 4px;
             text-align: center;
         }
-
-        /* 隐藏 Pagefind 自带搜索框 */
-        .pagefind-ui__search-input {
-            display: none !important;
-        }
     </style>
-</div>
-{{ end }}
 </div>
 {{ end }}
