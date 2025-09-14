@@ -1,175 +1,65 @@
-{{ define "main" }}
-<div class="content-section">
-    <h2>搜索学习资料</h2>
+name: Build and Deploy NUAA Guide
 
-    <div class="search-input-container">
-        <input type="text" id="search-input" placeholder="输入课程名、老师或关键词搜索..." class="search-input">
-        <button id="search-button" class="search-button">搜索</button>
-    </div>
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
 
-    <div id="search-results"></div>
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-    <!-- 引入 Pagefind UI -->
-    <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
-    <script src="/pagefind/pagefind-ui.js"></script>
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('search-input');
-            const searchButton = document.getElementById('search-button');
-            const resultsContainer = document.getElementById('search-results');
-            
-            // 使用更稳定的 Pagefind 初始化方式
-            let pagefindUI = null;
-            
-            // 等待 Pagefind UI 加载完成
-            function initPagefind() {
-                if (typeof PagefindUI !== 'undefined') {
-                    pagefindUI = new PagefindUI({
-                        element: "#search-results",
-                        showImages: false,
-                        showEmptyFilters: false,
-                        excerptLength: 20,
-                        // 禁用自动搜索框
-                        autofocus: false,
-                        showSubResults: false,
-                        resetStyles: false,
-                        // 中文搜索优化配置
-                        indexOptions: {
-                            threshold: 0.2,
-                            prefixLength: 1,
-                            stem: false
-                        },
-                        processTerm: function(term) {
-                            return term.toLowerCase().replace(/\s+/g, '');
-                        }
-                    });
-                    
-                    // 隐藏 Pagefind 自动生成的搜索框
-                    setTimeout(() => {
-                        const pagefindSearch = document.querySelector('.pagefind-ui__search-input');
-                        if (pagefindSearch) {
-                            pagefindSearch.style.display = 'none';
-                        }
-                    }, 100);
-                    
-                    return true;
-                }
-                return false;
-            }
-            
-            // 尝试初始化 Pagefind
-            if (!initPagefind()) {
-                // 如果 PagefindUI 未定义，等待一段时间再尝试
-                let attempts = 0;
-                const checkPagefind = setInterval(() => {
-                    attempts++;
-                    if (initPagefind() || attempts > 10) {
-                        clearInterval(checkPagefind);
-                        if (attempts > 10) {
-                            resultsContainer.innerHTML = '<div class="error-message">搜索功能加载失败，请刷新页面重试。</div>';
-                        }
-                    }
-                }, 100);
-            }
-            
-            // 搜索功能
-            function performSearch() {
-                const query = searchInput.value.trim();
-                if (query && pagefindUI) {
-                    pagefindUI.search(query);
-                } else if (query) {
-                    resultsContainer.innerHTML = '<div class="error-message">搜索功能尚未准备好，请稍后再试。</div>';
-                } else {
-                    resultsContainer.innerHTML = '';
-                }
-            }
-            
-            // 绑定事件
-            searchButton.addEventListener('click', performSearch);
-            searchInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-            
-            // 检查URL参数中的搜索词
-            const urlParams = new URLSearchParams(window.location.search);
-            const initialQuery = urlParams.get('q');
-            if (initialQuery) {
-                searchInput.value = initialQuery;
-                // 延迟执行搜索，确保Pagefind已初始化
-                setTimeout(() => performSearch(), 500);
-            }
-        });
-    </script>
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.121.1'
+          extended: true
 
-    <style>
-        .search-input-container {
-            display: flex;
-            max-width: 500px;
-            margin: 0 auto 20px auto;
-        }
-        
-        .search-input {
-            flex-grow: 1;
-            padding: 12px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px 0 0 8px;
-            font-size: 16px;
-            border-right: none;
-        }
-        
-        .search-button {
-            padding: 12px 20px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 0 8px 8px 0;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        .search-button:hover {
-            background-color: var(--secondary-color);
-        }
-        
-        /* Pagefind UI 样式 */
-        .pagefind-ui__result {
-            border-bottom: 1px solid var(--border-color);
-            padding: 20px 0;
-        }
-        
-        .pagefind-ui__result-link {
-            font-size: 1.2em;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-        }
-        
-        .pagefind-ui__result-link:hover {
-            text-decoration: underline;
-        }
-        
-        .pagefind-ui__result-excerpt {
-            color: var(--text-muted);
-            margin-top: 8px;
-        }
-        
-        .pagefind-ui__message {
-            text-align: center;
-            padding: 40px 0;
-            color: var(--text-muted);
-        }
-        
-        .error-message {
-            color: #dc3545;
-            padding: 10px;
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 4px;
-            text-align: center;
-        }
-    </style>
-</div>
-{{ end }}
+      - name: Build website
+        run: hugo --minify
+
+      - name: Install and run Pagefind
+        run: |
+          PAGEFIND_VERSION="1.1.0"
+          wget https://github.com/cloudcannon/pagefind/releases/download/v${PAGEFIND_VERSION}/pagefind-v${PAGEFIND_VERSION}-x86_64-unknown-linux-musl.tar.gz
+          tar -xzf pagefind-v${PAGEFIND_VERSION}-x86_64-unknown-linux-musl.tar.gz
+          
+          # 运行 Pagefind，启用中文分词
+          ./pagefind --site public --language zh --verbose
+          
+          echo "Pagefind 生成的文件:"
+          ls -la public/pagefind/
+
+      - name: Verify Pagefind deployment
+        run: |
+          echo "检查 Pagefind 索引文件:"
+          if [ -d "public/pagefind" ]; then
+            find public/pagefind -type f -name "pagefind-*.json" | head -n 5
+          else
+            echo "错误: pagefind 目录不存在"
+            exit 1
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
