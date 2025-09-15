@@ -32,6 +32,13 @@ jobs:
       - name: Build website
         run: hugo --minify
 
+         # 添加 Pagefind 索引构建步骤
+      - name: Install and run Pagefind
+        run: |
+          wget https://github.com/cloudcannon/pagefind/releases/download/v1.0.4/pagefind-v1.0.4-x86_64-unknown-linux-musl.tar.gz
+          tar -xzf pagefind-v1.0.4-x86_64-unknown-linux-musl.tar.gz
+          ./pagefind --site public
+
      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -47,4 +54,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v
+        uses: actions/deploy-pages@v4
