@@ -8,10 +8,6 @@ enableRobotsTXT = true
   description = "南京航空航天大学校园指北 - 免费的学习资料、生活指南与实用信息分享平台"
   keywords = ["NUAA", "南航", "学习资料", "校园指南", "大学生活"]
 
-[params.search]
-indexEverything = true
-forceLanguage = "zh"
-
 [outputs]
   home = ["HTML", "JSON"]
   section = ["HTML", "JSON"]
@@ -46,4 +42,3 @@ forceLanguage = "zh"
     name = "常用网址"
     url = "/links/"
     weight = 5
-
