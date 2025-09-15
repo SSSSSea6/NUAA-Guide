@@ -1,399 +1,105 @@
 {{ define "main" }}
-
 <div class="content-section">
-
     <h2>搜索学习资料</h2>
 
-
-
     <div id="search-box"></div>
-
     <div id="search-results"></div>
 
-
-
-     <!-- 引入 Pagefind UI -->
-
+    <!-- 引入 Pagefind UI -->
     <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
-
     <script src="/pagefind/pagefind-ui.js"></script>
 
-    <script src="/js/pagefind-search.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
- <script>
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-
-
-            // 初始化 Pagefind UI 并添加配置选项
-
-
-            new PagefindUI({
-
-
-                element: "#search-results",
-
-
-                showImages: false,
-
-
-                showEmptyFilters: false,
-
-
-                excerptLength: 20,
-
-
-                // 增加这些配置来改善中文搜索
-
-
-                indexOptions: {
-
-
-                    // 降低匹配阈值，使更多结果可见
-
-
-                    threshold: 0.2,
-
-
-                    // 增加前缀长度，改善短词匹配
-
-
-                    prefixLength: 1,
-
-
-                    // 禁用词干提取（对中文更友好）
-
-
-                    stem: false
-
-
-                },
-
-
-                // 自定义搜索处理
-
-
-                processTerm: function(term) {
-
-
-                    // 对中文搜索词进行特殊处理
-
-
-                    return term.toLowerCase().replace(/\s+/g, '');
-
-
-                },
-
-
-                // 自定义结果处理
-
-
-                processResult: function(result) {
-
-
-                    return {
-
-
-                        ...result,
-
-
-                        excerpt: result.excerpt || "暂无详细描述"
-
-
-                    };
-
-
-                }
-
-
-            });
-
-
-            
-
-
-            // 隐藏 Pagefind 自动生成的搜索框（如果不需要）
-
-
-            setTimeout(() => {
-
-
-                const pagefindSearch = document.querySelector('.pagefind-ui__search-input');
-
-
-                if (pagefindSearch) {
-
-
-                    pagefindSearch.style.display = 'none';
-
-
-                }
-
-
-            }, 100);
-
-
-        });
-
-
-    </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    <style>
-
+    <script>
         window.addEventListener('DOMContentLoaded', (event) => {
-
             // 初始化 Pagefind UI
-
             new PagefindUI({
-
                 element: "#search-results",
-
                 showImages: false,
-
                 showEmptyFilters: false,
-
                 excerptLength: 20,
-
                 processResult: function(result) {
-
                     // 自定义结果处理
-
                     return {
-
                         ...result,
-
                         excerpt: result.excerpt || result.meta.description || ''
-
                     };
-
                 },
-
                 processTerm: function(term) {
-
                     // 处理搜索词（可选）
-
                     return term.toLowerCase();
-
                 }
-
             });
-
         });
-
     </script>
 
-
-
     <style>
-
         /* Pagefind UI 自定义样式 */
-
         .pagefind-ui__search-input {
-
             padding: 12px 16px;
-
             border: 1px solid var(--border-color);
-
             border-radius: 8px;
-
             font-size: 16px;
-
             width: 100%;
-
             max-width: 500px;
-
             margin-bottom: 20px;
-
         }
-
-
 
         .pagefind-ui__result {
-
             border-bottom: 1px solid var(--border-color);
-
             padding: 20px 0;
-
         }
-
-
 
         .pagefind-ui__result-link {
-
             font-size: 1.2em;
-
             color: var(--primary-color);
-
             text-decoration: none;
-
             font-weight: bold;
-
         }
-
-
 
         .pagefind-ui__result-link:hover {
-
             text-decoration: underline;
-
         }
-
-
 
         .pagefind-ui__result-excerpt {
-
             color: var(--text-muted);
-
             margin-top: 8px;
-
         }
-
-
 
         .pagefind-ui__result-tags {
-
             margin-top: 8px;
-
         }
-
-
 
         .pagefind-ui__result-tag {
-
             display: inline-block;
-
             background-color: var(--light-color);
-
             color: var(--text-muted);
-
             padding: 4px 8px;
-
             border-radius: 4px;
-
             font-size: 0.8em;
-
             margin-right: 5px;
-
         }
-
-
 
         .pagefind-ui__message {
-
             text-align: center;
-
             padding: 40px 0;
-
             color: var(--text-muted);
-
         }
-
-
 
         .pagefind-ui__button {
-
             background-color: var(--primary-color);
-
             color: white;
-
             border: none;
-
             padding: 8px 16px;
-
             border-radius: 4px;
-
             cursor: pointer;
-
         }
-
-
 
         .pagefind-ui__button:hover {
-
             background-color: var(--secondary-color);
-
         }
-
     </style>
-
 </div>
-
+{{ end }}
 {{ end }}
 </div>
 {{ end }}
