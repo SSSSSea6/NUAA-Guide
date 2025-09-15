@@ -23,23 +23,16 @@ jobs:
           hugo-version: '0.121.1'
           extended: true
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-
       - name: Build website
         run: hugo --minify
 
-         # 添加 Pagefind 索引构建步骤
+      # 添加 Pagefind 索引构建步骤
       - name: Install and run Pagefind
         run: |
           wget https://github.com/cloudcannon/pagefind/releases/download/v1.0.4/pagefind-v1.0.4-x86_64-unknown-linux-musl.tar.gz
           tar -xzf pagefind-v1.0.4-x86_64-unknown-linux-musl.tar.gz
           ./pagefind --site public
 
-     
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
