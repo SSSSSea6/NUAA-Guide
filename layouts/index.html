@@ -10,6 +10,18 @@
         <h3><a href="/materials/">📚 学习资料</a></h3>
         <a href="/materials/" class="view-all">查看全部 &rarr;</a>
     </div>
+
+ <!-- 添加小型联系方式栏 -->
+    <div class="contact-bar">
+        <span>需要帮助？</span>
+        <button class="contact-btn" onclick="openContactModal()">联系我</button>
+    </div>
+    
+    <div class="card-container">
+
+
+
+    
     <div class="card-container">
         {{ $materials := where .Site.RegularPages "Section" "materials" }}
         {{ if $materials }}
@@ -37,7 +49,7 @@
 
 <section class="content-section">
     <div class="section-header">
-        <h3><a href="/guides/">🧭 大学生活指南</a></h3>
+        <h3><a href="/guides/">指南针</a></h3>
         <a href="/guides/" class="view-all">查看全部 &rarr;</a>
     </div>
     <div class="card-container">
@@ -51,7 +63,7 @@
         {{ else }}
             <div class="card featured-card">
                 <h4>指南不断筹备中...</h4>
-                <p>我们正在准备全面指南，包括选课、宿舍、社团等信息。</p>
+                <p>正在准备全面指南，包括选课、宿舍、社团等信息。</p>
             </div>
         {{ end }}
     </div>
@@ -74,7 +86,7 @@
         {{ else }}
             <div class="card featured-card">
                 <h4>软件资源不断整理中...</h4>
-                <p>我们正在整理一些软件资源，包括正版steam客户端下载、正版office（学校提供）下载等。</p>
+                <p>正在整理一些软件资源，包括正版steam客户端下载、正版office（学校提供）下载等。</p>
             </div>
         {{ end }}
     </div>
