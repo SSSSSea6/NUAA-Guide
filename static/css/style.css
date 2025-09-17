@@ -352,7 +352,10 @@ a:hover {
     align-items: center;
     gap: 10px;
     margin-bottom: 15px;
-    padding: 8px 0;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid var(--accent-color);
     font-size: 0.9em;
     color: var(--text-muted);
 }
@@ -362,7 +365,7 @@ a:hover {
     color: var(--accent-color);
     border: 1px solid var(--accent-color);
     border-radius: 4px;
-    padding: 4px 10px;
+    padding: 5px 12px;
     font-size: 0.9em;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -373,5 +376,122 @@ a:hover {
     color: white;
 }
 
+/* 联系方式模态框 */
+.contact-modal {
+    display: none;
+    position: fixed;
+    z-index: 1002;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
 
+.contact-modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    max-height: 80vh;
+    overflow-y: auto;
+}
 
+.contact-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+}
+
+.contact-close:hover {
+    color: #000;
+}
+
+.contact-modal-content h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.contact-modal-content > p {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+.contact-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.contact-method {
+    text-align: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+}
+
+.contact-method h4 {
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.contact-method p {
+    margin: 5px 0;
+    color: var(--text-muted);
+}
+
+.contact-method a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.contact-method a:hover {
+    text-decoration: underline;
+}
+
+.contact-qr {
+    max-width: 150px;
+    height: auto;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.contact-note {
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--text-muted);
+    margin-top: 20px;
+    font-style: italic;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .contact-bar {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+    
+    .contact-methods {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-modal-content {
+        margin: 15% auto;
+        width: 85%;
+        padding: 20px;
+    }
+}
