@@ -164,3 +164,47 @@
     }
   });
 </script>
+
+
+
+
+
+
+
+
+
+
+<script>
+// 打开联系方式模态框
+function openContactModal() {
+    document.getElementById('contactModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// 关闭联系方式模态框
+function closeContactModal() {
+    document.getElementById('contactModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// 点击模态框外部关闭
+window.onclick = function(event) {
+    var modal = document.getElementById('contactModal');
+    if (event.target == modal) {
+        closeContactModal();
+    }
+}
+
+// 按ESC键关闭
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeContactModal();
+    }
+});
+</script>
+
+
+
+
+
+
