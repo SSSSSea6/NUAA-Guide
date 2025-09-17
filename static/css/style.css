@@ -340,3 +340,38 @@ a:hover {
         font-size: 1.5em;
     }
 }
+
+
+
+
+
+/* 小型联系方式栏 */
+.contact-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 8px 0;
+    font-size: 0.9em;
+    color: var(--text-muted);
+}
+
+.contact-btn {
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+
+
