@@ -495,3 +495,88 @@ a:hover {
         padding: 20px;
     }
 }
+
+
+
+
+
+
+
+/* 服务页面特定样式 */
+.service-link {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.service-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    transition: all 0.3s ease;
+}
+
+.service-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+/* 指南页面样式增强 */
+.guide-content h2 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+    margin-top: 30px;
+}
+
+.guide-content h3 {
+    color: var(--secondary-color);
+    margin-top: 25px;
+}
+
+.guide-content ul, .guide-content ol {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.guide-content li {
+    margin-bottom: 8px;
+}
+
+/* FAQ样式 */
+.guide-content h4 {
+    color: var(--primary-color);
+    margin-top: 20px;
+}
+
+.guide-content .faq-item {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--accent-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .service-button {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+    
+    .guide-content h2 {
+        font-size: 1.5em;
+    }
+}
+
+
+
+
+
