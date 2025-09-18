@@ -177,16 +177,16 @@ a:hover {
 /* 移动设备 */
 @media (max-width: 768px) {
     .logo-image {
-        height: 50px; /* 进一步缩小 */
-        margin-right: 8px;
+        height: 55px; /* 进一步缩小 */
+        margin-right: 15px;
     }
 }
 
 /* 小屏幕移动设备 */
 @media (max-width: 480px) {
     .logo-image {
-        height: 45px; /* 在小屏幕上更小 */
-        margin-right: 5px;
+        height: 55px; /* 在小屏幕上更小 */
+        margin-right: 15px;
     }
 }
 
