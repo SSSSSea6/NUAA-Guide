@@ -1,4 +1,4 @@
 ---
-title: "大学生活指南"
-description: "新生入学指南、选课攻略、社团活动等全方位指南"
+title: "指南针"
+description: "全方位指南"
 ---
