@@ -585,51 +585,6 @@ a:hover {
 
 
 
-/* 增强的页面过渡效果 */
-.site-container {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.site-container.loaded {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-}
-
-/* 页面内容延迟加载效果 */
-.site-content > * {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.site-container.loaded .site-content > * {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* 为不同元素添加不同的延迟 */
-.site-container.loaded .site-header {
-    transition-delay: 0.1s;
-}
-
-.site-container.loaded .welcome-section {
-    transition-delay: 0.2s;
-}
-
-.site-container.loaded .content-section {
-    transition-delay: 0.3s;
-}
-
-.site-container.loaded .site-footer {
-    transition-delay: 0.4s;
-}
-
-
-
-
 
 
 
