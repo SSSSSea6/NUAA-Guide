@@ -208,3 +208,50 @@ document.addEventListener('keydown', function(event) {
 
 
 
+
+
+<script>
+// 页面加载完成后添加过渡效果
+document.addEventListener('DOMContentLoaded', function() {
+    // 添加加载类以触发过渡效果
+    document.querySelector('.site-container').classList.add('loaded');
+    
+    // 为所有内部链接添加平滑过渡
+    document.querySelectorAll('a').forEach(link => {
+        // 只处理内部链接
+        if (link.hostname === window.location.hostname && 
+            link.pathname !== window.location.pathname &&
+            !link.hash) {
+            
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 添加淡出效果
+                document.querySelector('.site-container').classList.remove('loaded');
+                
+                // 短暂延迟后导航到新页面
+                setTimeout(function() {
+                    window.location.href = link.href;
+                }, 300);
+            });
+        }
+    });
+});
+
+// 浏览器后退/前进按钮处理
+window.addEventListener('pageshow', function(event) {
+    // 如果是从缓存加载（如后退/前进），立即显示内容
+    if (event.persisted) {
+        document.querySelector('.site-container').classList.add('loaded');
+    }
+});
+</script>
+
+
+
+
+
+
+
+
+
