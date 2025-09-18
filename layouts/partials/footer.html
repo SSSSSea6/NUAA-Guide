@@ -210,42 +210,6 @@ document.addEventListener('keydown', function(event) {
 
 
 
-<script>
-// 页面加载完成后添加过渡效果
-document.addEventListener('DOMContentLoaded', function() {
-    // 添加加载类以触发过渡效果
-    document.querySelector('.site-container').classList.add('loaded');
-    
-    document.querySelectorAll('a').forEach(link => {
-    // 只处理内部链接，且排除模态框内链接
-    if (link.hostname === window.location.hostname &&
-        link.pathname !== window.location.pathname &&
-        !link.hash &&
-        !link.closest('.donation-modal') &&   // 排除捐赠模态框里的链接
-        !link.closest('#contactModal')) {     // 排除联系方式模态框里的链接
-
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            document.querySelector('.site-container').classList.remove('loaded');
-            setTimeout(function() {
-                window.location.href = link.href;
-            }, 300);
-        });
-    }
-});
-});
-
-// 浏览器后退/前进按钮处理
-window.addEventListener('pageshow', function(event) {
-    // 如果是从缓存加载（如后退/前进），立即显示内容
-    if (event.persisted) {
-        document.querySelector('.site-container').classList.add('loaded');
-    }
-});
-</script>
-
-
-
 
 
 
