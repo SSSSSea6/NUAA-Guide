@@ -32,7 +32,7 @@ tags: ["龙猫", "代跑", "龙猫代跑"]
 
 点击下方按钮访问龙猫代跑平台：
 <div class="service-link">
-    <a href="[https://www.nuaaguide.shop/" target="_blank" class="service-button">
+    <a href="https://www.nuaaguide.shop/" target="_blank" class="service-button">
         龙猫！启动！
     </a>
 </div>
