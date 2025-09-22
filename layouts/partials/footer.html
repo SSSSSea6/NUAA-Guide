@@ -35,6 +35,22 @@
   </div>
 </div>
 
+<!-- 浮动式小红书提示按钮 -->
+<div class="social-float-btn" onclick="toggleSocialTip()">
+    📕
+</div>
+
+<div class="social-tip" id="socialTip">
+    <div class="social-tip-content">
+        <h4>关注小红书</h4>
+        <p>获取最新更新和提出意见</p>
+        <p><strong>坐坐坐忘忘忘/26506316071</strong></p>
+        <button class="social-tip-close" onclick="closeSocialTip()">×</button>
+    </div>
+</div>
+
+
+
 <style>
   /* 捐赠按钮样式 */
   .donation-btn {
@@ -205,7 +221,31 @@ document.addEventListener('keydown', function(event) {
 
 
 
+<script>
+// 切换小红书提示显示
+function toggleSocialTip() {
+    var tip = document.getElementById('socialTip');
+    if (tip.style.display === 'block') {
+        tip.style.display = 'none';
+    } else {
+        tip.style.display = 'block';
+    }
+}
 
+// 关闭小红书提示
+function closeSocialTip() {
+    document.getElementById('socialTip').style.display = 'none';
+}
+
+// 点击提示框外部关闭
+window.addEventListener('click', function(e) {
+    var tip = document.getElementById('socialTip');
+    var btn = document.querySelector('.social-float-btn');
+    if (tip.style.display === 'block' && e.target !== tip && !tip.contains(e.target) && e.target !== btn) {
+        tip.style.display = 'none';
+    }
+});
+</script>
 
 
 
