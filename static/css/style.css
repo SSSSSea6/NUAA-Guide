@@ -579,7 +579,26 @@ a:hover {
 
 
 
+/* 小红书导航图标样式 */
+.social-xhs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ff2442; /* 小红书品牌色 */
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+}
 
+.social-xhs:hover {
+    background-color: #e61e3c; /* 深一点的红色 */
+    transform: scale(1.1);
+    text-decoration: none;
+}
 
 
 
