@@ -82,22 +82,25 @@ def get_file_icon(extension):
 
 def generate_markdown(resource_name, tags, description, filename, file_extension):
     """
-    生成Markdown文件内容
+    生成Markdown文件内容（使用 R2 存储）
     """
-    # 对资源名称进行HTML转义，防止特殊字符问题
+    # 对资源名称进行HTML转义
     escaped_resource_name = html.escape(resource_name)
     
-    # 构建标签部分的字符串
+    # 构建标签部分
     tags_str = "[" + ", ".join(f'"{tag}"' for tag in tags) + "]" if tags else "[]"
     
     # 获取文件图标
     file_icon = get_file_icon(file_extension)
     
+    # 生成 R2 文件 URL（假设文件已上传到 R2）
+    r2_public_url = f"https://pub.{os.getenv('R2_ACCOUNT_ID')}.r2.dev/{filename}"
+    
     # 构建Markdown内容
     md_content = f"""---
 title: "{escaped_resource_name}"
 tags: {tags_str}
-file_url: "/files/{filename}"
+file_url: "{r2_public_url}"
 file_type: "{file_extension[1:]}"  # 去掉点号
 ---
 
@@ -105,6 +108,7 @@ file_type: "{file_extension[1:]}"  # 去掉点号
 
 <!-- 文件类型: {file_extension} -->
 <!-- 文件图标: {file_icon} -->
+<!-- 存储位置: Cloudflare R2 -->
 """
     return md_content
 
