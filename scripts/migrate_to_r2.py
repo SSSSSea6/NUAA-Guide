@@ -16,6 +16,7 @@ def migrate_existing_files():
                 print(f"迁移成功: {public_url}")
             else:
                 print(f"迁移失败: {file_path.name}")
+                
 
 if __name__ == "__main__":
     migrate_existing_files()
