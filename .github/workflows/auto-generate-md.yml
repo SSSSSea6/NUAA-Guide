@@ -36,11 +36,12 @@ jobs:
         run: |
           python scripts/process_with_r2.py
           
-      - name: Commit and push changes
+        - name: Commit and push changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add content/materials/
-          git add uploads/
+          git add static/files/
+          git add uploads/.gitkeep
           git commit -m "自动添加学习资源（使用R2存储）[skip ci]" || echo "没有更改可提交"
           git push
