@@ -1,13 +1,13 @@
-name: Auto Generate Markdown Files with R2
+name: Auto Generate Markdown Files
 
 on:
   push:
     paths:
-      - 'uploads/**'
-  workflow_dispatch:
+      - 'static/files/**'
+  workflow_dispatch:  # 允许手动触发
 
 jobs:
-  process-files:
+  generate-markdown:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -15,33 +15,70 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Debug - List files in static/files
+        run: |
+          echo "当前 static/files 目录中的文件:"
+          ls -la static/files/ || echo "static/files 目录不存在"
+          echo "当前 content/materials 目录中的文件:"
+          ls -la content/materials/ || echo "content/materials 目录不存在"
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-          
-      - name: Install dependencies
+
+      - name: Run improved auto-generate script
         run: |
-          pip install boto3
-          
-      - name: Set up R2 credentials
+          python scripts/improved_auto_generate.py
+
+      - name: List generated and removed files
         run: |
-          echo "R2_ACCOUNT_ID=${{ secrets.R2_ACCOUNT_ID }}" >> $GITHUB_ENV
-          echo "R2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}" >> $GITHUB_ENV
-          echo "R2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
-          echo "R2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}" >> $GITHUB_ENV
-          
-      - name: Process files with R2
+          echo "处理后的 Markdown 文件:"
+          ls -la content/materials/ || echo "content/materials 目录不存在"
+          echo "处理后的资源文件:"
+          ls -la static/files/ || echo "static/files 目录不存在"
+
+      - name: Check for changes
+        id: check_changes
         run: |
-          python scripts/process_with_r2.py
-          
-        - name: Commit and push changes
+          git status
+          # 添加所有可能的更改
+          git add content/materials/ || echo "没有Markdown文件更改"
+          git add static/files/ || echo "没有资源文件更改"
+          if git diff --staged --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "没有检测到更改"
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "检测到更改，准备提交"
+            # 列出具体的更改
+            echo "更改详情:"
+            git diff --staged --name-status
+          fi
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changes == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add content/materials/
-          git add static/files/
-          git add uploads/.gitkeep
-          git commit -m "自动添加学习资源（使用R2存储）[skip ci]" || echo "没有更改可提交"
-          git push
+          
+          # 根据更改类型生成提交消息
+          CHANGES=$(git diff --staged --name-status)
+          if echo "$CHANGES" | grep -q "D.*static/files/"; then
+            COMMIT_MSG="移除学习资源文件 [skip ci]"
+          elif echo "$CHANGES" | grep -q "A.*static/files/"; then
+            COMMIT_MSG="添加新学习资源文件 [skip ci]"
+          else
+            COMMIT_MSG="更新学习资源文件 [skip ci]"
+          fi
+          
+          git commit -m "$COMMIT_MSG"
+          git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+
+      - name: Report no changes
+        if: steps.check_changes.outputs.changes == 'false'
+        run: echo "没有检测到需要提交的更改"
