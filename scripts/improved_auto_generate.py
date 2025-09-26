@@ -86,28 +86,28 @@ def generate_markdown(resource_name, tags, description, filename, file_extension
     """
     # 对资源名称进行HTML转义，防止特殊字符问题
     escaped_resource_name = html.escape(resource_name)
-    
+
     # 构建标签部分的字符串
     tags_str = "[" + ", ".join(f'"{tag}"' for tag in tags) + "]" if tags else "[]"
-    
+
     # 获取文件图标
     file_icon = get_file_icon(file_extension)
-    
+
+    # --- 主要改动在这里 ---
+    # 从环境变量中获取 R2 基础 URL，如果不存在，则提供一个默认值（以防本地测试）
+    r2_base_url = os.environ.get('R2_BASE_URL', 'https://your-r2-url-here.com/bucket-name') 
+    file_url = f"{r2_base_url}/{filename}"
+
     # 构建Markdown内容
     md_content = f"""---
 title: "{escaped_resource_name}"
 tags: {tags_str}
-file_url: "/files/{filename}"
+file_url: "{file_url}"  # <-- 使用新的 R2 URL
 file_type: "{file_extension[1:]}"  # 去掉点号
 ---
-
 {description}
-
-<!-- 文件类型: {file_extension} -->
-<!-- 文件图标: {file_icon} -->
 """
     return md_content
-
 def get_all_files():
     """
     获取 static/files 目录中的所有支持的文件
