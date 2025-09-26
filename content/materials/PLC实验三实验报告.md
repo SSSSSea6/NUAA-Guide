@@ -1,7 +1,7 @@
 ---
 title: "PLC实验三实验报告"
 tags: ["PLC", "plc"]
-file_url: "/files/PLC实验三实验报告__PLC_plc__.docx"
+file_url: "https://a2b7fc794d1db64ae85a3a5aa96d645a.r2.cloudflarestorage.com/nuaa-guide-assets/PLC实验三实验报告__PLC_plc__.docx"
 file_type: "docx"  # 去掉点号
 ---
 

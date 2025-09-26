@@ -1,7 +1,7 @@
 ---
 title: "选择题B"
 tags: ["毛泽东思想和中国特色社会主义概论", "毛概"]
-file_url: "/files/选择题B __毛泽东思想和中国特色社会主义概论_毛概__.pdf"
+file_url: "https://a2b7fc794d1db64ae85a3a5aa96d645a.r2.cloudflarestorage.com/nuaa-guide-assets/选择题B __毛泽东思想和中国特色社会主义概论_毛概__.pdf"
 file_type: "pdf"  # 去掉点号
 ---
 
