@@ -1,17 +1,18 @@
-name: Auto Generate Markdown Files
+# .github/workflows/auto-generate-md.yml
 
+name: Auto Generate Markdown Files
 on:
   push:
     paths:
       - 'static/files/**'
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
 
 jobs:
   generate-markdown:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -32,8 +33,30 @@ jobs:
           python-version: '3.9'
 
       - name: Run improved auto-generate script
+        env:
+          # +++ 新增环境变量，将你的 R2 URL 传入 Python 脚本 +++
+          R2_BASE_URL: "https://<ACCOUNT_ID>.r2.cloudflarestorage.com/<BUCKET_NAME>"
         run: |
           python scripts/improved_auto_generate.py
+
+      # +++ 新增步骤：上传文件到 Cloudflare R2 +++
+      - name: Upload assets to Cloudflare R2
+        if: success()
+        run: |
+          pip install awscli
+          aws configure set aws_access_key_id ${{ secrets.R2_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          aws s3 sync static/files/ s3://${{ secrets.R2_BUCKET_NAME }} --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+
+      # +++ 新增步骤：从仓库中清理已上传的文件 +++
+      - name: Clean up uploaded files from repository
+        run: |
+          if [ -d "static/files" ] && [ "$(ls -A static/files)" ]; then
+            echo "Removing files from static/files..."
+            rm -rf static/files/*
+          else
+            echo "static/files is empty or does not exist, skipping cleanup."
+          fi
 
       - name: List generated and removed files
         run: |
@@ -46,16 +69,14 @@ jobs:
         id: check_changes
         run: |
           git status
-          # 添加所有可能的更改
-          git add content/materials/ || echo "没有Markdown文件更改"
-          git add static/files/ || echo "没有资源文件更改"
+          # +++ 修改为 git add -A 来暂存所有变更（包括新增、修改和删除） +++
+          git add -A
           if git diff --staged --quiet; then
             echo "changes=false" >> $GITHUB_OUTPUT
             echo "没有检测到更改"
           else
             echo "changes=true" >> $GITHUB_OUTPUT
             echo "检测到更改，准备提交"
-            # 列出具体的更改
             echo "更改详情:"
             git diff --staged --name-status
           fi
@@ -65,17 +86,17 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          
-          # 根据更改类型生成提交消息
+
+          # +++ 调整 COMMIT_MSG 逻辑以适应新流程 +++
           CHANGES=$(git diff --staged --name-status)
           if echo "$CHANGES" | grep -q "D.*static/files/"; then
-            COMMIT_MSG="移除学习资源文件 [skip ci]"
-          elif echo "$CHANGES" | grep -q "A.*static/files/"; then
-            COMMIT_MSG="添加新学习资源文件 [skip ci]"
+            COMMIT_MSG="移除学习资源文件并同步 [skip ci]"
+          elif echo "$CHANGES" | grep -q "A.*content/materials/"; then
+            COMMIT_MSG="添加新学习资源文件并同步 [skip ci]"
           else
-            COMMIT_MSG="更新学习资源文件 [skip ci]"
+            COMMIT_MSG="更新学习资源文件并同步 [skip ci]"
           fi
-          
+
           git commit -m "$COMMIT_MSG"
           git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
 
