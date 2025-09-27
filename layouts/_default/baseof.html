@@ -28,49 +28,43 @@
         transform: scale(0.8);
       }
 
-      /* --- 最终版弹窗样式 (核心改动) --- */
-
-      /* 1. 当弹窗打开时，强制禁止 html 和 body 背景滚动 */
-      html.modal-open,
-      body.modal-open {
-        overflow: hidden !important;
-      }
+      /* --- 最终版弹窗样式 (背景可滚动 + 屏幕居中) --- */
       
-      /* 2. 弹窗的灰色背景遮罩层 */
+      /* 弹窗的灰色背景遮罩层 */
       .contact-modal {
+        /* 关键：使用 fixed 定位，使其相对于浏览器窗口固定 */
         position: fixed;
         top: 0; left: 0;
         width: 100%; height: 100%;
+        /* 使用 flex 布局将内容盒子居中 */
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: rgba(0, 0, 0, 0.5);
         z-index: 1000;
 
-        /* 动画效果：默认隐藏，透明 */
+        /* 动画效果：默认隐藏 */
         visibility: hidden;
         opacity: 0;
         transition: opacity 0.3s ease, visibility 0.3s ease;
       }
 
-      /* 3. 弹窗的内容盒子 */
+      /* 弹窗的内容盒子 */
       .contact-modal-content {
-        max-height: 90vh;
-        overflow-y: auto;
+        max-height: 90vh; /* 限制最大高度，防止内容过长超出屏幕 */
+        overflow-y: auto; /* 内容过长时，内部滚动 */
         
         /* 动画效果：默认缩小 */
         transform: scale(0.9);
         transition: transform 0.3s ease;
       }
       
-      /* 4. 当弹窗被激活时 (添加 .is-open 类) */
+      /* 当弹窗被激活时 */
       .contact-modal.is-open {
-        /* 显示出来 */
         visibility: visible;
         opacity: 1;
       }
       .contact-modal.is-open .contact-modal-content {
-        /* 恢复正常大小 */
         transform: scale(1);
       }
     </style>
@@ -105,14 +99,10 @@
         const contactOpenBtn = document.querySelector('.contact-btn');
         if (contactModal && contactOpenBtn) {
           const openModal = () => {
-            // 通过添加 class 来激活弹窗和动画
             contactModal.classList.add('is-open');
-            // 锁定背景滚动
-            document.documentElement.classList.add('modal-open');
           };
           const closeModal = () => {
             contactModal.classList.remove('is-open');
-            document.documentElement.classList.remove('modal-open');
           };
           
           contactOpenBtn.addEventListener('click', openModal);
