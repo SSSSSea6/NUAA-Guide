@@ -35,11 +35,9 @@
   </div>
 </div>
 
-<div class="social-float-btn">
-    <svg width="24" height="24" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <title>小红书</title>
-        <path d="M896 128H128C92.672 128 64 156.672 64 192v640c0 35.328 28.672 64 64 64h768c35.328 0 64-28.672 64-64V192c0-35.328-28.672-64-64-64z m-128 538.88a64 64 0 0 1-64 64H592a64 64 0 0 1-64-64v-160a64 64 0 0 1 64-64h12.16a64 64 0 0 0 63.84-64V320h-160a64 64 0 0 1-64-64V192h256v474.88z m-261.12-2.56a64 64 0 0 1-64 64H320a64 64 0 0 1-64-64V320a64 64 0 0 1 64-64h122.88a64 64 0 0 1 64 64v344.32z m-128-341.76a64 64 0 0 0-64-64H256v128h64a64 64 0 0 0 64-64V322.56z m384-6.56a64 64 0 0 0-64-64H640v128h64a64 64 0 0 0 64-64V316z"/>
-    </svg>
+<!-- 浮动式小红书提示按钮 -->
+<div class="social-float-btn" onclick="toggleSocialTip()">
+    📕
 </div>
 
 <div class="social-tip" id="socialTip">
@@ -47,7 +45,7 @@
         <h4>关注小红书</h4>
         <p>获取最新更新和提出意见</p>
         <p><strong>坐坐坐忘忘忘/26506316071</strong></p>
-        <button class="social-tip-close">×</button>
+        <button class="social-tip-close" onclick="closeSocialTip()">×</button>
     </div>
 </div>
 
@@ -248,7 +246,6 @@ window.addEventListener('click', function(e) {
     }
 });
 </script>
-
 
 
 
