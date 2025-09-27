@@ -114,12 +114,7 @@ file_type: "{file_extension[1:]}"
 ---
 {description}
 """
-    return md_content
-
-
-
-
-    
+    return md_content    
 def get_all_files():
     """
     获取 static/files 目录中的所有支持的文件
