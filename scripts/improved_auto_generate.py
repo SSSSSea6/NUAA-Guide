@@ -330,7 +330,7 @@ def main():
         processed_count = process_files()
         
         # 根据处理结果返回适当的退出码
-        sys.exit(0 if processed_count > 0 else 1)
+        sys.exit(0)
 
 if __name__ == "__main__":
     main()
