@@ -13,28 +13,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <!-- Pagefind UI 的 CSS -->
     <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
 
-    <!-- +++ 1. 添加“超级Q弹 + 淡入淡出”动画样式 +++ -->
     <style>
-      /* 定义动画效果 */
+      /* 动画效果 */
       .transition-jelly-fade {
-        /*
-         * transition 属性解释:
-         * opacity 0.5s ease-in-out: 透明度在 0.5 秒内平滑过渡
-         * transform 0.5s cubic-bezier(...): 形变（缩放）使用自定义的“Q弹”曲线
-         */
         transition: opacity 0.5s ease-in-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        transform-origin: 50% 50%; /* 从中心缩放 */
+        transform-origin: 50% 50%;
         opacity: 1;
         transform: scale(1);
       }
-
-      /* 当页面“离开”时，内容缩小并变为透明 */
       html.is-animating .transition-jelly-fade {
         opacity: 0;
         transform: scale(0.8);
+      }
+      /* +++ 新增：当弹窗打开时，禁止body滚动 +++ */
+      body.modal-open {
+        overflow: hidden;
       }
     </style>
 </head>
@@ -53,29 +48,58 @@
     <script src="https://unpkg.com/swup@4"></script>
     <script src="/pagefind/pagefind-ui.js"></script>
 
-    <!-- 整合了 Swup 和 Pagefind 的初始化脚本 -->
+    <!-- +++ 整合所有初始化脚本 +++ -->
     <script>
-      // 将 Pagefind 的初始化包装成一个函数
+      // --- Pagefind 初始化逻辑 ---
       const initPagefind = () => {
-        if (document.querySelector('#search-box')) {
-          document.querySelector('#search-box').innerHTML = '';
-          new PagefindUI({
-            element: "#search-box",
-            showImages: false,
-            showEmptyFilters: false,
-            excerptLength: 20
+        const searchBox = document.querySelector('#search-box');
+        if (searchBox) {
+          searchBox.innerHTML = '';
+          new PagefindUI({ element: "#search-box", showImages: false, showEmptyFilters: false, excerptLength: 20 });
+        }
+      };
+
+      // +++ 新增：“联系我”弹窗初始化逻辑 +++
+      const initContactModal = () => {
+        const modal = document.getElementById('contactModal');
+        const openBtn = document.querySelector('.contact-btn'); // 使用 class 获取打开按钮
+        const closeBtn = document.querySelector('.contact-close'); // 使用 class 获取关闭按钮
+
+        // 确保所有元素都存在于当前页面
+        if (modal && openBtn && closeBtn) {
+          openBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+            document.body.classList.add('modal-open');
+          });
+
+          closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+          });
+
+          // 点击弹窗外部区域也可以关闭
+          modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+              modal.style.display = 'none';
+              document.body.classList.remove('modal-open');
+            }
           });
         }
       };
 
-      // Swup 初始化
+      // --- Swup 初始化逻辑 ---
       const swup = new Swup();
 
-      // 页面首次加载时，运行一次 Pagefind 初始化
-      initPagefind();
+      // --- 钩子函数：在页面加载和切换时运行所有初始化 ---
+      const runInitializers = () => {
+        initPagefind();
+        initContactModal();
+      };
 
-      // 每次 Swup 完成页面切换后，再次运行 Pagefind 初始化
-      swup.hooks.on('page:view', initPagefind);
+      // 首次加载时运行
+      runInitializers();
+      // 每次页面切换后运行
+      swup.hooks.on('page:view', runInitializers);
     </script>
 </body>
 </html>

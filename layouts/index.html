@@ -3,23 +3,17 @@
     <h2>欢迎来到 NUAA Guide </h2>
     <p>你的南航“外挂”，已就绪。</p>
 </section>
-
-
 <section class="content-section">
     <div class="section-header">
         <h3><a href="/materials/">📚 学习资料</a></h3>
         <a href="/materials/" class="view-all">查看全部 &rarr;</a>
     </div>
-
- <!-- 添加小型联系方式栏 -->
+    <!-- 添加小型联系方式栏 -->
     <div class="contact-bar">
         <span>想要和大家分享吗？</span>
-        <button class="contact-btn" onclick="openContactModal()">联系我</button>
+        <!-- +++ 移除旧的 onclick="..." +++ -->
+        <button class="contact-btn">联系我</button>
     </div>
-    
-
-
-
     
     <div class="card-container">
         {{ $materials := where .Site.RegularPages "Section" "materials" }}
@@ -44,11 +38,11 @@
         {{ end }}
     </div>
 </section>
-
 <!-- 添加联系方式模态框 -->
 <div id="contactModal" class="contact-modal">
     <div class="contact-modal-content">
-        <span class="contact-close" onclick="closeContactModal()">&times;</span>
+        <!-- +++ 移除旧的 onclick="..." +++ -->
+        <span class="contact-close">&times;</span>
         <h3>联系我</h3>
         <p>分享、建议或寻求帮助通过以下方式联系：</p>
         
@@ -57,11 +51,11 @@
                 <h4>邮箱</h4>
                 <p><a href="mailto:sssssea666@gmail.com">sssssea666@gmail.com</a></p>
             </div>
-        <div class="contact-method">
+            <div class="contact-method">
                 <h4>QQ</h4>
                 <p><a href="mailto:2773849038">2773849038</a></p>
             </div>  
-</div>
+        </div>
         
         <p class="contact-note">我会尽快回复您的消息，感谢您的支持！</p>
     </div>
