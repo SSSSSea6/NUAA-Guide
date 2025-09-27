@@ -1,124 +1,110 @@
-# .github/workflows/auto-generate-md.yml
-
 name: Auto Generate Markdown Files
+
+# 触发工作流的条件
 on:
+  # 当 static/files/ 目录下的任何文件被推送到仓库时触发
   push:
     paths:
       - 'static/files/**'
+  # 允许在 GitHub Actions 页面手动触发此工作流
   workflow_dispatch:
 
+# 定义工作流中的任务
 jobs:
   generate-markdown:
+    # 指定任务运行的虚拟环境
     runs-on: ubuntu-latest
+    # 为任务授予写入仓库内容的权限
     permissions:
       contents: write
 
+    # 任务中的具体步骤
     steps:
+      # 第一步：检出（下载）仓库代码
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Debug - List files in static/files
-        run: |
-          echo "当前 static/files 目录中的文件:"
-          ls -la static/files/ || echo "static/files 目录不存在"
-          echo "当前 content/materials 目录中的文件:"
-          ls -la content/materials/ || echo "content/materials 目录不存在"
-
+      # 第二步：设置 Python 环境
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
+      # 第三步：运行 Python 脚本来生成 .md 文件
       - name: Run improved auto-generate script
         env:
-          # +++ 新增环境变量，将你的 R2 URL 传入 Python 脚本 +++
-          R2_BASE_URL: "https://assets.nuaaguide.shop/"
+          # 将您的自定义域名作为环境变量传给 Python 脚本
+          # 注意：URL 末尾没有斜杠，这是最佳实践
+          R2_BASE_URL: "https://assets.nuaaguide.shop"
         run: |
           python scripts/improved_auto_generate.py
 
-
-
-      
-      - name: Debug Secrets Availability
-        run: |
-          if [ -z "${{ secrets.R2_ACCESS_KEY_ID }}" ]; then
-           echo "错误：R2_ACCESS_KEY_ID 这个 Secret 没有被设置或为空！"
-           exit 1
-          else
-          echo "成功：R2_ACCESS_KEY_ID Secret 已设置。"
-          fi
-
-          if [ -z "${{ secrets.R2_BUCKET_NAME }}" ]; then
-            echo "错误：R2_BUCKET_NAME 这个 Secret 没有被设置或为空！"
-            exit 1
-           else
-            echo "成功：R2_BUCKET_NAME Secret 已设置。"
-            fi
-      
-      # +++ 新增步骤：上传文件到 Cloudflare R2 +++
+      # 第四步：上传文件到 Cloudflare R2
       - name: Upload assets to Cloudflare R2
-        if: success()
+        if: success() # 仅在上一步成功时运行
         run: |
+          # 安装 AWS CLI 工具，用于和 R2 通信
           pip install awscli
+          # 配置 AWS CLI 使用您在 GitHub Secrets 中设置的密钥
           aws configure set aws_access_key_id ${{ secrets.R2_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          # 将 static/files 目录下的所有文件同步到您的 R2 存储桶
           aws s3 sync static/files/ s3://${{ secrets.R2_BUCKET_NAME }} --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
 
-      # +++ 新增步骤：从仓库中清理已上传的文件 +++
+      # 第五步：从仓库中清理已上传的文件，保持仓库轻量
       - name: Clean up uploaded files from repository
         run: |
           if [ -d "static/files" ] && [ "$(ls -A static/files)" ]; then
             echo "Removing files from static/files..."
-            rm -rf static/files/*
+            # 删除 static/files 目录下的所有文件（保留 .gitkeep）
+            find static/files -type f -not -name '.gitkeep' -delete
           else
             echo "static/files is empty or does not exist, skipping cleanup."
           fi
 
-      - name: List generated and removed files
-        run: |
-          echo "处理后的 Markdown 文件:"
-          ls -la content/materials/ || echo "content/materials 目录不存在"
-          echo "处理后的资源文件:"
-          ls -la static/files/ || echo "static/files 目录不存在"
-
+      # 第六步：检查是否有文件变动（新增的.md文件和被删除的资源文件）
       - name: Check for changes
         id: check_changes
         run: |
           git status
-          # +++ 修改为 git add -A 来暂存所有变更（包括新增、修改和删除） +++
+          # 添加所有变动到暂存区
           git add -A
+          # 检查暂存区是否为空
           if git diff --staged --quiet; then
             echo "changes=false" >> $GITHUB_OUTPUT
             echo "没有检测到更改"
           else
             echo "changes=true" >> $GITHUB_OUTPUT
             echo "检测到更改，准备提交"
-            echo "更改详情:"
-            git diff --staged --name-status
           fi
 
+      # 第七步：提交并推送变动
       - name: Commit and push changes
-        if: steps.check_changes.outputs.changes == 'true'
+        if: steps.check_changes.outputs.changes == 'true' # 仅在有变动时运行
         run: |
+          # 配置 Git 用户信息
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-
-          # +++ 调整 COMMIT_MSG 逻辑以适应新流程 +++
+          
+          # 根据变动类型，自动生成提交信息
           CHANGES=$(git diff --staged --name-status)
           if echo "$CHANGES" | grep -q "D.*static/files/"; then
-            COMMIT_MSG="移除学习资源文件并同步 [skip ci]"
+            COMMIT_MSG="feat: Sync new learning resources and clean up repo [skip ci]"
           elif echo "$CHANGES" | grep -q "A.*content/materials/"; then
-            COMMIT_MSG="添加新学习资源文件并同步 [skip ci]"
+            COMMIT_MSG="feat: Add new learning resources [skip ci]"
           else
-            COMMIT_MSG="更新学习资源文件并同步 [skip ci]"
+            COMMIT_MSG="chore: Update learning resources [skip ci]"
           fi
-
+          
+          # 提交变动
           git commit -m "$COMMIT_MSG"
+          # 推送到 main 分支
           git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
 
+      # 第八步：如果没有变动，则报告状态
       - name: Report no changes
         if: steps.check_changes.outputs.changes == 'false'
         run: echo "没有检测到需要提交的更改"
