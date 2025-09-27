@@ -28,30 +28,31 @@
         transform: scale(0.8);
       }
 
-      /* --- Modal Scrolling Styles (核心改动) --- */
+      /* --- Modal Fixed Centering Styles (核心改动) --- */
 
-      /* 当弹窗打开时，禁止body背景滚动 */
-      body.modal-open {
-        overflow: hidden;
-      }
-      
       /* 弹窗的灰色背景遮罩层 */
       .contact-modal {
-        /* 使用flex布局可以轻松地垂直居中 */
+        /* 关键：使用 fixed 定位，让它脱离文档流，固定在屏幕上 */
+        position: fixed;
+        /* 覆盖整个屏幕 */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* 使用 flex 布局轻松地将子元素（内容盒子）居中 */
         display: flex;
         align-items: center;
         justify-content: center;
-        /* 允许遮罩层本身滚动，以应对极小屏幕 */
-        overflow-y: auto;
-        /* 在屏幕边缘留出一些空间 */
-        padding: 20px;
+        /* 半透明背景 */
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000; /* 确保在最顶层 */
       }
 
       /* 弹窗的内容盒子 */
       .contact-modal-content {
-        /* 关键：限制内容盒子的最大高度，不超过屏幕的90% */
-        max-height: 90vh; /* vh是视口高度单位 */
-        /* 关键：当内容超出最大高度时，让内容盒子内部出现滚动条 */
+        /* 限制内容盒子的最大高度，不超过屏幕的90% */
+        max-height: 90vh;
+        /* 当内容超出最大高度时，让内容盒子内部出现滚动条 */
         overflow-y: auto;
       }
     </style>
@@ -86,14 +87,14 @@
         const contactOpenBtn = document.querySelector('.contact-btn');
         if (contactModal && contactOpenBtn) {
           const openModal = () => {
-            contactModal.style.display = 'flex'; /* 使用flex来激活居中 */
-            document.body.classList.add('modal-open');
+            contactModal.style.display = 'flex'; // 使用 flex 来激活居中
           };
           const closeModal = () => {
             contactModal.style.display = 'none';
-            document.body.classList.remove('modal-open');
           };
+          
           contactOpenBtn.addEventListener('click', openModal);
+          
           contactModal.addEventListener('click', (event) => {
             if (event.target.classList.contains('contact-close') || event.target === contactModal) {
               closeModal();
