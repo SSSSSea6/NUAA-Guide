@@ -28,26 +28,50 @@
         transform: scale(0.8);
       }
 
-      /* 弹窗样式 */
+      /* --- 最终版弹窗样式 (核心改动) --- */
+
+      /* 1. 当弹窗打开时，强制禁止 html 和 body 背景滚动 */
+      html.modal-open,
+      body.modal-open {
+        overflow: hidden !important;
+      }
+      
+      /* 2. 弹窗的灰色背景遮罩层 */
       .contact-modal {
-        /* 关键：默认隐藏弹窗 */
-        display: none; 
-        
-        /* 以下样式在弹窗显示时生效 */
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        display: flex;
         align-items: center;
         justify-content: center;
         background-color: rgba(0, 0, 0, 0.5);
         z-index: 1000;
+
+        /* 动画效果：默认隐藏，透明 */
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
       }
 
+      /* 3. 弹窗的内容盒子 */
       .contact-modal-content {
         max-height: 90vh;
         overflow-y: auto;
+        
+        /* 动画效果：默认缩小 */
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+      }
+      
+      /* 4. 当弹窗被激活时 (添加 .is-open 类) */
+      .contact-modal.is-open {
+        /* 显示出来 */
+        visibility: visible;
+        opacity: 1;
+      }
+      .contact-modal.is-open .contact-modal-content {
+        /* 恢复正常大小 */
+        transform: scale(1);
       }
     </style>
 </head>
@@ -66,7 +90,7 @@
     <script src="https://unpkg.com/swup@4"></script>
     <script src="/pagefind/pagefind-ui.js"></script>
 
-    <!-- 整合所有初始化脚本 -->
+    <!-- 整合所有初始化脚本 (最终版) -->
     <script>
       const runInitializers = () => {
         // Pagefind 初始化
@@ -81,11 +105,14 @@
         const contactOpenBtn = document.querySelector('.contact-btn');
         if (contactModal && contactOpenBtn) {
           const openModal = () => {
-            // JS 在点击时，将 display 从 none 改为 flex
-            contactModal.style.display = 'flex'; 
+            // 通过添加 class 来激活弹窗和动画
+            contactModal.classList.add('is-open');
+            // 锁定背景滚动
+            document.documentElement.classList.add('modal-open');
           };
           const closeModal = () => {
-            contactModal.style.display = 'none';
+            contactModal.classList.remove('is-open');
+            document.documentElement.classList.remove('modal-open');
           };
           
           contactOpenBtn.addEventListener('click', openModal);
