@@ -19,72 +19,66 @@
       /* 页面切换动画 */
       .transition-jelly-fade {
         transition: opacity 0.5s ease-in-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        transform-origin: 50% 50%;
-        opacity: 1;
-        transform: scale(1);
+        transform-origin: 50% 50%; opacity: 1; transform: scale(1);
       }
       html.is-animating .transition-jelly-fade {
-        opacity: 0;
-        transform: scale(0.8);
+        opacity: 0; transform: scale(0.8);
       }
 
-      /* --- 最终版弹窗样式 (背景可滚动 + 屏幕居中) --- */
-      
-      /* 弹窗的灰色背景遮罩层 */
-      .contact-modal {
-        /* 关键：使用 fixed 定位，使其相对于浏览器窗口固定 */
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        /* 使用 flex 布局将内容盒子居中 */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 1000;
-
-        /* 动画效果：默认隐藏 */
+      /* --- “小红书”风格小弹窗样式 --- */
+      .contact-bar {
+        position: relative; /* 让弹窗相对于此容器定位 */
+      }
+      .contact-popover {
+        position: absolute;
+        bottom: 120%; /* 出现在按钮上方 */
+        left: 50%;
+        width: 300px;
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        z-index: 100;
+        
+        /* 动画效果 */
         visibility: hidden;
         opacity: 0;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+        transform: translate(-50%, 10px); /* 初始位置稍微向下偏离 */
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
       }
-
-      /* 弹窗的内容盒子 */
-      .contact-modal-content {
-        max-height: 90vh; /* 限制最大高度，防止内容过长超出屏幕 */
-        overflow-y: auto; /* 内容过长时，内部滚动 */
-        
-        /* 动画效果：默认缩小 */
-        transform: scale(0.9);
-        transition: transform 0.3s ease;
+      /* 弹窗下方的小三角 */
+      .contact-popover::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0; 
+        height: 0; 
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #fff;
       }
-      
-      /* 当弹窗被激活时 */
-      .contact-modal.is-open {
+      /* 弹窗被激活时 */
+      .contact-popover.is-visible {
         visibility: visible;
         opacity: 1;
-      }
-      .contact-modal.is-open .contact-modal-content {
-        transform: scale(1);
+        transform: translateX(-50%); /* 恢复到正常位置 */
       }
     </style>
 </head>
 <body>
     <div class="site-container">
         {{ partial "header.html" . }}
-        
         <main id="swup" class="site-content transition-jelly-fade">
             {{- block "main" . }}{{- end }}
         </main>
-        
         {{ partial "footer.html" . }}
     </div>
 
-    <!-- 核心 JS 库 -->
     <script src="https://unpkg.com/swup@4"></script>
     <script src="/pagefind/pagefind-ui.js"></script>
 
-    <!-- 整合所有初始化脚本 (最终版) -->
     <script>
       const runInitializers = () => {
         // Pagefind 初始化
@@ -94,26 +88,25 @@
           new PagefindUI({ element: "#search-box", showImages: false, showEmptyFilters: false, excerptLength: 20 });
         }
 
-        // “联系我”弹窗初始化
-        const contactModal = document.getElementById('contactModal');
-        const contactOpenBtn = document.querySelector('.contact-btn');
-        if (contactModal && contactOpenBtn) {
-          const openModal = () => {
-            contactModal.classList.add('is-open');
-          };
-          const closeModal = () => {
-            contactModal.classList.remove('is-open');
-          };
-          
-          contactOpenBtn.addEventListener('click', openModal);
-          
-          contactModal.addEventListener('click', (event) => {
-            if (event.target.classList.contains('contact-close') || event.target === contactModal) {
-              closeModal();
-            }
+        // “联系我”小弹窗初始化
+        const contactBtn = document.querySelector('.contact-btn');
+        const contactPopover = document.getElementById('contactPopover');
+        if (contactBtn && contactPopover) {
+          contactBtn.addEventListener('click', (event) => {
+            event.stopPropagation(); // 阻止点击事件冒泡到 document
+            contactPopover.classList.toggle('is-visible');
           });
         }
       };
+
+      // 点击页面任何其他地方，关闭弹窗
+      document.addEventListener('click', (event) => {
+        const contactPopover = document.getElementById('contactPopover');
+        // 确保弹窗存在且当前是可见的
+        if (contactPopover && contactPopover.classList.contains('is-visible')) {
+          contactPopover.classList.remove('is-visible');
+        }
+      });
 
       const swup = new Swup();
       runInitializers();
