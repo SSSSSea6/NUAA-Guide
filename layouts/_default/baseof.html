@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
-
-
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     
@@ -14,16 +12,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- 1. 添加页面切换的 CSS 动画样式 -->
     <style>
       /* 页面切换动画：淡入淡出效果 */
-      /* transition-fade 是我们将要应用到主内容区的类 */
       .transition-fade {
         transition: opacity 0.4s ease-in-out; /* 定义动画效果和时长 */
         opacity: 1;
       }
 
-      /* 当页面正在切换时 (swup 会自动给 html 添加 is-animating 类) */
-      /* 这是“离开”时的动画 */
+      /* 当页面正在“离开”时，应用此样式使其淡出 */
       html.is-animating .transition-fade {
         opacity: 0;
       }
@@ -33,11 +31,20 @@
     <div class="site-container">
         {{ partial "header.html" . }}
         
-        <main class="site-content">
+        <!-- 2. 将主内容区包裹起来，并添加 id="swup" 和动画 class -->
+        <main id="swup" class="site-content transition-fade">
             {{- block "main" . }}{{- end }}
         </main>
         
         {{ partial "footer.html" . }}
     </div>
+
+    <!-- 3. 引入 swup.js 库 -->
+    <script src="https://unpkg.com/swup@4"></script>
+
+    <!-- 4. 初始化 swup.js 来激活效果 -->
+    <script>
+      const swup = new Swup();
+    </script>
 </body>
 </html>
