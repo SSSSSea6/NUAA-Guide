@@ -7,7 +7,7 @@ enableRobotsTXT = true
 [params]
   description = "南京航空航天大学校园指北 - 免费的学习资料、生活指南与实用信息分享平台"
   keywords = ["NUAA", "南航", "学习资料", "校园指南", "大学生活"]
-  r2_base_url = "https://a2b7fc794d1db64ae85a3a5aa96d645a.r2.cloudflarestorage.com/nuaa-guide-assets"
+  r2_base_url = "https://assets.nuaaguide.shop/"
   
 
 [outputs]

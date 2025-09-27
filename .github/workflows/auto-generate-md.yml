@@ -35,7 +35,7 @@ jobs:
       - name: Run improved auto-generate script
         env:
           # +++ 新增环境变量，将你的 R2 URL 传入 Python 脚本 +++
-          R2_BASE_URL: "https://<ACCOUNT_ID>.r2.cloudflarestorage.com/<BUCKET_NAME>"
+          R2_BASE_URL: "https://assets.nuaaguide.shop/"
         run: |
           python scripts/improved_auto_generate.py
 
