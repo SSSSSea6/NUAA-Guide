@@ -5,6 +5,8 @@ import glob
 from pathlib import Path
 import html
 import sys
+import datetime
+
 
 def safe_filename(name):
     """将字符串转换为安全的文件名"""
@@ -93,21 +95,31 @@ def generate_markdown(resource_name, tags, description, filename, file_extension
     # 获取文件图标
     file_icon = get_file_icon(file_extension)
 
-    # --- 主要改动在这里 ---
-    # 从环境变量中获取 R2 基础 URL，如果不存在，则提供一个默认值（以防本地测试）
-    r2_base_url = os.environ.get('R2_BASE_URL', 'https://your-r2-url-here.com/bucket-name') 
-    file_url = f"{r2_base_url}/{filename}"
+    # 从环境变量中获取 R2 基础 URL
+    r2_base_url = os.environ.get('R2_BASE_URL')
+    if not r2_base_url:
+        print("错误: 环境变量 R2_BASE_URL 未设置。")
+        sys.exit(1)
+
+    file_url = f"{r2_base_url.rstrip('/')}/{filename}"
 
     # 构建Markdown内容
+    # +++ 在这里新增了 date 字段 +++
     md_content = f"""---
 title: "{escaped_resource_name}"
+date: {datetime.datetime.now(datetime.timezone.utc).isoformat()}
 tags: {tags_str}
-file_url: "{file_url}"  # <-- 使用新的 R2 URL
-file_type: "{file_extension[1:]}"  # 去掉点号
+file_url: "{file_url}"
+file_type: "{file_extension[1:]}"
 ---
 {description}
 """
     return md_content
+
+
+
+
+    
 def get_all_files():
     """
     获取 static/files 目录中的所有支持的文件
