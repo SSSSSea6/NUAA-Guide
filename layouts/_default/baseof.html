@@ -14,6 +14,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+      /* 页面切换动画：淡入淡出效果 */
+      /* transition-fade 是我们将要应用到主内容区的类 */
+      .transition-fade {
+        transition: opacity 0.4s ease-in-out; /* 定义动画效果和时长 */
+        opacity: 1;
+      }
+
+      /* 当页面正在切换时 (swup 会自动给 html 添加 is-animating 类) */
+      /* 这是“离开”时的动画 */
+      html.is-animating .transition-fade {
+        opacity: 0;
+      }
+    </style>
 </head>
 <body>
     <div class="site-container">
