@@ -1,7 +1,0 @@
----
-title: "MOOC线上考试题库"
-tags: ["马克思主义基本原理", "马原"]
-file_url: "https://<ACCOUNT_ID>.r2.cloudflarestorage.com/<BUCKET_NAME>/MOOC线上考试题库__马克思主义基本原理_马原__.pdf"  # <-- 使用新的 R2 URL
-file_type: "pdf"  # 去掉点号
----
-
