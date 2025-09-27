@@ -3,11 +3,13 @@ baseURL = "https://nuaaguide.online/"
 languageCode = "zh-cn"
 title = "  NUAA Guide 校园指北"
 enableRobotsTXT = true
+# 启用分页功能，每页显示12个项目
+paginate = 12
 
 [params]
   description = "南京航空航天大学校园指北 - 免费的学习资料、生活指南与实用信息分享平台"
   keywords = ["NUAA", "南航", "学习资料", "校园指南", "大学生活"]
-  # 最佳实践：URL 末尾不带斜杠
+  # 您的 R2 公共自定义域 URL (最佳实践：末尾不带斜杠)
   r2_base_url = "https://assets.nuaaguide.shop"
 
 [outputs]
