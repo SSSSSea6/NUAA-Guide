@@ -1,7 +1,7 @@
 ---
 title: "理论力学III22春"
 tags: ["理论力学", "理力"]
-file_url: "https://a2b7fc794d1db64ae85a3a5aa96d645a.r2.cloudflarestorage.com/nuaa-guide-assets/理论力学III22春__理论力学_理力__.pdf"
+file_url: "https://assets.nuaaguide.shop/理论力学III22春__理论力学_理力__.pdf"
 file_type: "pdf"  # 去掉点号
 ---
 
