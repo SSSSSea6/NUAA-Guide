@@ -29,11 +29,11 @@ paginate = 12
   [[menu.main]]
     name = "学习资料"
     url = "/materials/"
-    weight = 1
+    weight = 2
   [[menu.main]]
     name = "生活指南"
     url = "/guides/"
-    weight = 2
+    weight = 1
   [[menu.main]]
     name = "食堂推荐"
     url = "/canteens/"
