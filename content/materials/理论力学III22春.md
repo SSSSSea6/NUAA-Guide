@@ -1,8 +1,0 @@
----
-title: "理论力学III22春"
-date: 2025-09-27T12:23:39.334078+00:00
-tags: ["理论力学", "理力"]
-file_url: "https://assets.nuaaguide.shop/理论力学III22春__理论力学_理力__.pdf"
-file_type: "pdf"
----
-
