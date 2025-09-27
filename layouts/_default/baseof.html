@@ -17,60 +17,54 @@
 
     <style>
       /* 页面切换动画 */
-      .transition-jelly-fade { transition: opacity 0.5s ease-in-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: 50% 50%; opacity: 1; transform: scale(1); }
-      html.is-animating .transition-jelly-fade { opacity: 0; transform: scale(0.8); }
+      .transition-jelly-fade {
+        transition: opacity 0.5s ease-in-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform-origin: 50% 50%; opacity: 1; transform: scale(1);
+      }
+      html.is-animating .transition-jelly-fade {
+        opacity: 0; transform: scale(0.8);
+      }
 
-      /* “联系我”小弹窗样式 */
-      .contact-bar { position: relative; }
-      .contact-popover { position: absolute; bottom: 120%; left: 50%; width: 300px; background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); z-index: 100; visibility: hidden; opacity: 0; transform: translate(-50%, 10px); transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease; }
-      .contact-popover::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #fff; }
-      .contact-popover.is-visible { visibility: visible; opacity: 1; transform: translateX(-50%); }
-
-      /* 小红书浮动按钮和提示样式 */
-      .social-float-btn {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 56px;
-        height: 56px;
-        background-color: #DB2D24;
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        cursor: pointer;
-        z-index: 1001;
-        transition: transform 0.2s ease;
+      /* --- “小红书”风格小弹窗样式 --- */
+      .contact-bar {
+        position: relative; /* 让弹窗相对于此容器定位 */
       }
-      .social-float-btn:hover {
-        transform: scale(1.1);
-      }
-      .social-float-btn svg {
-        width: 32px;
-        height: 32px;
-      }
-      .social-tip {
-        position: fixed;
-        bottom: 100px;
-        right: 30px;
-        width: 280px;
+      .contact-popover {
+        position: absolute;
+        bottom: 120%; /* 出现在按钮上方 */
+        left: 50%;
+        width: 300px;
         background: #fff;
         border-radius: 8px;
-        padding: 15px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        z-index: 1000;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        z-index: 100;
+        
+        /* 动画效果 */
         visibility: hidden;
         opacity: 0;
-        transform: translateY(10px);
+        transform: translate(-50%, 10px); /* 初始位置稍微向下偏离 */
         transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
       }
-      .social-tip.is-visible { visibility: visible; opacity: 1; transform: translateY(0); }
-      .social-tip-content { position: relative; text-align: center; }
-      .social-tip-content h4 { margin: 0 0 5px; font-size: 16px; }
-      .social-tip-content p { margin: 0 0 10px; font-size: 14px; color: #666; }
-      .social-tip-close { position: absolute; top: -10px; right: -10px; width: 24px; height: 24px; border: none; background: #eee; border-radius: 50%; cursor: pointer; font-size: 16px; line-height: 24px; padding: 0; }
+      /* 弹窗下方的小三角 */
+      .contact-popover::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0; 
+        height: 0; 
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #fff;
+      }
+      /* 弹窗被激活时 */
+      .contact-popover.is-visible {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(-50%); /* 恢复到正常位置 */
+      }
     </style>
 </head>
 <body>
@@ -87,26 +81,39 @@
 
     <script>
       const runInitializers = () => {
+        // Pagefind 初始化
         const searchBox = document.querySelector('#search-box');
-        if (searchBox) { searchBox.innerHTML = ''; new PagefindUI({ element: "#search-box", showImages: false, showEmptyFilters: false, excerptLength: 20 }); }
+        if (searchBox) {
+          searchBox.innerHTML = '';
+          new PagefindUI({ element: "#search-box", showImages: false, showEmptyFilters: false, excerptLength: 20 });
+        }
+
+        // “联系我”小弹窗初始化
         const contactBtn = document.querySelector('.contact-btn');
         const contactPopover = document.getElementById('contactPopover');
         if (contactBtn && contactPopover) {
-          contactBtn.addEventListener('click', (event) => { event.stopPropagation(); contactPopover.classList.toggle('is-visible'); });
-          contactPopover.addEventListener('click', (event) => event.stopPropagation());
-        }
-        const socialBtn = document.querySelector('.social-float-btn');
-        const socialTip = document.getElementById('socialTip');
-        if (socialBtn && socialTip) {
-          socialBtn.addEventListener('click', (event) => { event.stopPropagation(); socialTip.classList.toggle('is-visible'); });
-          socialTip.querySelector('.social-tip-close').addEventListener('click', () => { socialTip.classList.remove('is-visible'); });
-          socialTip.addEventListener('click', (event) => event.stopPropagation());
+          contactBtn.addEventListener('click', (event) => {
+            event.stopPropagation(); // 阻止点击事件冒泡到 document
+            contactPopover.classList.toggle('is-visible');
+          });
         }
       };
-      document.addEventListener('click', () => { document.querySelectorAll('.is-visible').forEach(el => el.classList.remove('is-visible')); });
+
+      // 点击页面任何其他地方，关闭弹窗
+      document.addEventListener('click', (event) => {
+        const contactPopover = document.getElementById('contactPopover');
+        // 确保弹窗存在且当前是可见的
+        if (contactPopover && contactPopover.classList.contains('is-visible')) {
+          contactPopover.classList.remove('is-visible');
+        }
+      });
+
       const swup = new Swup();
       runInitializers();
       swup.hooks.on('page:view', runInitializers);
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
