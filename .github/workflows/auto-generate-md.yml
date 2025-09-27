@@ -39,6 +39,25 @@ jobs:
         run: |
           python scripts/improved_auto_generate.py
 
+
+
+      
+      - name: Debug Secrets Availability
+        run: |
+          if [ -z "${{ secrets.R2_ACCESS_KEY_ID }}" ]; then
+           echo "错误：R2_ACCESS_KEY_ID 这个 Secret 没有被设置或为空！"
+           exit 1
+          else
+          echo "成功：R2_ACCESS_KEY_ID Secret 已设置。"
+          fi
+
+          if [ -z "${{ secrets.R2_BUCKET_NAME }}" ]; then
+            echo "错误：R2_BUCKET_NAME 这个 Secret 没有被设置或为空！"
+            exit 1
+           else
+            echo "成功：R2_BUCKET_NAME Secret 已设置。"
+            fi
+      
       # +++ 新增步骤：上传文件到 Cloudflare R2 +++
       - name: Upload assets to Cloudflare R2
         if: success()
