@@ -8,6 +8,16 @@ tags: ["龙猫", "代跑", "龙猫代跑"]
 免费的龙猫校园代跑。
 
 <!--more-->
+## 立即使用
+
+点击下方按钮访问龙猫代跑平台：
+<div class="service-link">
+    <a href="https://www.nuaaguide.shop/" target="_blank" class="service-button">
+        龙猫，启动！
+    </a>
+</div>
+
+
 ## 什么是龙猫代跑？
 
 龙猫代跑：龙猫跑步费时费力，不如直接扫码完成。
@@ -24,14 +34,7 @@ tags: ["龙猫", "代跑", "龙猫代跑"]
 
 可能还有页面美观问题，功能建议请及时反馈，感谢支持！
 
-## 立即使用
 
-点击下方按钮访问龙猫代跑平台：
-<div class="service-link">
-    <a href="https://www.nuaaguide.shop/" target="_blank" class="service-button">
-        龙猫，启动！
-    </a>
-</div>
 
 ## 注意
 
