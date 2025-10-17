@@ -50,6 +50,10 @@ def generate_markdown(resource_name, tags, description, filename, file_extension
     """生成Markdown文件内容"""
     escaped_resource_name = html.escape(resource_name)
     tags_str = "[" + ", ".join(f'"{tag}"' for tag in tags) + "]" if tags else "[]"
+    
+    # 将第一个标签作为学科分类
+    subjects_str = f'["{tags[0]}"]' if tags else "[]"
+
     file_icon = get_file_icon(file_extension)
 
     r2_base_url = os.environ.get('R2_BASE_URL')
@@ -63,12 +67,11 @@ def generate_markdown(resource_name, tags, description, filename, file_extension
 title: "{escaped_resource_name}"
 date: {datetime.datetime.now(datetime.timezone.utc).isoformat()}
 tags: {tags_str}
+subjects: {subjects_str}
 file_url: "{file_url}"
 file_type: "{file_extension[1:]}"
 ---
 {description}
-<!-- 文件类型: {file_extension} -->
-<!-- 文件图标: {file_icon} -->
 """
     return md_content
 

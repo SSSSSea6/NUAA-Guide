@@ -7,7 +7,7 @@
 
 <section class="content-section">
     <div class="section-header">
-        <h3><a href="/guides/">指南针</a></h3>
+        <h3><a href="/guides/">🛠️实用工具</a></h3>
         <a href="/guides/" class="view-all">查看全部 &rarr;</a>
     </div>
     <div class="card-container">
@@ -31,8 +31,8 @@
 
 <section class="content-section">
     <div class="section-header">
-        <h3><a href="/materials/">📚 学习资料</a></h3>
-        <a href="/materials/" class="view-all">查看全部 &rarr;</a>
+        <h3><a href="/subjects/">📖 学习资料</a></h3>
+        <a href="/subjects/" class="view-all">查看全部 &rarr;</a>
     </div>
 
     <div class="contact-bar">
@@ -47,7 +47,7 @@
                 </div>
                 <div class="contact-method">
                     <h4>QQ</h4>
-                    <p><a href="mailto:2773849038">2773849038</a></p>
+                    <p>2773849038</p>
                 </div>
             </div>
             <p class="contact-note">我会尽快回复您的消息！</p>
@@ -55,17 +55,13 @@
     </div>
     
     <div class="card-container">
-        {{ $materials := where .Site.RegularPages "Section" "materials" }}
-        {{ if $materials }}
-            {{ range first 4 $materials }}
+        {{ $subjects := .Site.Taxonomies.subjects.ByCount }}
+        {{ if $subjects }}
+            {{ range first 8 $subjects }}
                 <div class="card">
-                    <a href="{{ .Permalink }}">
-                        <h4>{{ .Title }}</h4>
-                        <p>{{ .Summary }}</p>
-                        <div class="meta">
-                            {{ if .Params.tags }}标签: {{ delimit .Params.tags ", " }}{{ end }}
-                            {{ if .Params.file_type }} | 类型: {{ .Params.file_type }}{{ end }}
-                        </div>
+                    <a href="{{ .Page.Permalink }}">
+                        <h4>{{ .Page.Title }}</h4>
+                        <p>共 {{ .Count }} 份资料</p>
                     </a>
                 </div>
             {{ end }}

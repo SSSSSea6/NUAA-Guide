@@ -3,8 +3,7 @@ baseURL = "https://nuaaguide.online/"
 languageCode = "zh-cn"
 title = "  NUAA Guide 校园指北"
 enableRobotsTXT = true
-# 启用分页功能，每页显示12个项目
-paginate = 12
+
 
 [params]
   description = "南京航空航天大学校园指北 - 免费的学习资料、生活指南与实用信息分享平台"
@@ -25,10 +24,15 @@ paginate = 12
     [markup.goldmark.renderer]
       unsafe = true
 
+# 新增分类法配置
+[taxonomies]
+  tag = "tags"
+  subject = "subjects"
+
 [menu]
   [[menu.main]]
     name = "学习资料"
-    url = "/materials/"
+    url = "/subjects/"
     weight = 2
   [[menu.main]]
     name = "生活指南"
@@ -46,3 +50,6 @@ paginate = 12
     name = "常用网址"
     url = "/links/"
     weight = 5
+
+[pagination]
+  pagerSize = 12
