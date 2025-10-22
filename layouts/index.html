@@ -35,10 +35,11 @@
         <a href="/subjects/" class="view-all">查看全部 &rarr;</a>
     </div>
 
-    <div class="contact-bar">
-        <span>想要和大家分享吗？</span>
-        <button class="contact-btn">联系我</button>
 
+    <div class="wanted-materials-section" style="margin-top: 20px; margin-bottom: 25px; padding: 15px; background-color: #fdf6ec; border-radius: 6px; border-left: 4px solid #f0ad4e;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+    <h4 style="margin: 0;">🙏 资料征集</h4>
+    <div style="position: relative;"> <button class="contact-btn">联系我</button>
         <div id="contactPopover" class="contact-popover">
             <div class="contact-methods">
                 <div class="contact-method">
@@ -52,7 +53,24 @@
             </div>
             <p class="contact-note">我会尽快回复您的消息！</p>
         </div>
+        </div>
+</div>
+    <p style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 10px;">
+        这是同学反馈缺少的资料，你也可以贡献或反馈！
+    </p>
+
+    <div class="wanted-materials-list" style="max-height: 80px; /* 设置最大高度，超过则出现滚动条 */ overflow-y: auto; /* 垂直方向自动显示滚动条 */ padding-right: 10px; /* 给滚动条留出空间，防止文字遮挡 */ border-top: 1px solid #eee; margin-top: 10px; padding-top: 10px;">
+        <ul style="padding-left: 20px; margin-top: 0; margin-bottom: 0; list-style-type: disc;">
+            <li>**计网？** </li>
+            <li>**机械类？** </li>
+            <li>**电机学**</li>
+            <li>**流体力学和实验报告**</li>
+            <li>**制导与控制系统**</li>
+            <li>**电机与控制元件**</li>
+            <li>**  **</li>
+            </ul>
     </div>
+</div>
     
     <div class="card-container">
         {{ $subjects := .Site.Taxonomies.subjects.ByCount }}
@@ -72,7 +90,8 @@
             </div>
         {{ end }}
     </div>
-</section>
+</section>    
+
 
 
 
