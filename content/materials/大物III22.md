@@ -1,0 +1,9 @@
+---
+title: "大物III22"
+date: 2025-10-26T17:38:40.309567+00:00
+tags: ["大学物理", "大物"]
+subjects: ["大学物理"]
+file_url: "https://assets.nuaaguide.shop/大物III22__大学物理_大物__.pdf"
+file_type: "pdf"
+---
+
