@@ -612,17 +612,16 @@ a:hover {
 }
 
 
-
 .subject-directory:not([data-prepared="true"]) {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 8px;
 }
 
 @media (max-width: 540px) {
-.subject-directory:not([data-prepared="true"]) {
-grid-template-columns: repeat(2, minmax(0, 1fr));
-}
+    .subject-directory:not([data-prepared="true"]) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 .subject-directory {

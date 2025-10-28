@@ -78,7 +78,20 @@
 
     <script src="https://unpkg.com/swup@4"></script>
     <script src="/pagefind/pagefind-ui.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.18.0/dist/index.min.js" defer></script>
+    <script type="module">
+        window.pinyinProReadyState = "pending";
+        window.pinyinProReady = import("/js/vendor/pinyin-pro.mjs?v={{ now.Unix }}")
+            .then((module) => {
+                window.pinyinPro = module;
+                window.pinyinProReadyState = "resolved";
+                return module;
+            })
+            .catch((error) => {
+                console.error("[pinyin-pro] failed to load module:", error);
+                window.pinyinProReadyState = "rejected";
+                return null;
+            });
+    </script>
     <script defer src="/js/materials.js?v={{ now.Unix }}"></script>
 
     <script>
@@ -103,6 +116,7 @@
         if (typeof window.initMaterialsPage === 'function') {
           window.initMaterialsPage();
         }
+        if (typeof window.initLooseDirectories === 'function') { window.initLooseDirectories(); }
       };
 
       // 点击页面任何其他地方，关闭弹窗

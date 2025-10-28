@@ -1,16 +1,32 @@
 (function () {
     const normalize = (value) => (value || "").toString().trim().toLowerCase();
     const collator = new Intl.Collator("zh-Hans-u-co-pinyin", {
-        sensitivity: "accent",
+        sensitivity: "base",
         numeric: true,
     });
+    const anchorStr = "\u963f\u516b\u56d2\u54d2\u59b8\u53d1\u65ae\u54c8\u8ba5\u5494\u5783\u5988\u62ff\u54e6\u556a\u671f\u7136\u6492\u584c\u6316\u6614\u538b\u531d";
+    const anchorLetters = "ABCDEFGHJKLMNOPQRSTWXYZ";
 
     const toLetter = (input) => {
         if (!input) {
             return "#";
         }
-        const letter = input.charAt(0).toUpperCase();
-        return /[A-Z]/.test(letter) ? letter : "#";
+        const match = /^[A-Za-z]/.exec(input);
+        return match ? match[0].toUpperCase() : "#";
+    };
+
+    const getInitialByAnchors = (name) => {
+        const s = (name || "").trim();
+        if (!s) {
+            return "#";
+        }
+        const ch = s[0];
+        for (let i = 0; i < anchorStr.length; i += 1) {
+            if (collator.compare(ch, anchorStr[i]) < 0) {
+                return anchorLetters[i] || "Z";
+            }
+        }
+        return "Z";
     };
 
     const getInitialLetter = (name) => {
@@ -21,16 +37,15 @@
 
         if (window.pinyinPro && typeof window.pinyinPro.pinyin === "function") {
             try {
-                const result = window.pinyinPro.pinyin(trimmed, {
-                    pattern: "first",
+                const full = window.pinyinPro.pinyin(trimmed, {
                     toneType: "none",
                     multiple: false,
                 });
-                if (Array.isArray(result) && result[0]) {
-                    return toLetter(result[0]);
-                }
-                if (typeof result === "string" && result.length > 0) {
-                    return toLetter(result);
+                if (typeof full === "string" && full.length > 0) {
+                    const firstAlpha = full.match(/[a-zA-Z]/);
+                    if (firstAlpha && firstAlpha[0]) {
+                        return firstAlpha[0].toUpperCase();
+                    }
                 }
             } catch (error) {
                 console.warn("[materials] pinyin conversion failed:", error);
@@ -41,11 +56,27 @@
         if (/[A-Za-z]/.test(fallbackChar)) {
             return fallbackChar.toUpperCase();
         }
-        return "#";
+
+        return getInitialByAnchors(trimmed);
     };
 
     const buildSubjectDirectory = (directoryRoot) => {
         if (!directoryRoot || directoryRoot.dataset.prepared === "true") {
+            return null;
+        }
+
+        if (
+            typeof window !== "undefined" &&
+            !window.pinyinPro &&
+            window.pinyinProReady &&
+            window.pinyinProReadyState === "pending" &&
+            !directoryRoot.dataset.awaitingPinyin
+        ) {
+            directoryRoot.dataset.awaitingPinyin = "true";
+            window.pinyinProReady.then(() => {
+                delete directoryRoot.dataset.awaitingPinyin;
+                buildSubjectDirectory(directoryRoot);
+            });
             return null;
         }
 
@@ -68,7 +99,20 @@
             };
         });
 
-        entries.sort((a, b) => collator.compare(a.name, b.name));
+        entries.sort((a, b) => {
+            const letterA = a.initial || "#";
+            const letterB = b.initial || "#";
+            if (letterA === letterB) {
+                return collator.compare(a.name, b.name);
+            }
+            if (letterA === "#") {
+                return 1;
+            }
+            if (letterB === "#") {
+                return -1;
+            }
+            return letterA.localeCompare(letterB, "en-US");
+        });
 
         directoryRoot.innerHTML = "";
         let currentLetter = null;
@@ -92,7 +136,9 @@
             }
 
             entry.chip.classList.remove("is-active");
-            currentItems.appendChild(entry.chip);
+            if (currentItems) {
+                currentItems.appendChild(entry.chip);
+            }
         });
 
         directoryRoot.dataset.prepared = "true";
@@ -140,7 +186,8 @@
                 .filter(Boolean);
 
         const updateUI = () => {
-            const query = normalize(searchInput ? searchInput.value : "");
+            const rawQuery = searchInput ? searchInput.value.trim() : "";
+            const query = normalize(rawQuery);
             let visibleCount = 0;
 
             cards.forEach((card) => {
@@ -174,7 +221,7 @@
             }
 
             if (resetLink) {
-                const shouldShowReset = activeSubject !== "all" || query.length > 0;
+                const shouldShowReset = activeSubject !== "all" || rawQuery.length > 0;
                 resetLink.hidden = !shouldShowReset;
             }
         };
@@ -236,6 +283,8 @@
             buildSubjectDirectory(directory);
         });
     };
+
+    window.initLooseDirectories = initLooseDirectories;
 
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", () => {
