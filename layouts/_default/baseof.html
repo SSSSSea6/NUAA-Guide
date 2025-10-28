@@ -78,6 +78,8 @@
 
     <script src="https://unpkg.com/swup@4"></script>
     <script src="/pagefind/pagefind-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.18.0/dist/index.min.js" defer></script>
+    <script defer src="/js/materials.js?v={{ now.Unix }}"></script>
 
     <script>
       const runInitializers = () => {
@@ -97,6 +99,10 @@
             contactPopover.classList.toggle('is-visible');
           });
         }
+
+        if (typeof window.initMaterialsPage === 'function') {
+          window.initMaterialsPage();
+        }
       };
 
       // 点击页面任何其他地方，关闭弹窗
@@ -111,9 +117,6 @@
       const swup = new Swup();
       runInitializers();
       swup.hooks.on('page:view', runInitializers);
-    </script>
-</body>
-</html>
     </script>
 </body>
 </html>
