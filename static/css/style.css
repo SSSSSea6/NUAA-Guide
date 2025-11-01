@@ -544,6 +544,19 @@ a:hover {
     text-decoration: none;
 }
 
+/* Grid layout for multi-link tool collections */
+.tool-button-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 18px;
+    margin: 24px 0;
+}
+
+.tool-button {
+    min-width: 220px;
+}
+
 /* 学习资料页面 */
 .materials-page {
     display: flex;
