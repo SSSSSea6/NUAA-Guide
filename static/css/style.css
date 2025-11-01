@@ -557,6 +557,58 @@ a:hover {
     min-width: 220px;
 }
 
+.section-intro {
+    margin-bottom: 28px;
+}
+
+/* Card layout for official link collections */
+.link-collection {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    margin: 28px 0;
+}
+
+.link-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 18px 20px;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(44, 62, 80, 0.05);
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.link-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(44, 62, 80, 0.12);
+    border-color: var(--accent-color);
+    text-decoration: none;
+}
+
+.link-card__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.link-card__title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.link-card__desc {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
 /* 学习资料页面 */
 .materials-page {
     display: flex;

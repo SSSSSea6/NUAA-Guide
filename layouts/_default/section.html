@@ -3,6 +3,12 @@
     <div class="section-header">
         <h1>{{ .Title }}</h1>
     </div>
+
+    {{ with .Content }}
+    <div class="section-intro">
+        {{ . }}
+    </div>
+    {{ end }}
     
     <div class="card-container">
         {{ range .Paginator.Pages }}

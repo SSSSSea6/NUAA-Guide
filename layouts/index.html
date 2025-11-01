@@ -124,7 +124,8 @@
     <div class="card-container">
         {{ range first 8 (where .Site.RegularPages "Section" "links") }}
             <div class="card">
-                <a href="{{ .Params.target_url }}" target="_blank">
+                {{ $link := cond (isset .Params "target_url") .Params.target_url .Permalink }}
+                <a href="{{ $link }}"{{ if .Params.target_url }} target="_blank"{{ end }}>
                     <h4>{{ .Title }}</h4>
                     <p>{{ .Summary }}</p>
                 </a>
