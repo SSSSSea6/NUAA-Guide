@@ -30,14 +30,44 @@ tags: ["官方服务", "校园"]
         <div class="link-card__title">校园邮箱系统</div>
         <p class="link-card__desc">学生与教职工统一邮件服务、校内通讯录。</p>
     </a>
-    <a href="https://my.nuaa.edu.cn/" target="_blank" rel="noopener" class="link-card">
-        <div class="link-card__label">综合门户</div>
-        <div class="link-card__title">一站式师生服务</div>
-        <p class="link-card__desc">统一身份认证后访问信息门户、流程审批。</p>
+    <a href="https://pcmp.nuaa.edu.cn/index" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card__label">实践教学</div>
+        <div class="link-card__title">实践教学综合管理信息平台</div>
+        <p class="link-card__desc">实践教学信息。</p>
     </a>
-    <a href="https://gs.nuaa.edu.cn/" target="_blank" rel="noopener" class="link-card">
-        <div class="link-card__label">研究生服务</div>
-        <div class="link-card__title">研究生院</div>
-        <p class="link-card__desc">招生公告、培养方案、学位管理等信息。</p>
+    <a href="http://fuwu.nuaa.edu.cn" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card__label">校园网</div>
+        <div class="link-card__title">校园网复通</div>
+        <p class="link-card__desc">校园网复通服务</p>
+    </a>
+    <a href="https://ft.nuaa.edu.cn" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card__label">云课堂</div>
+        <div class="link-card__title">飞天云课堂</div>
+        <p class="link-card__desc">能查看所有已选课程的直播、回放。</p>
+    </a>
+    <a href="ev.nuaa.edu.cn" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card__label">教师评教</div>
+        <div class="link-card__title">评教系统</div>
+        <p class="link-card__desc">每学期末对老师进行评教需要用到。</p>
+    </a>
+    <a href="https://phylab.nuaa.edu.cn/" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card__label">大物实验</div>
+        <div class="link-card__title">大学物理实验</div>
+        <p class="link-card__desc">网页端比微信端更稳定。</p>
+    </a>
+    <a href="https://faculty.nuaa.edu.cn/" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card__label">智慧团委</div>
+        <div class="link-card__title">教师个人主页</div>
+        <p class="link-card__desc">可以详细了解南航各个老师的情况，包括联系方式。</p>
+    </a>
+    <a href="https://nuaayouth.nuaa.edu.cn/" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card__label">教师信息</div>
+        <div class="link-card__title">智慧团委/假期实践管理</div>
+        <p class="link-card__desc">主要是完成寒暑假的社会实践时需用到。</p>
+    </a>
+    <a href="https://tc.nuaa.edu.cn/" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card__label">体育测试</div>
+        <div class="link-card__title">体测信息查询</div>
+        <p class="link-card__desc">查询核对体测具体数据与成绩。</p>
     </a>
 </div>
