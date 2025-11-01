@@ -544,6 +544,20 @@ a:hover {
     text-decoration: none;
 }
 
+.service-link-left {
+    text-align: left;
+}
+
+.service-button--portal {
+    background: linear-gradient(135deg, #2f7bff, #1d51c8);
+    border: 1px solid rgba(33, 92, 204, 0.35);
+    box-shadow: 0 4px 16px rgba(33, 92, 204, 0.28);
+}
+
+.service-button--portal:hover {
+    box-shadow: 0 6px 24px rgba(29, 81, 200, 0.36);
+}
+
 /* Grid layout for multi-link tool collections */
 .tool-button-list {
     display: flex;
