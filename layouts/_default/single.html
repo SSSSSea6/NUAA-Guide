@@ -1,8 +1,14 @@
 {{ define "main" }}
 <div class="content-section">
+    <nav class="back-bar">
+        <a class="back-link" href="{{ with .CurrentSection }}{{ .Permalink }}{{ else }}/{{ end }}">
+            <span class="back-link__icon" aria-hidden="true">←</span>
+            <span>返回{{ with .CurrentSection }} {{ .Title }}{{ end }}</span>
+        </a>
+    </nav>
     <article>
         <h2>{{ .Title }}</h2>
-        <p>{{ .Content }}</p>
+        <div class="article-body">{{ .Content }}</div>
 
 {{ if .Params.tags }}
 <div class="tags">

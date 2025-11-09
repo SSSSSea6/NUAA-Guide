@@ -1,257 +1,105 @@
-<footer class="site-footer">
-    <p>&copy; {{ now.Format "2006" }} {{ .Site.Title }}. All Rights Reserved.</p>
-    <p>由 <a href="https://gohugo.io/" target="_blank">Hugo</a> & <a href="https://pages.github.com/" target="_blank">GitHub Pages</a> 驱动</p>
-</footer>
-
-
-
-<!-- 捐赠板块 -->
+<!-- 打赏 / 支持 -->
 <div class="donation-section">
-  <!-- 捐赠按钮 -->
   <button class="donation-btn" onclick="openDonationModal()">向我开炮</button>
-  
-  <!-- 捐赠模态框 -->
-  <div id="donationModal" class="donation-modal">
+
+  <div id="donationModal" class="donation-modal" role="dialog" aria-modal="true" aria-labelledby="donationTitle" aria-describedby="donationDesc">
     <div class="donation-modal-content">
-      <span class="donation-close" onclick="closeDonationModal()">&times;</span>
-      <h3>感谢支持</h3>
-      <p>您的赞助用于维护网页和鼓励作者。</p>
-      
+      <button class="donation-close" onclick="closeDonationModal()" aria-label="关闭">×</button>
+      <h3 id="donationTitle">感谢支持</h3>
+      <p id="donationDesc">您的支持将用于维护网站与内容创作。</p>
+
       <div class="donation-codes">
         <div class="donation-code">
           <h4>微信</h4>
           <img src="/images/wechat-pay.png" alt="微信支付收款码">
         </div>
-        
         <div class="donation-code">
           <h4>支付宝</h4>
           <img src="/images/alipay.png" alt="支付宝收款码">
         </div>
       </div>
-      
-      <p class="donation-note">注意：本赞助是匿名制，没有贡献榜单。</p>
-      <p class="donation-note">润砚常新，墨香永续；星火相传，长明不熄。</p>
+
+      <p class="donation-note">提示：理性支持，无任何强制与回报。</p>
+      <p class="donation-note">也欢迎通过社交平台向我们反馈建议。</p>
     </div>
   </div>
 </div>
 
-<!-- 浮动式小红书提示按钮 -->
-<div class="social-float-btn" onclick="toggleSocialTip()">
-    📕
+<!-- 浮动式社交提示按钮 -->
+<button class="social-float-btn" onclick="toggleSocialTip()" aria-controls="socialTip" aria-expanded="false" aria-label="打开社交提示">小</button>
+
+<div class="social-tip" id="socialTip" role="dialog" aria-modal="false" aria-label="社交提示">
+  <div class="social-tip-content">
+    <h4>关注小红书</h4>
+    <p>获取最新更新与资料</p>
+    <p><strong>账号：26506316071</strong></p>
+    <button class="social-tip-close" onclick="closeSocialTip()" aria-label="关闭">×</button>
+  </div>
 </div>
 
-<div class="social-tip" id="socialTip">
-    <div class="social-tip-content">
-        <h4>关注小红书</h4>
-        <p>获取最新更新和提出意见</p>
-        <p><strong>坐坐坐忘忘忘/26506316071</strong></p>
-        <button class="social-tip-close" onclick="closeSocialTip()">×</button>
+<!-- 联系我 Popover（供顶部“联系我”按钮使用） -->
+<div class="contact-popover" id="contactPopover" role="dialog" aria-modal="false" aria-label="联系我">
+  <div class="contact-methods">
+    <div class="contact-method">
+      <h4>邮箱</h4>
+      <p>nuaa-guide@example.com</p>
     </div>
+    <div class="contact-method">
+      <h4>微信</h4>
+      <p>搜索：NUAA-Guide</p>
+    </div>
+  </div>
+  <p class="contact-note">欢迎提出建议与合作想法。</p>
+  
 </div>
-
-
-
-<style>
-  /* 捐赠按钮样式 */
-  .donation-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 10px 15px;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    z-index: 1000;
-    transition: all 0.3s ease;
-  }
-  
-  .donation-btn:hover {
-    background-color: #218838;
-    transform: translateY(-2px);
-  }
-  
-  /* 模态框样式 */
-  .donation-modal {
-    display: none;
-    position: fixed;
-    z-index: 1001;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-  }
-  
-  .donation-modal-content {
-    background-color: #fefefe;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 400px;
-    position: relative;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  }
-  
-  .donation-close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    line-height: 1;
-  }
-  
-  .donation-close:hover {
-    color: #000;
-  }
-  
-  .donation-codes {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin: 20px 0;
-  }
-  
-  .donation-code {
-    text-align: center;
-  }
-  
-  .donation-code h4 {
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .donation-code img {
-    max-width: 150px;
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .donation-note {
-    text-align: center;
-    font-size: 14px;
-    color: #666;
-    margin-top: 15px;
-  }
-  
-  /* 响应式设计 */
-  @media (max-width: 480px) {
-    .donation-codes {
-      flex-direction: column;
-    }
-    
-    .donation-modal-content {
-      margin: 20% auto;
-      width: 85%;
-    }
-  }
-</style>
 
 <script>
-  // 打开模态框
   function openDonationModal() {
-    document.getElementById('donationModal').style.display = 'block';
+    const modal = document.getElementById('donationModal');
+    if (modal) modal.style.display = 'block';
   }
-  
-  // 关闭模态框
+
   function closeDonationModal() {
-    document.getElementById('donationModal').style.display = 'none';
+    const modal = document.getElementById('donationModal');
+    if (modal) modal.style.display = 'none';
   }
-  
-  // 点击模态框外部关闭
-  window.onclick = function(event) {
-    var modal = document.getElementById('donationModal');
-    if (event.target == modal) {
-      closeDonationModal();
-    }
-  }
-  
-  // 按ESC键关闭
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
+
+  window.addEventListener('click', function(event) {
+    const modal = document.getElementById('donationModal');
+    if (modal && event.target === modal) {
       closeDonationModal();
     }
   });
-</script>
 
-
-
-
-
-
-
-
-
-
-<script>
-// 打开联系方式模态框
-function openContactModal() {
-    document.getElementById('contactModal').style.display = 'block';
-    document.body.style.overflow = 'hidden';
-}
-
-// 关闭联系方式模态框
-function closeContactModal() {
-    document.getElementById('contactModal').style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-// 点击模态框外部关闭
-window.onclick = function(event) {
-    var modal = document.getElementById('contactModal');
-    if (event.target == modal) {
-        closeContactModal();
-    }
-}
-
-// 按ESC键关闭
-document.addEventListener('keydown', function(event) {
+  document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
-        closeContactModal();
+      closeDonationModal();
+      closeContactModal && closeContactModal();
     }
-});
-</script>
+  });
 
+  function toggleSocialTip() {
+    const tip = document.getElementById('socialTip');
+    const btn = document.querySelector('.social-float-btn');
+    if (!tip || !btn) return;
+    const isOpen = tip.style.display === 'block';
+    tip.style.display = isOpen ? 'none' : 'block';
+    btn.setAttribute('aria-expanded', String(!isOpen));
+  }
 
+  function closeSocialTip() {
+    const tip = document.getElementById('socialTip');
+    const btn = document.querySelector('.social-float-btn');
+    if (tip) tip.style.display = 'none';
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
 
-<script>
-// 切换小红书提示显示
-function toggleSocialTip() {
-    var tip = document.getElementById('socialTip');
-    if (tip.style.display === 'block') {
-        tip.style.display = 'none';
-    } else {
-        tip.style.display = 'block';
-    }
-}
-
-// 关闭小红书提示
-function closeSocialTip() {
-    document.getElementById('socialTip').style.display = 'none';
-}
-
-// 点击提示框外部关闭
-window.addEventListener('click', function(e) {
-    var tip = document.getElementById('socialTip');
-    var btn = document.querySelector('.social-float-btn');
+  window.addEventListener('click', function(e) {
+    const tip = document.getElementById('socialTip');
+    const btn = document.querySelector('.social-float-btn');
+    if (!tip || !btn) return;
     if (tip.style.display === 'block' && e.target !== tip && !tip.contains(e.target) && e.target !== btn) {
-        tip.style.display = 'none';
+        closeSocialTip();
     }
-});
+  });
 </script>
-
-
-
-
-
-
-
-
-

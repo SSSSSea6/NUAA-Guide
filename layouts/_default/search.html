@@ -1,106 +1,25 @@
 {{ define "main" }}
 <div class="content-section">
-    <h2>搜索学习资料</h2>
+    <h2>鎼滅储瀛︿範璧勬枡</h2>
     <p class="search-notice">
-        资料中出现的水印、群号、网址等为自带，请自行辨别。
+        璧勬枡涓嚭鐜扮殑姘村嵃銆佺兢鍙枫€佺綉鍧€绛変负鑷甫锛岃鑷杈ㄥ埆銆?
     </p>
 
-    <div id="search-box"></div>
-    <div id="search-results"></div>
-
-     <!-- 引入 Pagefind UI -->
-    <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
-    <script src="/pagefind/pagefind-ui.js"></script>
-    <script src="/js/pagefind-search.js"></script>
-
-    <style>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            // 初始化 Pagefind UI
-            new PagefindUI({
-                element: "#search-results",
-                showImages: false,
-                showEmptyFilters: false,
-                excerptLength: 20,
-                processResult: function(result) {
-                    // 自定义结果处理
-                    return {
-                        ...result,
-                        excerpt: result.excerpt || result.meta.description || ''
-                    };
-                },
-                processTerm: function(term) {
-                    // 处理搜索词（可选）
-                    return term.toLowerCase();
-                }
-            });
-        });
-    </script>
-
-    <style>
-        /* Pagefind UI 自定义样式 */
-        .pagefind-ui__search-input {
-            padding: 12px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 16px;
-            width: 100%;
-            max-width: 500px;
-            margin-bottom: 20px;
-        }
-
-        .pagefind-ui__result {
-            border-bottom: 1px solid var(--border-color);
-            padding: 20px 0;
-        }
-
-        .pagefind-ui__result-link {
-            font-size: 1.2em;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .pagefind-ui__result-link:hover {
-            text-decoration: underline;
-        }
-
-        .pagefind-ui__result-excerpt {
-            color: var(--text-muted);
-            margin-top: 8px;
-        }
-
-        .pagefind-ui__result-tags {
-            margin-top: 8px;
-        }
-
-        .pagefind-ui__result-tag {
-            display: inline-block;
-            background-color: var(--light-color);
-            color: var(--text-muted);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            margin-right: 5px;
-        }
-
-        .pagefind-ui__message {
-            text-align: center;
-            padding: 40px 0;
-            color: var(--text-muted);
-        }
-
-        .pagefind-ui__button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .pagefind-ui__button:hover {
-            background-color: var(--secondary-color);
-        }
-    </style>
+    <div class="search-widget search-widget--page"
+         data-role="search-root"
+         data-search-context="page">
+        <div class="search-widget__controls" data-role="search-controls">
+            <div class="search-widget__input-shell">
+                <input type="search"
+                       class="search-widget__input"
+                       data-role="search-input"
+                       placeholder="请输入需要的资源"
+                       autocomplete="off"
+                       aria-label="搜索资源">
+            </div>
+        </div>
+        <div class="search-widget__results" data-role="search-results" aria-live="polite"></div>
+        <div class="search-widget__status" data-role="search-status" aria-live="assertive"></div>
+    </div>
 </div>
 {{ end }}

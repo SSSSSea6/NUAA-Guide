@@ -142,6 +142,10 @@
         });
 
         directoryRoot.dataset.prepared = "true";
+        if (typeof window !== "undefined") {
+            const detail = { detail: { count: entries.length } };
+            directoryRoot.dispatchEvent(new CustomEvent("subjectDirectoryUpdated", detail));
+        }
         return entries;
     };
 
@@ -235,6 +239,11 @@
 
         buildSubjectDirectory(directoryRoot);
         ensureActiveHighlight();
+        if (directoryRoot) {
+            directoryRoot.addEventListener("subjectDirectoryUpdated", () => {
+                setActiveSubject(activeSubject);
+            });
+        }
 
         if (searchInput) {
             searchInput.addEventListener("input", () => {

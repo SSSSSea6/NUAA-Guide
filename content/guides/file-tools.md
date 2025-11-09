@@ -1,8 +1,8 @@
 ---
 title: "文件操作工具"
 date: 2024-11-01
-weight: 2
-summary: "收集常用的在线文件处理工具，一键跳转即可使用。"
+weight: 3
+summary: "收集常用的免费文件处理工具：压缩、转换、分割合并等。"
 tags: ["文件工具", "PDF", "转换", "压缩"]
 ---
 常用的免费文件操作工具
@@ -23,6 +23,7 @@ tags: ["文件工具", "PDF", "转换", "压缩"]
     <a href="https://webbrowsertools.com/binary-split-and-merge" target="_blank" rel="noopener" class="service-button tool-button">
         文件拆分 / 合并
     </a>
+    
 </div>
 
 ## 使用建议

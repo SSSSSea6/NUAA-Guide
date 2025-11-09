@@ -15,13 +15,13 @@
 * 🧭 **实用工具:** 提供校园生活相关的实用信息和服务，如免费“龙猫代跑”工具。
 * 💻 **正版软件:** 校内可用正版软件的获取与安装指南。
 * 🔗 **常用网址:** 快速访问教务处、图书馆、校园邮箱等常用网站。
-* 🔍 **全站搜索:** 基于 Pagefind 的快速客户端搜索，轻松找到所需资源。
+* 🔍 **全站搜索:** 基于 FlexSearch 的中文友好客户端搜索，轻松找到所需资源。
 
 ## 🚀 技术栈
 
 * **框架:** [Hugo](https://gohugo.io/) 
 * **内容存储:** Markdown + [Cloudflare R2](https://www.cloudflare.com/zh-cn/developer-platform/r2/) (用于存储资料文件)
-* **搜索:** [Pagefind](https://pagefind.app/)
+* **搜索:** [FlexSearch](https://github.com/nextapps-de/flexsearch)
 * **部署:** [GitHub Pages](https://pages.github.com/)
 * **自动化:** [GitHub Actions](https://github.com/features/actions) (用于内容自动生成、资源上传、网站部署与验证)
 * **前端:** HTML, CSS, JavaScript ([Swup.js](https://swup.js.org/) 用于页面切换)

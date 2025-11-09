@@ -7,77 +7,104 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    
+
+    <script>
+        (function() {
+            const STORAGE_KEY = "nuaa-theme";
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored === "dark" || stored === "light") {
+                    document.documentElement.dataset.theme = stored;
+                } else {
+                    delete document.documentElement.dataset.theme;
+                }
+            } catch (error) {
+                console.warn("[theme] unable to read stored theme preference:", error);
+            }
+        })();
+    </script>
+
     <link rel="stylesheet" href="/css/style.css?v={{ now.Unix }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
-
     <style>
-      /* 页面切换动画 */
       .transition-jelly-fade {
-        transition: opacity 0.5s ease-in-out, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        transform-origin: 50% 50%; opacity: 1; transform: scale(1);
+        transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        transform-origin: 50% 50%;
+        opacity: 1;
+        transform: none;
       }
       html.is-animating .transition-jelly-fade {
-        opacity: 0; transform: scale(0.8);
-      }
-
-      /* --- “小红书”风格小弹窗样式 --- */
-      .contact-bar {
-        position: relative; /* 让弹窗相对于此容器定位 */
-      }
-      .contact-popover {
-        position: absolute;
-        bottom: 120%; /* 出现在按钮上方 */
-        left: 50%;
-        width: 300px;
-        background: #fff;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        z-index: 100;
-        
-        /* 动画效果 */
-        visibility: hidden;
         opacity: 0;
-        transform: translate(-50%, 10px); /* 初始位置稍微向下偏离 */
-        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
-      }
-      /* 弹窗下方的小三角 */
-      .contact-popover::after {
-        content: '';
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0; 
-        height: 0; 
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 10px solid #fff;
-      }
-      /* 弹窗被激活时 */
-      .contact-popover.is-visible {
-        visibility: visible;
-        opacity: 1;
-        transform: translateX(-50%); /* 恢复到正常位置 */
+        transform: translateY(12px);
       }
     </style>
 </head>
 <body>
-    <div class="site-container">
+    <div class="theme-switcher" data-theme-switcher>
+        <button type="button"
+                class="theme-switcher__button"
+                data-theme-toggle
+                aria-haspopup="true"
+                aria-expanded="false">
+            <span class="theme-switcher__icon" data-theme-icon>🌓</span>
+            <span class="theme-switcher__label" data-theme-label>跟随系统</span>
+            <span class="theme-switcher__chevron" aria-hidden="true"></span>
+        </button>
+        <div class="theme-switcher__panel"
+             data-theme-panel
+             role="menu"
+             aria-hidden="true">
+            <button type="button"
+                    class="theme-switcher__option"
+                    data-theme-value="auto"
+                    role="menuitemradio"
+                    aria-checked="true">
+                <span>跟随系统</span>
+                <span class="theme-switcher__option-hint">Auto</span>
+            </button>
+            <button type="button"
+                    class="theme-switcher__option"
+                    data-theme-value="light"
+                    role="menuitemradio"
+                    aria-checked="false">
+                <span>浅色模式</span>
+                <span class="theme-switcher__option-hint">Light</span>
+            </button>
+            <button type="button"
+                    class="theme-switcher__option"
+                    data-theme-value="dark"
+                    role="menuitemradio"
+                    aria-checked="false">
+                <span>深色模式</span>
+                <span class="theme-switcher__option-hint">Dark</span>
+            </button>
+        </div>
+    </div>
+    <div class="app-shell">
         {{ partial "header.html" . }}
-        <main id="swup" class="site-content transition-jelly-fade">
-            {{- block "main" . }}{{- end }}
-        </main>
-        {{ partial "footer.html" . }}
+        <div class="app-main">
+            <div class="utility-actions" aria-label="Quick actions">
+                <button type="button" class="utility-button" onclick="toggleSocialTip()" aria-controls="socialTip" aria-expanded="false">
+                    <span>小红书</span>
+                </button>
+                <button type="button" class="utility-button" onclick="openDonationModal()">
+                    <span>向我开炮</span>
+                </button>
+                <button type="button" class="utility-button contact-btn" aria-haspopup="dialog" aria-controls="contactPopover">
+                    <span>联系我</span>
+                </button>
+            </div>
+            <main id="swup" class="site-content transition-jelly-fade">
+                {{- block "main" . }}{{- end }}
+            </main>
+            {{ partial "footer.html" . }}
+        </div>
     </div>
 
     <script src="https://unpkg.com/swup@4"></script>
-    <script src="/pagefind/pagefind-ui.js"></script>
     <script type="module">
         window.pinyinProReadyState = "pending";
         window.pinyinProReady = import("/js/vendor/pinyin-pro.mjs?v={{ now.Unix }}")
@@ -92,23 +119,256 @@
                 return null;
             });
     </script>
+    <script type="module" src="/js/enhanced-search.js?v={{ now.Unix }}"></script>
     <script defer src="/js/materials.js?v={{ now.Unix }}"></script>
 
     <script>
-      const runInitializers = () => {
-        // Pagefind 初始化
-        const searchBox = document.querySelector('#search-box');
-        if (searchBox) {
-          searchBox.innerHTML = '';
-          new PagefindUI({ element: "#search-box", showImages: false, showEmptyFilters: false, excerptLength: 20 });
+      const THEME_STORAGE_KEY = "nuaa-theme";
+      const themeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+      const beginThemeTransition = () => {
+        const root = document.documentElement;
+        let ms = 2000;
+        try {
+          const raw = getComputedStyle(root).getPropertyValue('--theme-transition-duration').trim();
+          if (raw) {
+            if (raw.endsWith('ms')) {
+              ms = parseFloat(raw);
+            } else if (raw.endsWith('s')) {
+              ms = Math.round(parseFloat(raw) * 1000);
+            } else {
+              const n = parseFloat(raw);
+              if (!Number.isNaN(n)) ms = n;
+            }
+          }
+        } catch {}
+        root.classList.add('theme-transition');
+        clearTimeout(window.__themeTransitionTimer);
+        window.__themeTransitionTimer = setTimeout(() => {
+          root.classList.remove('theme-transition');
+        }, ms + 100);
+      };
+
+      const getStoredTheme = () => {
+        try {
+          const stored = localStorage.getItem(THEME_STORAGE_KEY);
+          return stored === "light" || stored === "dark" ? stored : "auto";
+        } catch {
+          return "auto";
+        }
+      };
+
+      const storeTheme = (value) => {
+        try {
+          if (value === "auto") {
+            localStorage.removeItem(THEME_STORAGE_KEY);
+          } else {
+            localStorage.setItem(THEME_STORAGE_KEY, value);
+          }
+        } catch (error) {
+          console.warn("[theme] unable to persist theme preference:", error);
+        }
+      };
+
+      const applyThemePreference = (value, animate = false) => {
+        const root = document.documentElement;
+        if (animate) {
+          beginThemeTransition();
+        }
+        if (value === "light") {
+          root.dataset.theme = "light";
+        } else if (value === "dark") {
+          root.dataset.theme = "dark";
+        } else {
+          delete root.dataset.theme;
+        }
+      };
+
+      const initThemeControls = () => {
+        const switcher = document.querySelector("[data-theme-switcher]");
+        if (!switcher || switcher.dataset.initialised === "true") {
+          return;
+        }
+        switcher.dataset.initialised = "true";
+
+        const toggleButton = switcher.querySelector("[data-theme-toggle]");
+        const panel = switcher.querySelector("[data-theme-panel]");
+        const options = switcher.querySelectorAll("[data-theme-value]");
+        const icon = switcher.querySelector("[data-theme-icon]");
+        const label = switcher.querySelector("[data-theme-label]");
+
+        if (!toggleButton || !panel || options.length === 0) {
+          return;
         }
 
-        // “联系我”小弹窗初始化
+        const labels = {
+          auto: "跟随系统",
+          light: "浅色模式",
+          dark: "深色模式"
+        };
+
+        const iconMap = {
+          light: "☀️",
+          dark: "🌙"
+        };
+
+        let currentSelection = getStoredTheme();
+
+        const getEffectiveTheme = () => {
+          if (currentSelection === "auto") {
+            return themeMediaQuery.matches ? "dark" : "light";
+          }
+          return currentSelection;
+        };
+
+        const updateUI = () => {
+          const effective = getEffectiveTheme();
+          if (label) {
+            label.textContent = labels[currentSelection] || labels.auto;
+          }
+          if (icon) {
+            icon.textContent = iconMap[effective] || "🌓";
+          }
+          options.forEach((option) => {
+            const value = option.dataset.themeValue || "auto";
+            const isActive = value === currentSelection;
+            option.setAttribute("aria-checked", String(isActive));
+          });
+        };
+
+        const closePanel = () => {
+          switcher.classList.remove("is-open");
+          toggleButton.setAttribute("aria-expanded", "false");
+          panel.setAttribute("aria-hidden", "true");
+        };
+
+        const openPanel = () => {
+          switcher.classList.add("is-open");
+          toggleButton.setAttribute("aria-expanded", "true");
+          panel.setAttribute("aria-hidden", "false");
+        };
+
+        const togglePanel = () => {
+          if (switcher.classList.contains("is-open")) {
+            closePanel();
+          } else {
+            openPanel();
+          }
+        };
+
+        const handleSelection = (value) => {
+          if (!value || value === currentSelection) return;
+          currentSelection = value;
+          storeTheme(currentSelection);
+          applyThemePreference(currentSelection, true);
+          updateUI();
+          closePanel();
+        };
+
+        toggleButton.addEventListener("click", (event) => {
+          event.stopPropagation();
+          togglePanel();
+        });
+
+        options.forEach((option) => {
+          option.addEventListener("click", (event) => {
+            event.preventDefault();
+            const value = option.dataset.themeValue || "auto";
+            handleSelection(value);
+          });
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!switcher.contains(event.target)) {
+            closePanel();
+          }
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            closePanel();
+          }
+        });
+
+        const handleSystemChange = () => {
+          if (currentSelection === "auto") {
+            // Add a transition window when system theme changes
+            beginThemeTransition();
+            updateUI();
+          }
+        };
+
+        if (typeof themeMediaQuery.addEventListener === "function") {
+          themeMediaQuery.addEventListener("change", handleSystemChange);
+        } else if (typeof themeMediaQuery.addListener === "function") {
+          themeMediaQuery.addListener(handleSystemChange);
+        }
+
+        applyThemePreference(currentSelection, false);
+        updateUI();
+        closePanel();
+      };
+
+      initThemeControls();
+
+      const getActiveNavId = (pathname) => {
+        if (!pathname) return "";
+        const path = pathname.replace(/index\.html$/, '').toLowerCase();
+        if (path === '/' || path === '') return 'home';
+        if (path.startsWith('/subjects') || path.startsWith('/materials')) return 'study';
+        if (path.startsWith('/compass')) return 'compass';
+        if (path.startsWith('/store')) return 'store';
+        if (path.startsWith('/guides')) return 'tools';
+        return '';
+      };
+
+      const updateActiveNav = (pathname) => {
+        const currentId = getActiveNavId(pathname || window.location.pathname);
+        document.querySelectorAll('[data-nav-id]').forEach((element) => {
+          const isActive = element.dataset.navId === currentId;
+          element.classList.toggle('is-active', isActive);
+          if (isActive) {
+            element.setAttribute('aria-current', 'page');
+          } else {
+            element.removeAttribute('aria-current');
+          }
+        });
+        document.body.dataset.navActive = currentId || '';
+      };
+
+      const scrollKey = (p) => `nuaa-scroll:${p || window.location.pathname}`;
+      const saveScrollPosition = () => {
+        try {
+          sessionStorage.setItem(scrollKey(), String(window.scrollY || 0));
+        } catch {}
+      };
+      const restoreScrollPosition = (path) => {
+        try {
+          const raw = sessionStorage.getItem(scrollKey(path));
+          const y = raw ? parseInt(raw, 10) : 0;
+          if (!Number.isNaN(y) && y > 0) {
+            requestAnimationFrame(() => window.scrollTo(0, y));
+          }
+        } catch {}
+      };
+
+      window.addEventListener('scroll', (() => {
+        let t = null;
+        return () => {
+          if (t) return;
+          t = setTimeout(() => { t = null; saveScrollPosition(); }, 200);
+        };
+      })(), { passive: true });
+
+      const runInitializers = (pathname) => {
+        updateActiveNav(pathname);
+
         const contactBtn = document.querySelector('.contact-btn');
         const contactPopover = document.getElementById('contactPopover');
-        if (contactBtn && contactPopover) {
+        if (contactBtn && contactPopover && !contactBtn.dataset.boundContact) {
+          contactBtn.dataset.boundContact = 'true';
           contactBtn.addEventListener('click', (event) => {
-            event.stopPropagation(); // 阻止点击事件冒泡到 document
+            event.stopPropagation();
             contactPopover.classList.toggle('is-visible');
           });
         }
@@ -116,21 +376,39 @@
         if (typeof window.initMaterialsPage === 'function') {
           window.initMaterialsPage();
         }
-        if (typeof window.initLooseDirectories === 'function') { window.initLooseDirectories(); }
+        if (typeof window.initLooseDirectories === 'function') {
+          window.initLooseDirectories();
+        }
+
+        initSearchWidgets();
+        restoreScrollPosition(pathname);
       };
 
-      // 点击页面任何其他地方，关闭弹窗
-      document.addEventListener('click', (event) => {
+      document.addEventListener('click', () => {
         const contactPopover = document.getElementById('contactPopover');
-        // 确保弹窗存在且当前是可见的
         if (contactPopover && contactPopover.classList.contains('is-visible')) {
           contactPopover.classList.remove('is-visible');
         }
       });
 
       const swup = new Swup();
-      runInitializers();
-      swup.hooks.on('page:view', runInitializers);
+
+      const initSearchWidgets = () => {
+        if (window.NuaaSearch && typeof window.NuaaSearch.initAll === 'function') {
+          window.NuaaSearch.initAll();
+        }
+      };
+
+      if (window.NuaaSearchReady && typeof window.NuaaSearchReady.then === 'function') {
+        window.NuaaSearchReady.then(initSearchWidgets).catch(() => {});
+      }
+      document.addEventListener('nuaasearch:ready', initSearchWidgets);
+
+      runInitializers(window.location.pathname);
+      swup.hooks.on('page:view', (event) => {
+        const nextPath = event?.to?.url?.pathname || window.location.pathname;
+        runInitializers(nextPath);
+      });
     </script>
 </body>
 </html>

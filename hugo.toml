@@ -31,23 +31,23 @@ enableRobotsTXT = true
 
 [menu]
   [[menu.main]]
-    name = "学习资料"
-    url = "/subjects/"
-    weight = 2
-  [[menu.main]]
-    name = "生活指南"
-    url = "/guides/"
+    name = "首页"
+    url = "/"
     weight = 1
   [[menu.main]]
-    name = "食堂推荐"
-    url = "/canteens/"
+    name = "实用工具"
+    url = "/guides/"
+    weight = 2
+  [[menu.main]]
+    name = "学习资料"
+    url = "/subjects/"
     weight = 3
   [[menu.main]]
-    name = "正版软件"
+    name = "常用软件下载"
     url = "/software/"
     weight = 4
   [[menu.main]]
-    name = "常用网址"
+    name = "常用网址跳转"
     url = "/links/"
     weight = 5
 
