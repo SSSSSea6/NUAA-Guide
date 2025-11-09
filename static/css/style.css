@@ -377,9 +377,10 @@ body {
 
 /* Top-left utility buttons (XHS / Donate / Contact) */
 .utility-actions {
-    position: sticky;
-    top: 16px;
-    z-index: 60;
+    position: fixed;
+    top: 24px;
+    left: calc(var(--sidebar-width) + 28px);
+    z-index: 120;
     display: flex;
     gap: 8px;
 }
@@ -409,7 +410,14 @@ body {
     transform: translateY(-1px);
 }
 
-/* no special left offset needed; it aligns with app-main padding */
+@media (max-width: 1080px) {
+    .utility-actions {
+        left: 14px;
+        top: 14px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
 
 .app-sidebar {
     width: 256px;
