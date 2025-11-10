@@ -1,34 +1,28 @@
-<!-- 打赏 / 支持 -->
-<div class="donation-section">
-  <button class="donation-btn" onclick="openDonationModal()">向我开炮</button>
+<!-- 打赏弹窗（仅保留弹窗，触发展现在顶部按钮） -->
+<div id="donationModal" class="donation-modal" role="dialog" aria-modal="true" aria-labelledby="donationTitle" aria-describedby="donationDesc" style="display:none">
+  <div class="donation-modal-content">
+    <button class="donation-close" onclick="closeDonationModal()" aria-label="关闭">×</button>
+    <h3 id="donationTitle">感谢支持</h3>
+    <p id="donationDesc">您的支持将用于维护网站与内容创作。</p>
 
-  <div id="donationModal" class="donation-modal" role="dialog" aria-modal="true" aria-labelledby="donationTitle" aria-describedby="donationDesc">
-    <div class="donation-modal-content">
-      <button class="donation-close" onclick="closeDonationModal()" aria-label="关闭">×</button>
-      <h3 id="donationTitle">感谢支持</h3>
-      <p id="donationDesc">您的支持将用于维护网站与内容创作。</p>
-
-      <div class="donation-codes">
-        <div class="donation-code">
-          <h4>微信</h4>
-          <img src="/images/wechat-pay.png" alt="微信支付收款码">
-        </div>
-        <div class="donation-code">
-          <h4>支付宝</h4>
-          <img src="/images/alipay.png" alt="支付宝收款码">
-        </div>
+    <div class="donation-codes">
+      <div class="donation-code">
+        <h4>微信</h4>
+        <img src="/images/wechat-pay.png" alt="微信支付收款码">
       </div>
-
-      <p class="donation-note">提示：理性支持，无任何强制与回报。</p>
-      <p class="donation-note">也欢迎通过社交平台向我们反馈建议。</p>
+      <div class="donation-code">
+        <h4>支付宝</h4>
+        <img src="/images/alipay.png" alt="支付宝收款码">
+      </div>
     </div>
+
+    <p class="donation-note">提示：理性支持，无任何强制与回报。</p>
+    <p class="donation-note">也欢迎通过社交平台向我们反馈建议。</p>
   </div>
 </div>
 
-<!-- 浮动式社交提示按钮 -->
-<button class="social-float-btn" onclick="toggleSocialTip()" aria-controls="socialTip" aria-expanded="false" aria-label="打开社交提示">小</button>
-
-<div class="social-tip" id="socialTip" role="dialog" aria-modal="false" aria-label="社交提示">
+<!-- 小红书提示（移到左上角，受顶部按钮控制） -->
+<div class="social-tip" id="socialTip" role="dialog" aria-modal="false" aria-label="社交提示" style="display:none">
   <div class="social-tip-content">
     <h4>关注小红书</h4>
     <p>获取最新更新与资料</p>
@@ -37,20 +31,19 @@
   </div>
 </div>
 
-<!-- 联系我 Popover（供顶部“联系我”按钮使用） -->
-<div class="contact-popover" id="contactPopover" role="dialog" aria-modal="false" aria-label="联系我">
+<!-- 联系我（用于顶部“联系我”按钮） -->
+<div class="contact-popover" id="contactPopover" role="dialog" aria-modal="false" aria-label="联系我" style="display:none">
   <div class="contact-methods">
     <div class="contact-method">
-      <h4>邮箱</h4>
-      <p>nuaa-guide@example.com</p>
+      <h4>QQ</h4>
+      <p>2773849038</p>
     </div>
     <div class="contact-method">
-      <h4>微信</h4>
-      <p>搜索：NUAA-Guide</p>
+      <h4>Email</h4>
+      <p>sssssea666@gmail.com</p>
     </div>
   </div>
   <p class="contact-note">欢迎提出建议与合作想法。</p>
-  
 </div>
 
 <script>
@@ -66,40 +59,58 @@
 
   window.addEventListener('click', function(event) {
     const modal = document.getElementById('donationModal');
-    if (modal && event.target === modal) {
-      closeDonationModal();
-    }
+    if (modal && event.target === modal) closeDonationModal();
   });
 
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
       closeDonationModal();
-      closeContactModal && closeContactModal();
+      closeContactModal();
+      closeSocialTip();
     }
   });
 
   function toggleSocialTip() {
     const tip = document.getElementById('socialTip');
-    const btn = document.querySelector('.social-float-btn');
-    if (!tip || !btn) return;
+    if (!tip) return;
     const isOpen = tip.style.display === 'block';
     tip.style.display = isOpen ? 'none' : 'block';
-    btn.setAttribute('aria-expanded', String(!isOpen));
+    const trigger = document.querySelector('[aria-controls="socialTip"]');
+    if (trigger) trigger.setAttribute('aria-expanded', String(!isOpen));
   }
 
   function closeSocialTip() {
     const tip = document.getElementById('socialTip');
-    const btn = document.querySelector('.social-float-btn');
+    const trigger = document.querySelector('[aria-controls="socialTip"]');
     if (tip) tip.style.display = 'none';
-    if (btn) btn.setAttribute('aria-expanded', 'false');
+    if (trigger) trigger.setAttribute('aria-expanded', 'false');
+  }
+
+  function openContactModal() {
+    const pop = document.getElementById('contactPopover');
+    if (pop) pop.style.display = 'block';
+  }
+
+  function closeContactModal() {
+    const pop = document.getElementById('contactPopover');
+    if (pop) pop.style.display = 'none';
   }
 
   window.addEventListener('click', function(e) {
     const tip = document.getElementById('socialTip');
-    const btn = document.querySelector('.social-float-btn');
-    if (!tip || !btn) return;
-    if (tip.style.display === 'block' && e.target !== tip && !tip.contains(e.target) && e.target !== btn) {
+    const contact = document.getElementById('contactPopover');
+    const tipTrigger = document.querySelector('[aria-controls="socialTip"]');
+    const contactBtn = document.querySelector('.contact-btn');
+    if (tip && tip.style.display === 'block') {
+      if (e.target !== tip && !tip.contains(e.target) && (!tipTrigger || (e.target !== tipTrigger && !tipTrigger.contains(e.target)))) {
         closeSocialTip();
+      }
+    }
+    if (contact && contact.style.display === 'block') {
+      if (e.target !== contact && !contact.contains(e.target) && (!contactBtn || (e.target !== contactBtn && !contactBtn.contains(e.target)))) {
+        closeContactModal();
+      }
     }
   });
 </script>
+

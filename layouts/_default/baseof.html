@@ -369,7 +369,8 @@
           contactBtn.dataset.boundContact = 'true';
           contactBtn.addEventListener('click', (event) => {
             event.stopPropagation();
-            contactPopover.classList.toggle('is-visible');
+            const isOpen = contactPopover.style.display === 'block';
+            contactPopover.style.display = isOpen ? 'none' : 'block';
           });
         }
 
