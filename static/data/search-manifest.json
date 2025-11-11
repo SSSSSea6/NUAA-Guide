@@ -1,9 +1,30 @@
 [
   {
-    "title": "文件操作工具",
-    "summary": "收集常用的在线文件处理工具，一键跳转即可使用。",
+    "title": "大学应该怎样学？",
+    "summary": "“吾尝终日而思矣，不如须臾之所学也。” 有点迷茫？来看看！ 点此跳转干货仓 前往干货仓 先抛出四个问题： 1.你学这些科目的目的是什么？ 2.高中数学和高考数学哪个更难？ 3.高中数学你/你的同学是怎样学好的？ 4.我们该怎样学大学课程？ 仔细想想，大多数人学高数的目的，其实不是为了去推动数学研究、解决某些复杂的科学难",
+    "section": "compass",
+    "url": "/compass/大学应该怎样学/",
+    "tags": [
+      "学习方法",
+      "资料",
+      "指南"
+    ]
+  },
+  {
+    "title": "NUAA 官方网站汇总",
+    "summary": "学校官网、教务、图书馆、邮箱等常用官方平台入口。",
     "section": "guides",
-    "url": "/guides/file-tools/",
+    "url": "/guides/南航官方网址/",
+    "tags": [
+      "官方网站",
+      "校园"
+    ]
+  },
+  {
+    "title": "文件操作工具",
+    "summary": "收集常用的免费文件处理工具：压缩、转换、分割合并等。",
+    "section": "guides",
+    "url": "/guides/文件操作工具/",
     "tags": [
       "文件工具",
       "PDF",
@@ -12,34 +33,35 @@
     ]
   },
   {
-    "title": "龙猫代跑",
-    "summary": "免费的龙猫校园代跑。 立即使用 点击下方按钮访问龙猫代跑平台： 龙猫，启动！ 什么是龙猫代跑？ 龙猫代跑：龙猫跑步费时费力，不如直接扫码完成。 已经有类似产品了，为什么还要做？ 刷龙猫本可以免费，却有人利用此技术不断收割同学。特此推出。大家可以分享给自己的同学。 如何使用 进入网",
+    "title": "正版软件",
+    "summary": "学校提供的正版系统与软件获取入口。",
     "section": "guides",
-    "url": "/guides/longmao-delivery/",
+    "url": "/guides/正版软件/",
     "tags": [
-      "龙猫",
-      "代跑",
-      "龙猫代跑"
-    ]
-  },
-  {
-    "title": "南航官方常用网址",
-    "summary": "南航官网、教务、图书馆等官方平台入口汇总。",
-    "section": "links",
-    "url": "/links/nuaa-official-links/",
-    "tags": [
-      "官方服务",
-      "校园"
+      "正版",
+      "系统软件",
+      "校园服务"
     ]
   },
   {
     "title": "游戏资源",
-    "summary": "Steam、Epic 等主流游戏平台官方入口合集。",
-    "section": "links",
-    "url": "/links/game-resources/",
+    "summary": "常用游戏平台与资源入口。",
+    "section": "guides",
+    "url": "/guides/游戏资源/",
     "tags": [
       "游戏",
-      "平台"
+      "资源"
+    ]
+  },
+  {
+    "title": "龙猫代跑",
+    "summary": "校内龙猫跑步代跑平台。 立即使用 点击下方按钮访问龙猫代跑平台： 龙猫，启动！ 什么是龙猫代跑？ 龙猫代跑：龙猫跑步步骤费时费力，不如直接扫码完成。 已经有类似产品了，为什么还要做？ 刷龙猫虽简单，却并不那么省心。我们为同学做一个更便捷入口，大家可以分享给自己的同学。 如何使用 进入网页—扫码登录—确认个人信息—选择路",
+    "section": "guides",
+    "url": "/guides/龙猫代跑/",
+    "tags": [
+      "龙猫",
+      "代跑",
+      "校园服务"
     ]
   },
   {
@@ -51,44 +73,6 @@
       "计算机软件技术基础",
       "计软基础",
       "计算机软件基础"
-    ]
-  },
-  {
-    "title": "2020年复变函数",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/2020年复变函数/",
-    "tags": [
-      "复变函数",
-      "复变"
-    ]
-  },
-  {
-    "title": "2020秋高等工程数学试卷",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/2020秋高等工程数学试卷/",
-    "tags": [
-      "高等工程数学"
-    ]
-  },
-  {
-    "title": "2020秋高等工程数学试题答案",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/2020秋高等工程数学试题答案/",
-    "tags": [
-      "高等工程数学"
-    ]
-  },
-  {
-    "title": "2021年复变函数",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/2021年复变函数/",
-    "tags": [
-      "复变函数",
-      "复变"
     ]
   },
   {
@@ -111,16 +95,6 @@
     ]
   },
   {
-    "title": "2022年复变函数",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/2022年复变函数/",
-    "tags": [
-      "复变函数",
-      "复变"
-    ]
-  },
-  {
     "title": "2022毛概复习题",
     "summary": "",
     "section": "materials",
@@ -128,24 +102,6 @@
     "tags": [
       "毛泽东思想和中国特色社会主义概论",
       "毛概"
-    ]
-  },
-  {
-    "title": "2022秋高等工程数学试卷",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/2022秋高等工程数学试卷/",
-    "tags": [
-      "高等工程数学"
-    ]
-  },
-  {
-    "title": "2022秋高等工程数学试卷答案",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/2022秋高等工程数学试卷答案/",
-    "tags": [
-      "高等工程数学"
     ]
   },
   {
@@ -191,42 +147,6 @@
     "url": "/materials/2024《解析几何与线性代数-A》阶段测试（2）/",
     "tags": [
       "解析几何与线性代数"
-    ]
-  },
-  {
-    "title": "2024南京航空航天大学航空学院《工科数学分析A(2)》期末模拟题",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/2024南京航空航天大学航空学院《工科数学分析A(2)》期末模拟题/",
-    "tags": [
-      "工科数学分析"
-    ]
-  },
-  {
-    "title": "2024南京航空航天大学航空学院《工科数学分析A(2)》期末模拟题答案",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/2024南京航空航天大学航空学院《工科数学分析A(2)》期末模拟题答案/",
-    "tags": [
-      "工科数学分析"
-    ]
-  },
-  {
-    "title": "2024南京航空航天大学航空学院《高等代数A(2)》期末模拟题",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/2024南京航空航天大学航空学院《高等代数A(2)》期末模拟题/",
-    "tags": [
-      "高等代数"
-    ]
-  },
-  {
-    "title": "2024南京航空航天大学航空学院《高等代数A(2)》期末模拟题答案",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/2024南京航空航天大学航空学院《高等代数A(2)》期末模拟题答案/",
-    "tags": [
-      "高等代数"
     ]
   },
   {
@@ -392,10 +312,10 @@
     ]
   },
   {
-    "title": "Python语言程序设计22",
+    "title": "Python语言程序设计2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/Python语言程序设计22/",
+    "url": "/materials/Python语言程序设计2022年试题/",
     "tags": [
       "Python语言程序设计"
     ]
@@ -480,19 +400,19 @@
     ]
   },
   {
-    "title": "中国文化(英)22秋A",
+    "title": "中国文化（英语）2022年秋季A卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/中国文化(英)22秋A/",
+    "url": "/materials/中国文化（英语）2022年秋季A卷试题/",
     "tags": [
       "中国文化（英语课）"
     ]
   },
   {
-    "title": "中国文化(英)22秋B",
+    "title": "中国文化（英语）2022年秋季B卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/中国文化(英)22秋B/",
+    "url": "/materials/中国文化（英语）2022年秋季B卷试题/",
     "tags": [
       "中国文化（英语课）"
     ]
@@ -501,16 +421,16 @@
     "title": "互换性与技术测量20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/互换性与技术测量20/",
+    "url": "/materials/互换性与技术测量2020年试题/",
     "tags": [
       "互换性与技术测量"
     ]
   },
   {
-    "title": "互换性与技术测量21",
+    "title": "互换性与技术测量2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/互换性与技术测量21/",
+    "url": "/materials/互换性与技术测量2021年试题/",
     "tags": [
       "互换性与技术测量"
     ]
@@ -519,7 +439,7 @@
     "title": "互换性与技术测量22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/互换性与技术测量22/",
+    "url": "/materials/互换性与技术测量2022年试题/",
     "tags": [
       "互换性与技术测量"
     ]
@@ -528,7 +448,7 @@
     "title": "互换性与技术测量23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/互换性与技术测量23/",
+    "url": "/materials/互换性与技术测量2023年试题/",
     "tags": [
       "互换性与技术测量"
     ]
@@ -537,7 +457,7 @@
     "title": "互换性与技术测量II22秋",
     "summary": "",
     "section": "materials",
-    "url": "/materials/互换性与技术测量II22秋/",
+    "url": "/materials/互换性与技术测量II2022年秋季试题/",
     "tags": [
       "互换性与技术测量"
     ]
@@ -546,7 +466,7 @@
     "title": "交通工程基础22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/交通工程基础22/",
+    "url": "/materials/交通工程基础2022年试题/",
     "tags": [
       "交通工程基础"
     ]
@@ -555,88 +475,88 @@
     "title": "人工智能22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/人工智能22/",
+    "url": "/materials/人工智能2022年试题/",
     "tags": [
       "软件技术基础"
     ]
   },
   {
-    "title": "传感器原理20A",
+    "title": "传感器原理2020年A卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/传感器原理20A/",
+    "url": "/materials/传感器原理2020年A卷试题/",
     "tags": [
       "传感器原理"
     ]
   },
   {
-    "title": "传热学23",
+    "title": "传热学2023年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/传热学23/",
+    "url": "/materials/传热学2023年试题/",
     "tags": [
       "传热学"
     ]
   },
   {
-    "title": "传热学24",
+    "title": "传热学2024年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/传热学24/",
+    "url": "/materials/传热学2024年试题/",
     "tags": [
       "传热学"
     ]
   },
   {
-    "title": "信号与系统20",
+    "title": "信号与系统2020年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/信号与系统20/",
+    "url": "/materials/信号与系统2020年补考试题/",
     "tags": [
       "信号与系统"
     ]
   },
   {
-    "title": "信号与系统20补",
+    "title": "信号与系统2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/信号与系统20补/",
+    "url": "/materials/信号与系统2020年试题/",
     "tags": [
       "信号与系统"
     ]
   },
   {
-    "title": "信号与系统21",
+    "title": "信号与系统2021年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/信号与系统21/",
+    "url": "/materials/信号与系统2021年补考试题/",
     "tags": [
       "信号与系统"
     ]
   },
   {
-    "title": "信号与系统21补",
+    "title": "信号与系统2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/信号与系统21补/",
+    "url": "/materials/信号与系统2021年试题/",
     "tags": [
       "信号与系统"
     ]
   },
   {
-    "title": "信号与系统22补",
+    "title": "信号与系统2022年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/信号与系统22补/",
+    "url": "/materials/信号与系统2022年补考试题/",
     "tags": [
       "信号与系统"
     ]
   },
   {
-    "title": "信号与系统23",
+    "title": "信号与系统2023年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/信号与系统23/",
+    "url": "/materials/信号与系统2023年试题/",
     "tags": [
       "信号与系统"
     ]
@@ -663,16 +583,16 @@
     "title": "信号与线性系统19",
     "summary": "",
     "section": "materials",
-    "url": "/materials/信号与线性系统19/",
+    "url": "/materials/信号与线性系统2019年试题/",
     "tags": [
       "信号与线性系统"
     ]
   },
   {
-    "title": "信号与线性系统23",
+    "title": "信号与线性系统2023年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/信号与线性系统23/",
+    "url": "/materials/信号与线性系统2023年试题/",
     "tags": [
       "信号与线性系统"
     ]
@@ -681,7 +601,7 @@
     "title": "信号与线性系统24",
     "summary": "",
     "section": "materials",
-    "url": "/materials/信号与线性系统24/",
+    "url": "/materials/信号与线性系统2024年试题/",
     "tags": [
       "信号与线性系统"
     ]
@@ -754,7 +674,7 @@
     "title": "军事理论23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/军事理论23/",
+    "url": "/materials/军事理论2023年试题/",
     "tags": [
       "军事理论",
       "军理"
@@ -807,37 +727,37 @@
     ]
   },
   {
-    "title": "创业基础19AB",
+    "title": "创业基础2019年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/创业基础19AB/",
+    "url": "/materials/创业基础2019年AB卷试题/",
     "tags": [
       "创业基础"
     ]
   },
   {
-    "title": "创业基础20AB",
+    "title": "创业基础2020年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/创业基础20AB/",
+    "url": "/materials/创业基础2020年AB卷试题/",
     "tags": [
       "创业基础"
     ]
   },
   {
-    "title": "创业基础23秋一",
+    "title": "创业基础2023年秋季（一）试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/创业基础23秋一/",
+    "url": "/materials/创业基础2023年秋季（一）试题/",
     "tags": [
       "创业基础"
     ]
   },
   {
-    "title": "创业基础23秋二",
+    "title": "创业基础2023年秋季（二）试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/创业基础23秋二/",
+    "url": "/materials/创业基础2023年秋季（二）试题/",
     "tags": [
       "创业基础"
     ]
@@ -846,7 +766,7 @@
     "title": "功率变换器的计算机仿真与设计21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/功率变换器的计算机仿真与设计21/",
+    "url": "/materials/功率变换器的计算机仿真与设计2021年试题/",
     "tags": [
       "功率变换器的计算机仿真与设计"
     ]
@@ -1049,10 +969,10 @@
     ]
   },
   {
-    "title": "变分原理与有限元21",
+    "title": "变分原理与有限元2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/变分原理与有限元21/",
+    "url": "/materials/变分原理与有限元2021年试题/",
     "tags": [
       "变分原理与有限元"
     ]
@@ -1070,7 +990,7 @@
     "title": "可靠性工程23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/可靠性工程23/",
+    "url": "/materials/可靠性工程2023年试题/",
     "tags": [
       "可靠性工程"
     ]
@@ -1115,7 +1035,7 @@
     "title": "塑性力学21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/塑性力学21/",
+    "url": "/materials/塑性力学2021年试题/",
     "tags": [
       "塑性力学"
     ]
@@ -1157,20 +1077,50 @@
     ]
   },
   {
-    "title": "复变函数20",
+    "title": "复变函数2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/复变函数20/",
+    "url": "/materials/复变函数2020年试题/",
     "tags": [
       "复变函数",
       "复变"
     ]
   },
   {
-    "title": "复变函数21",
+    "title": "复变函数2020年试题（PDF版）",
     "summary": "",
     "section": "materials",
-    "url": "/materials/复变函数21/",
+    "url": "/materials/复变函数2020年试题（PDF版）/",
+    "tags": [
+      "复变函数",
+      "复变"
+    ]
+  },
+  {
+    "title": "复变函数2021年试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/复变函数2021年试题/",
+    "tags": [
+      "复变函数",
+      "复变"
+    ]
+  },
+  {
+    "title": "复变函数2021年试题（PDF版）",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/复变函数2021年试题（PDF版）/",
+    "tags": [
+      "复变函数",
+      "复变"
+    ]
+  },
+  {
+    "title": "复变函数2022年试题（PDF版）",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/复变函数2022年试题（PDF版）/",
     "tags": [
       "复变函数",
       "复变"
@@ -1224,19 +1174,19 @@
     ]
   },
   {
-    "title": "复合材料力学20",
+    "title": "复合材料力学2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/复合材料力学20/",
+    "url": "/materials/复合材料力学2020年试题/",
     "tags": [
       "复合材料力学"
     ]
   },
   {
-    "title": "复合材料力学21",
+    "title": "复合材料力学2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/复合材料力学21/",
+    "url": "/materials/复合材料力学2021年试题/",
     "tags": [
       "复合材料力学"
     ]
@@ -1275,6 +1225,26 @@
     "summary": "",
     "section": "materials",
     "url": "/materials/大学物理2020年上册试题/",
+    "tags": [
+      "大学物理",
+      "大物"
+    ]
+  },
+  {
+    "title": "大学物理2020年下册补考试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/大学物理2020年下册补考试题/",
+    "tags": [
+      "大学物理",
+      "大物"
+    ]
+  },
+  {
+    "title": "大学物理2020年下册试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/大学物理2020年下册试题/",
     "tags": [
       "大学物理",
       "大物"
@@ -1321,10 +1291,40 @@
     ]
   },
   {
+    "title": "大学物理2023年上册期中试题（带答案）",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/大学物理2023年上册期中试题（带答案）/",
+    "tags": [
+      "大学物理",
+      "大物"
+    ]
+  },
+  {
     "title": "大学物理2023年下册试题",
     "summary": "",
     "section": "materials",
     "url": "/materials/大学物理2023年下册试题/",
+    "tags": [
+      "大学物理",
+      "大物"
+    ]
+  },
+  {
+    "title": "大学物理III2022年试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/大学物理III2022年试题/",
+    "tags": [
+      "大学物理",
+      "大物"
+    ]
+  },
+  {
+    "title": "大学物理V2022年试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/大学物理V2022年试题/",
     "tags": [
       "大学物理",
       "大物"
@@ -1381,60 +1381,10 @@
     ]
   },
   {
-    "title": "大物III22",
+    "title": "天线原理2024年秋季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/大物III22/",
-    "tags": [
-      "大学物理",
-      "大物"
-    ]
-  },
-  {
-    "title": "大物V22",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/大物V22/",
-    "tags": [
-      "大学物理",
-      "大物"
-    ]
-  },
-  {
-    "title": "大物上期中23（带答案）",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/大物上期中23（带答案）/",
-    "tags": [
-      "大学物理",
-      "大物"
-    ]
-  },
-  {
-    "title": "大物下20",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/大物下20/",
-    "tags": [
-      "大学物理",
-      "大物"
-    ]
-  },
-  {
-    "title": "大物下20补",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/大物下20补/",
-    "tags": [
-      "大学物理",
-      "大物"
-    ]
-  },
-  {
-    "title": "天线原理24秋",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/天线原理24秋/",
+    "url": "/materials/天线原理2024年秋季试题/",
     "tags": [
       "天线原理"
     ]
@@ -1460,28 +1410,28 @@
     ]
   },
   {
-    "title": "宏观经济学20AB",
+    "title": "宏观经济学2020年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/宏观经济学20AB/",
+    "url": "/materials/宏观经济学2020年AB卷试题/",
     "tags": [
       "宏观经济学"
     ]
   },
   {
-    "title": "宏观经济学21AB",
+    "title": "宏观经济学2021年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/宏观经济学21AB/",
+    "url": "/materials/宏观经济学2021年AB卷试题/",
     "tags": [
       "宏观经济学"
     ]
   },
   {
-    "title": "宏观经济学22",
+    "title": "宏观经济学2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/宏观经济学22/",
+    "url": "/materials/宏观经济学2022年试题/",
     "tags": [
       "宏观经济学"
     ]
@@ -1519,16 +1469,16 @@
     "title": "密码学20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/密码学20/",
+    "url": "/materials/密码学2020年试题/",
     "tags": [
       "密码学"
     ]
   },
   {
-    "title": "密码学21",
+    "title": "密码学2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/密码学21/",
+    "url": "/materials/密码学2021年试题/",
     "tags": [
       "密码学"
     ]
@@ -1582,228 +1532,246 @@
     ]
   },
   {
-    "title": "工科数学分析2013A",
+    "title": "工科数学分析2013年A卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2013A/",
+    "url": "/materials/工科数学分析2013年A卷试题/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2013A答案",
+    "title": "工科数学分析2013年A卷试题答案",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2013A答案/",
+    "url": "/materials/工科数学分析2013年A卷试题答案/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2014A",
+    "title": "工科数学分析2014年A卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2014A/",
+    "url": "/materials/工科数学分析2014年A卷试题/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2014A答案",
+    "title": "工科数学分析2014年A卷试题答案",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2014A答案/",
+    "url": "/materials/工科数学分析2014年A卷试题答案/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2015A",
+    "title": "工科数学分析2015年A卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2015A/",
+    "url": "/materials/工科数学分析2015年A卷试题/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2015A答案",
+    "title": "工科数学分析2015年A卷试题答案",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2015A答案/",
+    "url": "/materials/工科数学分析2015年A卷试题答案/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2015B",
+    "title": "工科数学分析2015年B卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2015B/",
+    "url": "/materials/工科数学分析2015年B卷试题/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2015B答案",
+    "title": "工科数学分析2015年B卷试题答案",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2015B答案/",
+    "url": "/materials/工科数学分析2015年B卷试题答案/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2016A",
+    "title": "工科数学分析2016年A卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2016A/",
+    "url": "/materials/工科数学分析2016年A卷试题/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2016A答案",
+    "title": "工科数学分析2016年A卷试题答案",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2016A答案/",
+    "url": "/materials/工科数学分析2016年A卷试题答案/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2016B",
+    "title": "工科数学分析2016年B卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2016B/",
+    "url": "/materials/工科数学分析2016年B卷试题/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2016B答案",
+    "title": "工科数学分析2016年B卷试题答案",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2016B答案/",
+    "url": "/materials/工科数学分析2016年B卷试题答案/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2017A",
+    "title": "工科数学分析2017年A卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2017A/",
+    "url": "/materials/工科数学分析2017年A卷试题/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2017A答案",
+    "title": "工科数学分析2017年A卷试题答案",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2017A答案/",
+    "url": "/materials/工科数学分析2017年A卷试题答案/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2018A",
+    "title": "工科数学分析2018年A卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2018A/",
+    "url": "/materials/工科数学分析2018年A卷试题/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析2018A答案",
+    "title": "工科数学分析2018年A卷试题答案",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析2018A答案/",
+    "url": "/materials/工科数学分析2018年A卷试题答案/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工科数学分析上22",
+    "title": "工科数学分析2019年下册AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析上22/",
+    "url": "/materials/工科数学分析2019年下册AB卷试题/",
+    "tags": [
+      "工科数学分析",
+      "工数"
+    ]
+  },
+  {
+    "title": "工科数学分析2022年上册试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/工科数学分析2022年上册试题/",
     "tags": [
       "工科数学分析"
     ]
   },
   {
-    "title": "工科数学分析下19AB",
+    "title": "工科数学分析A(2)2024年期末模拟题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工科数学分析下19AB/",
+    "url": "/materials/工科数学分析A(2)2024年期末模拟题/",
     "tags": [
-      "工科数学分析",
-      "工数"
+      "工科数学分析"
+    ]
+  },
+  {
+    "title": "工科数学分析A(2)2024年期末模拟题答案",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/工科数学分析A(2)2024年期末模拟题答案/",
+    "tags": [
+      "工科数学分析"
     ]
   },
   {
     "title": "工科数学分析下期中19",
     "summary": ")",
     "section": "materials",
-    "url": "/materials/工科数学分析下期中19/",
+    "url": "/materials/工科数学分析2019年下册期中试题/",
     "tags": [
       "工科数学分析",
       "工数"
     ]
   },
   {
-    "title": "工程光学22春",
+    "title": "工程光学2022年春季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程光学22春/",
+    "url": "/materials/工程光学2022年春季试题/",
     "tags": [
       "工程光学"
     ]
   },
   {
-    "title": "工程图学上19AB",
+    "title": "工程图学2019年上册AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程图学上19AB/",
+    "url": "/materials/工程图学2019年上册AB卷试题/",
     "tags": [
       "工程图学",
       "工图"
     ]
   },
   {
-    "title": "工程图学上20AB",
+    "title": "工程图学2020年上册AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程图学上20AB/",
+    "url": "/materials/工程图学2020年上册AB卷试题/",
     "tags": [
       "工程图学",
       "工图"
     ]
   },
   {
-    "title": "工程图学上24",
+    "title": "工程图学2024年上册试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程图学上24/",
+    "url": "/materials/工程图学2024年上册试题/",
     "tags": [
       "工程图学",
       "工图"
@@ -1840,122 +1808,122 @@
     ]
   },
   {
-    "title": "工程材料学19",
+    "title": "工程材料学2019年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程材料学19/",
+    "url": "/materials/工程材料学2019年试题/",
     "tags": [
       "工程材料学",
       "工材"
     ]
   },
   {
-    "title": "工程材料学20",
+    "title": "工程材料学2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程材料学20/",
+    "url": "/materials/工程材料学2020年试题/",
     "tags": [
       "工程材料学",
       "工材"
     ]
   },
   {
-    "title": "工程材料学21",
+    "title": "工程材料学2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程材料学21/",
+    "url": "/materials/工程材料学2021年试题/",
     "tags": [
       "工程材料学",
       "工材"
     ]
   },
   {
-    "title": "工程材料学22",
+    "title": "工程材料学2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程材料学22/",
+    "url": "/materials/工程材料学2022年试题/",
     "tags": [
       "工程材料学",
       "工材"
     ]
   },
   {
-    "title": "工程流体力学21",
+    "title": "工程流体力学2021年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程流体力学21/",
+    "url": "/materials/工程流体力学2021年补考试题/",
     "tags": [
       "工程流体力学"
     ]
   },
   {
-    "title": "工程流体力学21补",
+    "title": "工程流体力学2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程流体力学21补/",
+    "url": "/materials/工程流体力学2021年试题/",
     "tags": [
       "工程流体力学"
     ]
   },
   {
-    "title": "工程流体力学22秋",
+    "title": "工程流体力学2022年秋季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程流体力学22秋/",
+    "url": "/materials/工程流体力学2022年秋季试题/",
     "tags": [
       "工程流体力学"
     ]
   },
   {
-    "title": "工程流体力学23秋",
+    "title": "工程流体力学2023年秋季补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程流体力学23秋/",
+    "url": "/materials/工程流体力学2023年秋季补考试题/",
     "tags": [
       "工程流体力学"
     ]
   },
   {
-    "title": "工程流体力学23秋补",
+    "title": "工程流体力学2023年秋季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程流体力学23秋补/",
+    "url": "/materials/工程流体力学2023年秋季试题/",
     "tags": [
       "工程流体力学"
     ]
   },
   {
-    "title": "工程热力学20春",
+    "title": "工程热力学2020年春季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程热力学20春/",
+    "url": "/materials/工程热力学2020年春季试题/",
     "tags": [
       "工程热力学"
     ]
   },
   {
-    "title": "工程热力学21",
+    "title": "工程热力学2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程热力学21/",
+    "url": "/materials/工程热力学2021年试题/",
     "tags": [
       "工程热力学"
     ]
   },
   {
-    "title": "工程热力学22",
+    "title": "工程热力学2022年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程热力学22/",
+    "url": "/materials/工程热力学2022年补考试题/",
     "tags": [
       "工程热力学"
     ]
   },
   {
-    "title": "工程热力学22补",
+    "title": "工程热力学2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程热力学22补/",
+    "url": "/materials/工程热力学2022年试题/",
     "tags": [
       "工程热力学"
     ]
@@ -1970,10 +1938,10 @@
     ]
   },
   {
-    "title": "工程热力学基础20",
+    "title": "工程热力学基础2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程热力学基础20/",
+    "url": "/materials/工程热力学基础2020年试题/",
     "tags": [
       "工程热力学基础"
     ]
@@ -1988,48 +1956,30 @@
     ]
   },
   {
-    "title": "工程经济学20AB",
+    "title": "工程经济学2020年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程经济学20AB/",
+    "url": "/materials/工程经济学2020年AB卷试题/",
     "tags": [
       "工程经济学"
     ]
   },
   {
-    "title": "工程经济学21AB",
+    "title": "工程经济学2021年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程经济学21AB/",
+    "url": "/materials/工程经济学2021年AB卷试题/",
     "tags": [
       "工程经济学"
     ]
   },
   {
-    "title": "工程经济学22",
+    "title": "工程经济学2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/工程经济学22/",
+    "url": "/materials/工程经济学2022年试题/",
     "tags": [
       "工程经济学"
-    ]
-  },
-  {
-    "title": "常微分方程 2022-2023第4次课堂考试",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/常微分方程-2022-2023第4次课堂考试/",
-    "tags": [
-      "常微分方程"
-    ]
-  },
-  {
-    "title": "常微分方程 22期末",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/常微分方程-22期末/",
-    "tags": [
-      "常微分方程"
     ]
   },
   {
@@ -2060,6 +2010,24 @@
     ]
   },
   {
+    "title": "常微分方程2022-2023学年第4次课堂考试",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/常微分方程2022-2023学年第4次课堂考试/",
+    "tags": [
+      "常微分方程"
+    ]
+  },
+  {
+    "title": "常微分方程2022年期末试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/常微分方程2022年期末试题/",
+    "tags": [
+      "常微分方程"
+    ]
+  },
+  {
     "title": "应用统计学2021年试题",
     "summary": "",
     "section": "materials",
@@ -2081,7 +2049,7 @@
     "title": "弹性力学21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/弹性力学21/",
+    "url": "/materials/弹性力学2021年试题/",
     "tags": [
       "弹性力学"
     ]
@@ -2096,20 +2064,20 @@
     ]
   },
   {
-    "title": "微机原理与应用19",
+    "title": "微机原理与应用2019年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微机原理与应用19/",
+    "url": "/materials/微机原理与应用2019年试题/",
     "tags": [
       "微机原理与应用",
       "微机"
     ]
   },
   {
-    "title": "微机原理与应用20",
+    "title": "微机原理与应用2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微机原理与应用20/",
+    "url": "/materials/微机原理与应用2020年试题/",
     "tags": [
       "微机原理与应用",
       "微机"
@@ -2119,26 +2087,26 @@
     "title": "微机原理与应用24秋",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微机原理与应用24秋/",
+    "url": "/materials/微机原理与应用2024年秋季试题/",
     "tags": [
       "微机原理与应用",
       "微机"
     ]
   },
   {
-    "title": "微机原理与接口技术22",
+    "title": "微机原理与接口技术2024年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微机原理与接口技术22/",
+    "url": "/materials/微机原理与接口技术2024年试题/",
     "tags": [
       "微机原理与接口技术"
     ]
   },
   {
-    "title": "微机原理与接口技术24",
+    "title": "微机原理与接口技术22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微机原理与接口技术24/",
+    "url": "/materials/微机原理与接口技术2022年试题/",
     "tags": [
       "微机原理与接口技术"
     ]
@@ -2147,7 +2115,7 @@
     "title": "微机原理及应用21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微机原理及应用21/",
+    "url": "/materials/微机原理及应用2021年试题/",
     "tags": [
       "微机原理及应用"
     ]
@@ -2156,7 +2124,7 @@
     "title": "微波技术21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微波技术21/",
+    "url": "/materials/微波技术2021年试题/",
     "tags": [
       "微波技术"
     ]
@@ -2165,7 +2133,7 @@
     "title": "微波技术与天线21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微波技术与天线21/",
+    "url": "/materials/微波技术与天线2021年试题/",
     "tags": [
       "微波技术与天线"
     ]
@@ -2174,7 +2142,7 @@
     "title": "微波技术与天线22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微波技术与天线22/",
+    "url": "/materials/微波技术与天线2022年试题/",
     "tags": [
       "微波技术与天线"
     ]
@@ -2183,7 +2151,7 @@
     "title": "微波技术与天线22补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微波技术与天线22补/",
+    "url": "/materials/微波技术与天线2022年补考试题/",
     "tags": [
       "微波技术与天线"
     ]
@@ -2192,16 +2160,16 @@
     "title": "微波技术与天线23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微波技术与天线23/",
+    "url": "/materials/微波技术与天线2023年试题/",
     "tags": [
       "微波技术与天线"
     ]
   },
   {
-    "title": "微观经济学19AB",
+    "title": "微观经济学2019年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微观经济学19AB/",
+    "url": "/materials/微观经济学2019年AB卷试题/",
     "tags": [
       "微观经济学"
     ]
@@ -2210,7 +2178,7 @@
     "title": "微观经济学20AB",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微观经济学20AB/",
+    "url": "/materials/微观经济学2020年AB卷试题/",
     "tags": [
       "微观经济学"
     ]
@@ -2219,7 +2187,7 @@
     "title": "微观经济学21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/微观经济学21/",
+    "url": "/materials/微观经济学2021年试题/",
     "tags": [
       "微观经济学"
     ]
@@ -2295,7 +2263,7 @@
     "title": "控制系统工程19",
     "summary": "",
     "section": "materials",
-    "url": "/materials/控制系统工程19/",
+    "url": "/materials/控制系统工程2019年试题/",
     "tags": [
       "控制系统工程"
     ]
@@ -2304,7 +2272,16 @@
     "title": "控制系统工程1920试卷（照片，稍乱）",
     "summary": "",
     "section": "materials",
-    "url": "/materials/控制系统工程1920试卷（照片，稍乱）/",
+    "url": "/materials/控制系统工程2019-2020学年试卷（照片，稍乱）/",
+    "tags": [
+      "控制系统工程"
+    ]
+  },
+  {
+    "title": "控制系统工程2024年试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/控制系统工程2024年试题/",
     "tags": [
       "控制系统工程"
     ]
@@ -2313,7 +2290,7 @@
     "title": "控制系统工程22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/控制系统工程22/",
+    "url": "/materials/控制系统工程2022年试题/",
     "tags": [
       "控制系统工程"
     ]
@@ -2322,7 +2299,7 @@
     "title": "控制系统工程22补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/控制系统工程22补/",
+    "url": "/materials/控制系统工程2022年补考试题/",
     "tags": [
       "控制系统工程"
     ]
@@ -2331,34 +2308,25 @@
     "title": "控制系统工程23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/控制系统工程23/",
+    "url": "/materials/控制系统工程2023年试题/",
     "tags": [
       "控制系统工程"
     ]
   },
   {
-    "title": "控制系统工程24",
+    "title": "操作系统2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/控制系统工程24/",
-    "tags": [
-      "控制系统工程"
-    ]
-  },
-  {
-    "title": "操作系统2020",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/操作系统2020/",
+    "url": "/materials/操作系统2020年试题/",
     "tags": [
       "操作系统"
     ]
   },
   {
-    "title": "操作系统23春补",
+    "title": "操作系统2023年春季补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/操作系统23春补/",
+    "url": "/materials/操作系统2023年春季补考试题/",
     "tags": [
       "操作系统"
     ]
@@ -2397,7 +2365,7 @@
     "title": "数值逼近20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数值逼近20/",
+    "url": "/materials/数值逼近2020年试题/",
     "tags": [
       "数值逼近"
     ]
@@ -2406,7 +2374,7 @@
     "title": "数值逼近22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数值逼近22/",
+    "url": "/materials/数值逼近2022年试题/",
     "tags": [
       "数值逼近"
     ]
@@ -2415,16 +2383,16 @@
     "title": "数值逼近23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数值逼近23/",
+    "url": "/materials/数值逼近2023年试题/",
     "tags": [
       "数值逼近"
     ]
   },
   {
-    "title": "数字信号处理21春",
+    "title": "数字信号处理2021年春季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数字信号处理21春/",
+    "url": "/materials/数字信号处理2021年春季试题/",
     "tags": [
       "数字信号处理"
     ]
@@ -2433,7 +2401,7 @@
     "title": "数字信号处理21秋",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数字信号处理21秋/",
+    "url": "/materials/数字信号处理2021年秋季试题/",
     "tags": [
       "数字信号处理"
     ]
@@ -2442,7 +2410,7 @@
     "title": "数字信号处理22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数字信号处理22/",
+    "url": "/materials/数字信号处理2022年试题/",
     "tags": [
       "数字信号处理"
     ]
@@ -2451,7 +2419,7 @@
     "title": "数字信号处理23秋",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数字信号处理23秋/",
+    "url": "/materials/数字信号处理2023年秋季试题/",
     "tags": [
       "数字信号处理"
     ]
@@ -2460,43 +2428,43 @@
     "title": "数字电子技术22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数字电子技术22/",
+    "url": "/materials/数字电子技术2022年试题/",
     "tags": [
       "数字电子技术"
     ]
   },
   {
-    "title": "数字电路与逻辑设计19",
+    "title": "数字电路与逻辑设计2019年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数字电路与逻辑设计19/",
+    "url": "/materials/数字电路与逻辑设计2019年试题/",
     "tags": [
       "数字电路与逻辑设计"
     ]
   },
   {
-    "title": "数字电路与逻辑设计21",
+    "title": "数字电路与逻辑设计2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数字电路与逻辑设计21/",
+    "url": "/materials/数字电路与逻辑设计2021年试题/",
     "tags": [
       "数字电路与逻辑设计"
     ]
   },
   {
-    "title": "数字电路与逻辑设计22",
+    "title": "数字电路与逻辑设计2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数字电路与逻辑设计22/",
+    "url": "/materials/数字电路与逻辑设计2022年试题/",
     "tags": [
       "数字电路与逻辑设计"
     ]
   },
   {
-    "title": "数字电路与逻辑设计24",
+    "title": "数字电路与逻辑设计2024年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数字电路与逻辑设计24/",
+    "url": "/materials/数字电路与逻辑设计2024年试题/",
     "tags": [
       "数字电路与逻辑设计"
     ]
@@ -2505,7 +2473,7 @@
     "title": "数字系统设计与PLD应用22补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数字系统设计与PLD应用22补/",
+    "url": "/materials/数字系统设计与PLD应用2022年补考试题/",
     "tags": [
       "数字系统设计与PLD应用"
     ]
@@ -2514,7 +2482,7 @@
     "title": "数学分析21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数学分析21/",
+    "url": "/materials/数学分析2021年试题/",
     "tags": [
       "数学分析"
     ]
@@ -2550,16 +2518,16 @@
     "title": "数据库原理20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数据库原理20/",
+    "url": "/materials/数据库原理2020年试题/",
     "tags": [
       "数据库原理"
     ]
   },
   {
-    "title": "数据库原理21",
+    "title": "数据库原理2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数据库原理21/",
+    "url": "/materials/数据库原理2021年试题/",
     "tags": [
       "数据库原理"
     ]
@@ -2568,25 +2536,34 @@
     "title": "数据库原理22春",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数据库原理22春/",
+    "url": "/materials/数据库原理2022年春季试题/",
     "tags": [
       "数据库原理"
+    ]
+  },
+  {
+    "title": "数据结构2020年机考试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/数据结构2020年机考试题/",
+    "tags": [
+      "数据结构"
+    ]
+  },
+  {
+    "title": "数据结构2021年A卷试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/数据结构2021年A卷试题/",
+    "tags": [
+      "数据结构"
     ]
   },
   {
     "title": "数据结构21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数据结构21/",
-    "tags": [
-      "数据结构"
-    ]
-  },
-  {
-    "title": "数据结构21A",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/数据结构21A/",
+    "url": "/materials/数据结构2021年试题/",
     "tags": [
       "数据结构"
     ]
@@ -2595,7 +2572,7 @@
     "title": "数据结构22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数据结构22/",
+    "url": "/materials/数据结构2022年试题/",
     "tags": [
       "数据结构"
     ]
@@ -2604,7 +2581,7 @@
     "title": "数据结构23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数据结构23/",
+    "url": "/materials/数据结构2023年试题/",
     "tags": [
       "数据结构"
     ]
@@ -2613,7 +2590,7 @@
     "title": "数据结构C#22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数据结构C#22/",
+    "url": "/materials/数据结构C#2022年试题/",
     "tags": [
       "数据结构C#"
     ]
@@ -2622,7 +2599,7 @@
     "title": "数据结构C22补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数据结构C22补/",
+    "url": "/materials/数据结构C2022年补考试题/",
     "tags": [
       "数据结构C#"
     ]
@@ -2631,25 +2608,16 @@
     "title": "数据结构与数据库21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数据结构与数据库21/",
+    "url": "/materials/数据结构与数据库2021年试题/",
     "tags": [
       "数据结构与数据库"
-    ]
-  },
-  {
-    "title": "数据结构机考20",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/数据结构机考20/",
-    "tags": [
-      "数据结构"
     ]
   },
   {
     "title": "数据结构机考21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数据结构机考21/",
+    "url": "/materials/数据结构2021年机考试题/",
     "tags": [
       "数据结构"
     ]
@@ -2658,7 +2626,7 @@
     "title": "数据结构机考23秋",
     "summary": "",
     "section": "materials",
-    "url": "/materials/数据结构机考23秋/",
+    "url": "/materials/数据结构2023年秋季机考试题/",
     "tags": [
       "数据结构"
     ]
@@ -2694,7 +2662,7 @@
     "title": "机床数控技术21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机床数控技术21/",
+    "url": "/materials/机床数控技术2021年试题/",
     "tags": [
       "机床数控技术"
     ]
@@ -2727,10 +2695,10 @@
     ]
   },
   {
-    "title": "机械制造工艺与装备21A",
+    "title": "机械制造工艺与装备2021年A卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械制造工艺与装备21A/",
+    "url": "/materials/机械制造工艺与装备2021年A卷试题/",
     "tags": [
       "机械制造工艺与装备"
     ]
@@ -2739,7 +2707,7 @@
     "title": "机械制造工艺与装备21B",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械制造工艺与装备21B/",
+    "url": "/materials/机械制造工艺与装备2021年B卷试题/",
     "tags": [
       "机械制造工艺与装备"
     ]
@@ -2748,7 +2716,7 @@
     "title": "机械制造工艺与装备22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械制造工艺与装备22/",
+    "url": "/materials/机械制造工艺与装备2022年试题/",
     "tags": [
       "机械制造工艺与装备"
     ]
@@ -2757,7 +2725,7 @@
     "title": "机械制造技术20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械制造技术20/",
+    "url": "/materials/机械制造技术2020年试题/",
     "tags": [
       "机械制造技术"
     ]
@@ -2766,7 +2734,7 @@
     "title": "机械制造技术22AB",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械制造技术22AB/",
+    "url": "/materials/机械制造技术2022年AB卷试题/",
     "tags": [
       "机械制造技术"
     ]
@@ -2775,7 +2743,7 @@
     "title": "机械原理21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械原理21/",
+    "url": "/materials/机械原理2021年试题/",
     "tags": [
       "机械原理"
     ]
@@ -2784,7 +2752,7 @@
     "title": "机械原理21补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械原理21补/",
+    "url": "/materials/机械原理2021年补考试题/",
     "tags": [
       "机械原理"
     ]
@@ -2793,7 +2761,7 @@
     "title": "机械原理22春",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械原理22春/",
+    "url": "/materials/机械原理2022年春季试题/",
     "tags": [
       "机械原理"
     ]
@@ -2802,7 +2770,7 @@
     "title": "机械原理22补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械原理22补/",
+    "url": "/materials/机械原理2022年补考试题/",
     "tags": [
       "机械原理"
     ]
@@ -2844,10 +2812,19 @@
     ]
   },
   {
+    "title": "机械振动基础及应用2023年试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/机械振动基础及应用2023年试题/",
+    "tags": [
+      "机械振动基础及应用"
+    ]
+  },
+  {
     "title": "机械振动基础及应用22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械振动基础及应用22/",
+    "url": "/materials/机械振动基础及应用2022年试题/",
     "tags": [
       "机械振动基础及应用"
     ]
@@ -2856,16 +2833,7 @@
     "title": "机械振动基础及应用22补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械振动基础及应用22补/",
-    "tags": [
-      "机械振动基础及应用"
-    ]
-  },
-  {
-    "title": "机械振动基础及应用23",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/机械振动基础及应用23/",
+    "url": "/materials/机械振动基础及应用2022年补考试题/",
     "tags": [
       "机械振动基础及应用"
     ]
@@ -2874,7 +2842,7 @@
     "title": "机械设计20AB",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械设计20AB/",
+    "url": "/materials/机械设计2020年AB卷试题/",
     "tags": [
       "机械设计"
     ]
@@ -2883,7 +2851,7 @@
     "title": "机械设计22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械设计22/",
+    "url": "/materials/机械设计2022年试题/",
     "tags": [
       "机械设计"
     ]
@@ -2892,7 +2860,7 @@
     "title": "机械设计23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械设计23/",
+    "url": "/materials/机械设计2023年试题/",
     "tags": [
       "机械设计"
     ]
@@ -2901,7 +2869,7 @@
     "title": "机械设计基础20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械设计基础20/",
+    "url": "/materials/机械设计基础2020年试题/",
     "tags": [
       "机械设计基础"
     ]
@@ -2910,7 +2878,7 @@
     "title": "机械设计基础22春补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/机械设计基础22春补/",
+    "url": "/materials/机械设计基础2022年春季补考试题/",
     "tags": [
       "机械设计基础"
     ]
@@ -2934,6 +2902,15 @@
     ]
   },
   {
+    "title": "材料力学2020年春季试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/材料力学2020年春季试题/",
+    "tags": [
+      "材料力学"
+    ]
+  },
+  {
     "title": "材料力学2021年春季补考",
     "summary": "",
     "section": "materials",
@@ -2941,6 +2918,24 @@
     "tags": [
       "材料力学",
       "材力"
+    ]
+  },
+  {
+    "title": "材料力学2021年春季试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/材料力学2021年春季试题/",
+    "tags": [
+      "材料力学"
+    ]
+  },
+  {
+    "title": "材料力学2021年期中试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/材料力学2021年期中试题/",
+    "tags": [
+      "材料力学"
     ]
   },
   {
@@ -2954,46 +2949,28 @@
     ]
   },
   {
-    "title": "材料力学20春",
+    "title": "材料力学2022年春季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/材料力学20春/",
+    "url": "/materials/材料力学2022年春季试题/",
     "tags": [
       "材料力学"
     ]
   },
   {
-    "title": "材料力学21春",
+    "title": "材料力学2023年期中试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/材料力学21春/",
+    "url": "/materials/材料力学2023年期中试题/",
     "tags": [
       "材料力学"
     ]
   },
   {
-    "title": "材料力学22春",
+    "title": "材料力学III2022年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/材料力学22春/",
-    "tags": [
-      "材料力学"
-    ]
-  },
-  {
-    "title": "材料力学23期中",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/材料力学23期中/",
-    "tags": [
-      "材料力学"
-    ]
-  },
-  {
-    "title": "材料力学III22补",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/材料力学III22补/",
+    "url": "/materials/材料力学III2022年补考试题/",
     "tags": [
       "材料力学"
     ]
@@ -3018,15 +2995,6 @@
     ]
   },
   {
-    "title": "材料力学期中21",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/材料力学期中21/",
-    "tags": [
-      "材料力学"
-    ]
-  },
-  {
     "title": "材料力学校题答案（未整理图片版）",
     "summary": "",
     "section": "materials",
@@ -3046,10 +3014,10 @@
     ]
   },
   {
-    "title": "检测技术与传感原理22",
+    "title": "检测技术与传感原理2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/检测技术与传感原理22/",
+    "url": "/materials/检测技术与传感原理2022年试题/",
     "tags": [
       "检测技术与传感原理"
     ]
@@ -3058,7 +3026,7 @@
     "title": "检测技术与传感原理22补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/检测技术与传感原理22补/",
+    "url": "/materials/检测技术与传感原理2022年补考试题/",
     "tags": [
       "检测技术与传感原理"
     ]
@@ -3073,90 +3041,90 @@
     ]
   },
   {
-    "title": "概率论20AB",
+    "title": "概率论2020年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/概率论20AB/",
+    "url": "/materials/概率论2020年AB卷试题/",
     "tags": [
       "概率论与数理统计",
       "概率论"
     ]
   },
   {
-    "title": "概率论21春",
+    "title": "概率论2021年春季补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/概率论21春/",
+    "url": "/materials/概率论2021年春季补考试题/",
     "tags": [
       "概率论与数理统计",
       "概率论"
     ]
   },
   {
-    "title": "概率论21春补",
+    "title": "概率论2021年春季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/概率论21春补/",
+    "url": "/materials/概率论2021年春季试题/",
     "tags": [
       "概率论与数理统计",
       "概率论"
     ]
   },
   {
-    "title": "概率论21秋",
+    "title": "概率论2021年秋季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/概率论21秋/",
+    "url": "/materials/概率论2021年秋季试题/",
     "tags": [
       "概率论与数理统计",
       "概率论"
     ]
   },
   {
-    "title": "概率论22春",
+    "title": "概率论2022年春季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/概率论22春/",
+    "url": "/materials/概率论2022年春季试题/",
     "tags": [
       "概率论与数理统计",
       "概率论"
     ]
   },
   {
-    "title": "概率论22秋",
+    "title": "概率论2022年秋季补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/概率论22秋/",
+    "url": "/materials/概率论2022年秋季补考试题/",
     "tags": [
       "概率论与数理统计",
       "概率论"
     ]
   },
   {
-    "title": "概率论22秋补",
+    "title": "概率论2022年秋季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/概率论22秋补/",
+    "url": "/materials/概率论2022年秋季试题/",
     "tags": [
       "概率论与数理统计",
       "概率论"
     ]
   },
   {
-    "title": "概率论23春",
+    "title": "概率论2023年春季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/概率论23春/",
+    "url": "/materials/概率论2023年春季试题/",
     "tags": [
       "概率论与数理统计",
       "概率论"
     ]
   },
   {
-    "title": "概率论23秋",
+    "title": "概率论2023年秋季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/概率论23秋/",
+    "url": "/materials/概率论2023年秋季试题/",
     "tags": [
       "概率论与数理统计",
       "概率论"
@@ -3186,7 +3154,7 @@
     "title": "模拟电子技术21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/模拟电子技术21/",
+    "url": "/materials/模拟电子技术2021年试题/",
     "tags": [
       "模拟电子技术"
     ]
@@ -3195,7 +3163,7 @@
     "title": "模拟电子技术22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/模拟电子技术22/",
+    "url": "/materials/模拟电子技术2022年试题/",
     "tags": [
       "模拟电子技术"
     ]
@@ -3204,7 +3172,7 @@
     "title": "模拟电子技术22补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/模拟电子技术22补/",
+    "url": "/materials/模拟电子技术2022年补考试题/",
     "tags": [
       "模拟电子技术"
     ]
@@ -3213,7 +3181,7 @@
     "title": "模拟电子技术23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/模拟电子技术23/",
+    "url": "/materials/模拟电子技术2023年试题/",
     "tags": [
       "模拟电子技术"
     ]
@@ -3232,7 +3200,7 @@
     "title": "毛概21A卷(带选择答案）",
     "summary": "",
     "section": "materials",
-    "url": "/materials/毛概21A卷(带选择答案）/",
+    "url": "/materials/毛泽东思想和中国特色社会主义理论体系概论2021年A卷试题（带选择答案）/",
     "tags": [
       "毛泽东思想和中国特色社会主义理论体系概论",
       "毛概"
@@ -3242,7 +3210,7 @@
     "title": "毛概21A卷答案",
     "summary": "",
     "section": "materials",
-    "url": "/materials/毛概21A卷答案/",
+    "url": "/materials/毛泽东思想和中国特色社会主义理论体系概论2021年A卷试题答案/",
     "tags": [
       "毛泽东思想和中国特色社会主义理论体系概论",
       "毛概"
@@ -3252,7 +3220,7 @@
     "title": "毛概21B卷",
     "summary": "",
     "section": "materials",
-    "url": "/materials/毛概21B卷/",
+    "url": "/materials/毛泽东思想和中国特色社会主义理论体系概论2021年B卷试题/",
     "tags": [
       "毛泽东思想和中国特色社会主义理论体系概论",
       "毛概"
@@ -3262,7 +3230,7 @@
     "title": "毛概22春",
     "summary": "",
     "section": "materials",
-    "url": "/materials/毛概22春/",
+    "url": "/materials/毛泽东思想和中国特色社会主义理论体系概论2022年春季试题/",
     "tags": [
       "毛泽东思想和中国特色社会主义理论体系概论",
       "毛概"
@@ -3272,7 +3240,7 @@
     "title": "毛概22秋",
     "summary": "",
     "section": "materials",
-    "url": "/materials/毛概22秋/",
+    "url": "/materials/毛泽东思想和中国特色社会主义理论体系概论2022年秋季试题/",
     "tags": [
       "毛泽东思想和中国特色社会主义理论体系概论",
       "毛概"
@@ -3282,7 +3250,7 @@
     "title": "毛概23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/毛概23/",
+    "url": "/materials/毛泽东思想和中国特色社会主义理论体系概论2023年试题/",
     "tags": [
       "毛泽东思想和中国特色社会主义理论体系概论",
       "毛概"
@@ -3332,7 +3300,7 @@
     "title": "民用航空法23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/民用航空法23/",
+    "url": "/materials/民用航空法2023年试题/",
     "tags": [
       "民用航空法"
     ]
@@ -3352,7 +3320,7 @@
     "title": "民航机载电子设备与系统20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/民航机载电子设备与系统20/",
+    "url": "/materials/民航机载电子设备与系统2020年试题/",
     "tags": [
       "民航机载电子设备与系统"
     ]
@@ -3361,7 +3329,7 @@
     "title": "民航机载电子设备与系统22补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/民航机载电子设备与系统22补/",
+    "url": "/materials/民航机载电子设备与系统2022年补考试题/",
     "tags": [
       "民航机载电子设备与系统"
     ]
@@ -3370,7 +3338,7 @@
     "title": "民航概论23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/民航概论23/",
+    "url": "/materials/民航概论2023年试题/",
     "tags": [
       "民航概论"
     ]
@@ -3379,7 +3347,7 @@
     "title": "汇编语言21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/汇编语言21/",
+    "url": "/materials/汇编语言2021年试题/",
     "tags": [
       "汇编语言"
     ]
@@ -3388,7 +3356,7 @@
     "title": "汇编语言21补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/汇编语言21补/",
+    "url": "/materials/汇编语言2021年补考试题/",
     "tags": [
       "汇编语言"
     ]
@@ -3397,7 +3365,7 @@
     "title": "流体力学21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/流体力学21/",
+    "url": "/materials/流体力学2021年试题/",
     "tags": [
       "流体力学"
     ]
@@ -3415,7 +3383,16 @@
     "title": "测试技术20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/测试技术20/",
+    "url": "/materials/测试技术2020年试题/",
+    "tags": [
+      "测试技术"
+    ]
+  },
+  {
+    "title": "测试技术2022年补考试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/测试技术2022年补考试题/",
     "tags": [
       "测试技术"
     ]
@@ -3424,7 +3401,7 @@
     "title": "测试技术21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/测试技术21/",
+    "url": "/materials/测试技术2021年试题/",
     "tags": [
       "测试技术"
     ]
@@ -3433,25 +3410,16 @@
     "title": "测试技术22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/测试技术22/",
+    "url": "/materials/测试技术2022年试题/",
     "tags": [
       "测试技术"
     ]
   },
   {
-    "title": "测试技术22补",
+    "title": "液压与气压传动2022年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/测试技术22补/",
-    "tags": [
-      "测试技术"
-    ]
-  },
-  {
-    "title": "液压与气压传动2022补试题",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/液压与气压传动2022补试题/",
+    "url": "/materials/液压与气压传动2022年补考试题/",
     "tags": [
       "液压与气压传动"
     ]
@@ -3460,7 +3428,7 @@
     "title": "液压与气压传动2023试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/液压与气压传动2023试题/",
+    "url": "/materials/液压与气压传动2023年试题/",
     "tags": [
       "液压与气压传动"
     ]
@@ -3469,7 +3437,7 @@
     "title": "燃烧室原理20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/燃烧室原理20/",
+    "url": "/materials/燃烧室原理2020年试题/",
     "tags": [
       "燃烧室原理"
     ]
@@ -3488,7 +3456,7 @@
     "title": "特种电机及其控制21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/特种电机及其控制21/",
+    "url": "/materials/特种电机及其控制2021年试题/",
     "tags": [
       "特种电机及其控制"
     ]
@@ -3497,7 +3465,7 @@
     "title": "现代控制理论19AB",
     "summary": "",
     "section": "materials",
-    "url": "/materials/现代控制理论19AB/",
+    "url": "/materials/现代控制理论2019年AB卷试题/",
     "tags": [
       "现代控制理论"
     ]
@@ -3506,7 +3474,25 @@
     "title": "现代控制理论20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/现代控制理论20/",
+    "url": "/materials/现代控制理论2020年试题/",
+    "tags": [
+      "现代控制理论"
+    ]
+  },
+  {
+    "title": "现代控制理论2022年AB卷试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/现代控制理论2022年AB卷试题/",
+    "tags": [
+      "现代控制理论"
+    ]
+  },
+  {
+    "title": "现代控制理论2022年B卷试题答案",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/现代控制理论2022年B卷试题答案/",
     "tags": [
       "现代控制理论"
     ]
@@ -3515,25 +3501,7 @@
     "title": "现代控制理论21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/现代控制理论21/",
-    "tags": [
-      "现代控制理论"
-    ]
-  },
-  {
-    "title": "现代控制理论22AB",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/现代控制理论22AB/",
-    "tags": [
-      "现代控制理论"
-    ]
-  },
-  {
-    "title": "现代控制理论22B官方答案",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/现代控制理论22B官方答案/",
+    "url": "/materials/现代控制理论2021年试题/",
     "tags": [
       "现代控制理论"
     ]
@@ -3542,122 +3510,122 @@
     "title": "理工基础化学20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/理工基础化学20/",
+    "url": "/materials/理工基础化学2020年试题/",
     "tags": [
       "理工基础化学"
     ]
   },
   {
-    "title": "理论力学19",
+    "title": "理论力学2019年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/理论力学19/",
+    "url": "/materials/理论力学2019年试题/",
     "tags": [
       "理论力学",
       "理力"
     ]
   },
   {
-    "title": "理论力学20(带填空)",
+    "title": "理论力学2020年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/理论力学20(带填空)/",
+    "url": "/materials/理论力学2020年AB卷试题/",
+    "tags": [
+      "理论力学",
+      "理力"
+    ]
+  },
+  {
+    "title": "理论力学2020年试题（带填空）",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/理论力学2020年试题（带填空）/",
     "tags": [
       "理论力学"
     ]
   },
   {
-    "title": "理论力学20AB",
+    "title": "理论力学2021年秋季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/理论力学20AB/",
+    "url": "/materials/理论力学2021年秋季试题/",
     "tags": [
       "理论力学",
       "理力"
     ]
   },
   {
-    "title": "理论力学21",
+    "title": "理论力学2021年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/理论力学21/",
+    "url": "/materials/理论力学2021年补考试题/",
     "tags": [
       "理论力学"
     ]
   },
   {
-    "title": "理论力学21秋",
+    "title": "理论力学2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/理论力学21秋/",
-    "tags": [
-      "理论力学",
-      "理力"
-    ]
-  },
-  {
-    "title": "理论力学21补",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/理论力学21补/",
+    "url": "/materials/理论力学2021年试题/",
     "tags": [
       "理论力学"
     ]
   },
   {
-    "title": "理论力学22",
+    "title": "理论力学2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/理论力学22/",
+    "url": "/materials/理论力学2022年试题/",
     "tags": [
       "理论力学",
       "理力"
     ]
   },
   {
-    "title": "理论力学23补",
+    "title": "理论力学2023年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/理论力学23补/",
+    "url": "/materials/理论力学2023年补考试题/",
     "tags": [
       "理论力学",
       "理力"
     ]
   },
   {
-    "title": "理论力学24",
+    "title": "理论力学2024年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/理论力学24/",
+    "url": "/materials/理论力学2024年试题/",
     "tags": [
       "理论力学",
       "理力"
     ]
   },
   {
-    "title": "理论力学II22",
+    "title": "理论力学II2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/理论力学II22/",
+    "url": "/materials/理论力学II2022年试题/",
     "tags": [
       "理论力学"
     ]
   },
   {
-    "title": "理论力学III22春",
+    "title": "理论力学III2022年春季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/理论力学III22春/",
+    "url": "/materials/理论力学III2022年春季试题/",
     "tags": [
       "理论力学",
       "理力"
     ]
   },
   {
-    "title": "理论力学III22秋",
+    "title": "理论力学III2022年秋季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/理论力学III22秋/",
+    "url": "/materials/理论力学III2022年秋季试题/",
     "tags": [
       "理论力学",
       "理力"
@@ -3677,7 +3645,7 @@
     "title": "生物化学20AB",
     "summary": "",
     "section": "materials",
-    "url": "/materials/生物化学20AB/",
+    "url": "/materials/生物化学2020年AB卷试题/",
     "tags": [
       "生物化学"
     ]
@@ -3686,7 +3654,7 @@
     "title": "生物化学21AB",
     "summary": "",
     "section": "materials",
-    "url": "/materials/生物化学21AB/",
+    "url": "/materials/生物化学2021年AB卷试题/",
     "tags": [
       "生物化学"
     ]
@@ -3774,7 +3742,7 @@
     "title": "电力工程19",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电力工程19/",
+    "url": "/materials/电力工程2019年试题/",
     "tags": [
       "电力工程"
     ]
@@ -3783,7 +3751,7 @@
     "title": "电力电子应用技术23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电力电子应用技术23/",
+    "url": "/materials/电力电子应用技术2023年试题/",
     "tags": [
       "电力电子应用技术"
     ]
@@ -3801,7 +3769,7 @@
     "title": "电力电子技术19",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电力电子技术19/",
+    "url": "/materials/电力电子技术2019年试题/",
     "tags": [
       "电力电子技术"
     ]
@@ -3810,16 +3778,16 @@
     "title": "电力电子技术20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电力电子技术20/",
+    "url": "/materials/电力电子技术2020年试题/",
     "tags": [
       "电力电子技术"
     ]
   },
   {
-    "title": "电力电子技术21补",
+    "title": "电力电子技术2021年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电力电子技术21补/",
+    "url": "/materials/电力电子技术2021年补考试题/",
     "tags": [
       "电力电子技术"
     ]
@@ -3834,10 +3802,10 @@
     ]
   },
   {
-    "title": "电力电子数字控制技术20",
+    "title": "电力电子数字控制技术2020年试题",
     "summary": "电力电子数字控制技术",
     "section": "materials",
-    "url": "/materials/电力电子数字控制技术20/",
+    "url": "/materials/电力电子数字控制技术2020年试题/",
     "tags": [
       "电力电子数字控制技术"
     ]
@@ -3846,7 +3814,7 @@
     "title": "电器原理及应用20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电器原理及应用20/",
+    "url": "/materials/电器原理及应用2020年试题/",
     "tags": [
       "电器原理及应用"
     ]
@@ -3864,16 +3832,34 @@
     "title": "电子线路19",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电子线路19/",
+    "url": "/materials/电子线路2019年试题/",
     "tags": [
       "电子线路"
     ]
   },
   {
-    "title": "电子线路20",
+    "title": "电子线路2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电子线路20/",
+    "url": "/materials/电子线路2020年试题/",
+    "tags": [
+      "电子线路"
+    ]
+  },
+  {
+    "title": "电子线路2023年秋季补考试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/电子线路2023年秋季补考试题/",
+    "tags": [
+      "电子线路"
+    ]
+  },
+  {
+    "title": "电子线路2023年秋季试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/电子线路2023年秋季试题/",
     "tags": [
       "电子线路"
     ]
@@ -3882,7 +3868,7 @@
     "title": "电子线路21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电子线路21/",
+    "url": "/materials/电子线路2021年试题/",
     "tags": [
       "电子线路"
     ]
@@ -3891,25 +3877,7 @@
     "title": "电子线路22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电子线路22/",
-    "tags": [
-      "电子线路"
-    ]
-  },
-  {
-    "title": "电子线路23秋",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/电子线路23秋/",
-    "tags": [
-      "电子线路"
-    ]
-  },
-  {
-    "title": "电子线路23秋补",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/电子线路23秋补/",
+    "url": "/materials/电子线路2022年试题/",
     "tags": [
       "电子线路"
     ]
@@ -3945,6 +3913,15 @@
     ]
   },
   {
+    "title": "电工与电子技术2020年上册试题（另一版）",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/电工与电子技术2020年上册试题（另一版）/",
+    "tags": [
+      "电工与电子技术"
+    ]
+  },
+  {
     "title": "电工与电子技术2020年下册B卷",
     "summary": "",
     "section": "materials",
@@ -3958,6 +3935,24 @@
     "summary": "",
     "section": "materials",
     "url": "/materials/电工与电子技术2021年上册试题/",
+    "tags": [
+      "电工与电子技术"
+    ]
+  },
+  {
+    "title": "电工与电子技术2021年下册试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/电工与电子技术2021年下册试题/",
+    "tags": [
+      "电工与电子技术"
+    ]
+  },
+  {
+    "title": "电工与电子技术2022年上册试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/电工与电子技术2022年上册试题/",
     "tags": [
       "电工与电子技术"
     ]
@@ -3979,6 +3974,15 @@
     "tags": [
       "电工与电子技术",
       "电工技术"
+    ]
+  },
+  {
+    "title": "电工与电子技术2022年下册试题（另一版）",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/电工与电子技术2022年下册试题（另一版）/",
+    "tags": [
+      "电工与电子技术"
     ]
   },
   {
@@ -4039,42 +4043,6 @@
     ]
   },
   {
-    "title": "电工与电子技术上20",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/电工与电子技术上20/",
-    "tags": [
-      "电工与电子技术"
-    ]
-  },
-  {
-    "title": "电工与电子技术上22",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/电工与电子技术上22/",
-    "tags": [
-      "电工与电子技术"
-    ]
-  },
-  {
-    "title": "电工与电子技术下21",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/电工与电子技术下21/",
-    "tags": [
-      "电工与电子技术"
-    ]
-  },
-  {
-    "title": "电工与电子技术下22",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/电工与电子技术下22/",
-    "tags": [
-      "电工与电子技术"
-    ]
-  },
-  {
     "title": "电机",
     "summary": "",
     "section": "materials",
@@ -4084,19 +4052,19 @@
     ]
   },
   {
-    "title": "电机与控制元件22",
+    "title": "电机与控制元件2023年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电机与控制元件22/",
+    "url": "/materials/电机与控制元件2023年试题/",
     "tags": [
       "电机与控制元件"
     ]
   },
   {
-    "title": "电机与控制元件23",
+    "title": "电机与控制元件22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电机与控制元件23/",
+    "url": "/materials/电机与控制元件2022年试题/",
     "tags": [
       "电机与控制元件"
     ]
@@ -4120,136 +4088,136 @@
     ]
   },
   {
-    "title": "电机学19",
+    "title": "电机学2019年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电机学19/",
+    "url": "/materials/电机学2019年试题/",
     "tags": [
       "电机学"
     ]
   },
   {
-    "title": "电机学20",
+    "title": "电机学2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电机学20/",
+    "url": "/materials/电机学2020年试题/",
     "tags": [
       "电机学"
     ]
   },
   {
-    "title": "电机学21",
+    "title": "电机学2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电机学21/",
+    "url": "/materials/电机学2021年试题/",
     "tags": [
       "电机学"
     ]
   },
   {
-    "title": "电磁场理论20",
+    "title": "电磁场理论2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电磁场理论20/",
+    "url": "/materials/电磁场理论2020年试题/",
     "tags": [
       "电磁场理论"
     ]
   },
   {
-    "title": "电磁场理论21",
+    "title": "电磁场理论2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电磁场理论21/",
+    "url": "/materials/电磁场理论2021年试题/",
     "tags": [
       "电磁场理论"
     ]
   },
   {
-    "title": "电磁场理论22",
+    "title": "电磁场理论2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电磁场理论22/",
+    "url": "/materials/电磁场理论2022年试题/",
     "tags": [
       "电磁场理论"
     ]
   },
   {
-    "title": "电磁场理论23",
+    "title": "电磁场理论2023年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电磁场理论23/",
+    "url": "/materials/电磁场理论2023年试题/",
     "tags": [
       "电磁场理论"
     ]
   },
   {
-    "title": "电路III20",
+    "title": "电路III2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电路III20/",
+    "url": "/materials/电路III2020年试题/",
     "tags": [
       "电路"
     ]
   },
   {
-    "title": "电路III21",
+    "title": "电路III2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电路III21/",
+    "url": "/materials/电路III2021年试题/",
     "tags": [
       "电路"
     ]
   },
   {
-    "title": "电路III22",
+    "title": "电路III2022年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电路III22/",
+    "url": "/materials/电路III2022年补考试题/",
     "tags": [
       "电路"
     ]
   },
   {
-    "title": "电路III22补",
+    "title": "电路III2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电路III22补/",
+    "url": "/materials/电路III2022年试题/",
     "tags": [
       "电路"
     ]
   },
   {
-    "title": "电路III23",
+    "title": "电路III2023年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电路III23/",
+    "url": "/materials/电路III2023年试题/",
     "tags": [
       "电路"
     ]
   },
   {
-    "title": "电路分析基础22",
+    "title": "电路分析基础2022年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电路分析基础22/",
+    "url": "/materials/电路分析基础2022年补考试题/",
     "tags": [
       "电路分析基础"
     ]
   },
   {
-    "title": "电路分析基础22补",
+    "title": "电路分析基础2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电路分析基础22补/",
+    "url": "/materials/电路分析基础2022年试题/",
     "tags": [
       "电路分析基础"
     ]
   },
   {
-    "title": "电路分析基础23",
+    "title": "电路分析基础2023年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/电路分析基础23/",
+    "url": "/materials/电路分析基础2023年试题/",
     "tags": [
       "电路分析基础"
     ]
@@ -4294,10 +4262,19 @@
     ]
   },
   {
+    "title": "离散数学2020年下册试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/离散数学2020年下册试题/",
+    "tags": [
+      "离散数学"
+    ]
+  },
+  {
     "title": "离散数学22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/离散数学22/",
+    "url": "/materials/离散数学2022年试题/",
     "tags": [
       "离散数学"
     ]
@@ -4306,7 +4283,7 @@
     "title": "离散数学22补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/离散数学22补/",
+    "url": "/materials/离散数学2022年补考试题/",
     "tags": [
       "离散数学"
     ]
@@ -4315,7 +4292,7 @@
     "title": "离散数学II24秋",
     "summary": "",
     "section": "materials",
-    "url": "/materials/离散数学II24秋/",
+    "url": "/materials/离散数学II2024年秋季试题/",
     "tags": [
       "离散数学"
     ]
@@ -4324,7 +4301,7 @@
     "title": "离散数学上20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/离散数学上20/",
+    "url": "/materials/离散数学2020年上册试题/",
     "tags": [
       "离散数学"
     ]
@@ -4333,52 +4310,43 @@
     "title": "离散数学上22补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/离散数学上22补/",
+    "url": "/materials/离散数学2022年上册补考试题/",
     "tags": [
       "离散数学"
     ]
   },
   {
-    "title": "离散数学下20",
+    "title": "程序设计2021年上册AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/离散数学下20/",
-    "tags": [
-      "离散数学"
-    ]
-  },
-  {
-    "title": "程序设计上21AB",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/程序设计上21AB/",
+    "url": "/materials/程序设计2021年上册AB卷试题/",
     "tags": [
       "程序设计"
     ]
   },
   {
-    "title": "程序设计上22",
+    "title": "程序设计2021年下册试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/程序设计上22/",
+    "url": "/materials/程序设计2021年下册试题/",
     "tags": [
       "程序设计"
     ]
   },
   {
-    "title": "程序设计下21",
+    "title": "程序设计2022年上册试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/程序设计下21/",
+    "url": "/materials/程序设计2022年上册试题/",
     "tags": [
       "程序设计"
     ]
   },
   {
-    "title": "程序设计下22补",
+    "title": "程序设计2022年下册补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/程序设计下22补/",
+    "url": "/materials/程序设计2022年下册补考试题/",
     "tags": [
       "程序设计"
     ]
@@ -4406,7 +4374,7 @@
     "title": "空气调节23",
     "summary": "",
     "section": "materials",
-    "url": "/materials/空气调节23/",
+    "url": "/materials/空气调节2023年试题/",
     "tags": [
       "空气调节"
     ]
@@ -4415,7 +4383,7 @@
     "title": "算法设计与分析20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/算法设计与分析20/",
+    "url": "/materials/算法设计与分析2020年试题/",
     "tags": [
       "算法设计与分析"
     ]
@@ -4424,7 +4392,7 @@
     "title": "算法设计与分析20补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/算法设计与分析20补/",
+    "url": "/materials/算法设计与分析2020年补考试题/",
     "tags": [
       "算法设计与分析"
     ]
@@ -4433,7 +4401,7 @@
     "title": "算法设计与分析21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/算法设计与分析21/",
+    "url": "/materials/算法设计与分析2021年试题/",
     "tags": [
       "算法设计与分析"
     ]
@@ -4442,7 +4410,7 @@
     "title": "算法设计与分析23春",
     "summary": "",
     "section": "materials",
-    "url": "/materials/算法设计与分析23春/",
+    "url": "/materials/算法设计与分析2023年春季试题/",
     "tags": [
       "算法设计与分析"
     ]
@@ -4451,34 +4419,34 @@
     "title": "算法设计与分析23春补",
     "summary": "",
     "section": "materials",
-    "url": "/materials/算法设计与分析23春补/",
+    "url": "/materials/算法设计与分析2023年春季补考试题/",
     "tags": [
       "算法设计与分析"
     ]
   },
   {
-    "title": "管理学20AB",
+    "title": "管理学2020年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/管理学20AB/",
+    "url": "/materials/管理学2020年AB卷试题/",
     "tags": [
       "管理学"
     ]
   },
   {
-    "title": "管理学21AB",
+    "title": "管理学2021年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/管理学21AB/",
+    "url": "/materials/管理学2021年AB卷试题/",
     "tags": [
       "管理学"
     ]
   },
   {
-    "title": "管理学22AB",
+    "title": "管理学2022年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/管理学22AB/",
+    "url": "/materials/管理学2022年AB卷试题/",
     "tags": [
       "管理学"
     ]
@@ -4487,16 +4455,16 @@
     "title": "系统可靠性设计分析技术20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/系统可靠性设计分析技术20/",
+    "url": "/materials/系统可靠性设计分析技术2020年试题/",
     "tags": [
       "系统可靠性设计分析技术"
     ]
   },
   {
-    "title": "系统工程导论22秋补",
+    "title": "系统工程导论2022年秋季补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/系统工程导论22秋补/",
+    "url": "/materials/系统工程导论2022年秋季补考试题/",
     "tags": [
       "系统工程导论"
     ]
@@ -4655,34 +4623,34 @@
     "title": "结构力学20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/结构力学20/",
+    "url": "/materials/结构力学2020年试题/",
     "tags": [
       "结构力学"
     ]
   },
   {
-    "title": "结构力学及有限元21",
+    "title": "结构力学及有限元2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/结构力学及有限元21/",
+    "url": "/materials/结构力学及有限元2021年试题/",
     "tags": [
       "结构力学及有限元"
+    ]
+  },
+  {
+    "title": "结构动力学基础2021年AB卷试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/结构动力学基础2021年AB卷试题/",
+    "tags": [
+      "结构动力学基础"
     ]
   },
   {
     "title": "结构动力学基础20AB",
     "summary": "",
     "section": "materials",
-    "url": "/materials/结构动力学基础20AB/",
-    "tags": [
-      "结构动力学基础"
-    ]
-  },
-  {
-    "title": "结构动力学基础21AB",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/结构动力学基础21AB/",
+    "url": "/materials/结构动力学基础2020年AB卷试题/",
     "tags": [
       "结构动力学基础"
     ]
@@ -4691,7 +4659,7 @@
     "title": "结构动力学基础22AB",
     "summary": "",
     "section": "materials",
-    "url": "/materials/结构动力学基础22AB/",
+    "url": "/materials/结构动力学基础2022年AB卷试题/",
     "tags": [
       "结构动力学基础"
     ]
@@ -4700,7 +4668,7 @@
     "title": "结构动力学基础23AB",
     "summary": "",
     "section": "materials",
-    "url": "/materials/结构动力学基础23AB/",
+    "url": "/materials/结构动力学基础2023年AB卷试题/",
     "tags": [
       "结构动力学基础"
     ]
@@ -4709,7 +4677,7 @@
     "title": "结构化学22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/结构化学22/",
+    "url": "/materials/结构化学2022年试题/",
     "tags": [
       "结构化学"
     ]
@@ -4718,34 +4686,34 @@
     "title": "结构振动分析与测试21AB",
     "summary": "",
     "section": "materials",
-    "url": "/materials/结构振动分析与测试21AB/",
+    "url": "/materials/结构振动分析与测试2021年AB卷试题/",
     "tags": [
       "结构振动分析与测试"
     ]
   },
   {
-    "title": "编译原理20",
+    "title": "编译原理2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/编译原理20/",
+    "url": "/materials/编译原理2020年试题/",
     "tags": [
       "编译原理"
     ]
   },
   {
-    "title": "编译原理23补",
+    "title": "编译原理2023年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/编译原理23补/",
+    "url": "/materials/编译原理2023年补考试题/",
     "tags": [
       "编译原理"
     ]
   },
   {
-    "title": "编译原理24",
+    "title": "编译原理2024年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/编译原理24/",
+    "url": "/materials/编译原理2024年试题/",
     "tags": [
       "编译原理"
     ]
@@ -4943,10 +4911,10 @@
     ]
   },
   {
-    "title": "英国文学概况2022春试题",
+    "title": "英国文学概况2022年春季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/英国文学概况2022春试题/",
+    "url": "/materials/英国文学概况2022年春季试题/",
     "tags": [
       "英国文学概况"
     ]
@@ -5037,7 +5005,17 @@
     "title": "计算方法20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/计算方法20/",
+    "url": "/materials/计算方法2020年试题/",
+    "tags": [
+      "数值计算方法",
+      "计算方法"
+    ]
+  },
+  {
+    "title": "计算方法2021年补考试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/计算方法2021年补考试题/",
     "tags": [
       "数值计算方法",
       "计算方法"
@@ -5047,17 +5025,7 @@
     "title": "计算方法21",
     "summary": "",
     "section": "materials",
-    "url": "/materials/计算方法21/",
-    "tags": [
-      "数值计算方法",
-      "计算方法"
-    ]
-  },
-  {
-    "title": "计算方法21补",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/计算方法21补/",
+    "url": "/materials/计算方法2021年试题/",
     "tags": [
       "数值计算方法",
       "计算方法"
@@ -5067,7 +5035,7 @@
     "title": "计算方法22春",
     "summary": "",
     "section": "materials",
-    "url": "/materials/计算方法22春/",
+    "url": "/materials/计算方法2022年春季试题/",
     "tags": [
       "数值计算方法",
       "计算方法"
@@ -5077,7 +5045,7 @@
     "title": "计算方法23春",
     "summary": "",
     "section": "materials",
-    "url": "/materials/计算方法23春/",
+    "url": "/materials/计算方法2023年春季试题/",
     "tags": [
       "数值计算方法",
       "计算方法"
@@ -5115,16 +5083,16 @@
     "title": "计算机硬件技术基础19",
     "summary": "",
     "section": "materials",
-    "url": "/materials/计算机硬件技术基础19/",
+    "url": "/materials/计算机硬件技术基础2019年试题/",
     "tags": [
       "计算机硬件技术基础"
     ]
   },
   {
-    "title": "计算机硬件技术基础21补",
+    "title": "计算机硬件技术基础2021年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/计算机硬件技术基础21补/",
+    "url": "/materials/计算机硬件技术基础2021年补考试题/",
     "tags": [
       "计算机硬件技术基础"
     ]
@@ -5133,7 +5101,7 @@
     "title": "计算机硬件技术基础22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/计算机硬件技术基础22/",
+    "url": "/materials/计算机硬件技术基础2022年试题/",
     "tags": [
       "计算机硬件技术基础"
     ]
@@ -5152,7 +5120,7 @@
     "title": "计算机组成原理19",
     "summary": "(2)",
     "section": "materials",
-    "url": "/materials/计算机组成原理19/",
+    "url": "/materials/计算机组成原理2019年试题/",
     "tags": [
       "计算机组成原理",
       "计组"
@@ -5232,10 +5200,10 @@
     ]
   },
   {
-    "title": "计量经济学20",
+    "title": "计量经济学2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/计量经济学20/",
+    "url": "/materials/计量经济学2020年试题/",
     "tags": [
       "计量经济学"
     ]
@@ -5274,7 +5242,7 @@
     "title": "软件技术基础23秋",
     "summary": "",
     "section": "materials",
-    "url": "/materials/软件技术基础23秋/",
+    "url": "/materials/软件技术基础2023年秋季试题/",
     "tags": [
       "软件技术基础"
     ]
@@ -5312,7 +5280,7 @@
     "title": "运筹学2020AB试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/运筹学2020AB试题/",
+    "url": "/materials/运筹学2020年AB卷试题/",
     "tags": [
       "运筹学"
     ]
@@ -5321,7 +5289,7 @@
     "title": "运筹学2021试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/运筹学2021试题/",
+    "url": "/materials/运筹学2021年试题/",
     "tags": [
       "运筹学"
     ]
@@ -5330,16 +5298,16 @@
     "title": "运筹学2022AB试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/运筹学2022AB试题/",
+    "url": "/materials/运筹学2022年AB卷试题/",
     "tags": [
       "运筹学"
     ]
   },
   {
-    "title": "运筹学23试题",
+    "title": "运筹学2023年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/运筹学23试题/",
+    "url": "/materials/运筹学2023年试题/",
     "tags": [
       "运筹学"
     ]
@@ -5394,28 +5362,28 @@
     ]
   },
   {
-    "title": "通信原理20",
+    "title": "通信原理2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/通信原理20/",
+    "url": "/materials/通信原理2020年试题/",
     "tags": [
       "通信原理"
     ]
   },
   {
-    "title": "通信原理21",
+    "title": "通信原理2021年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/通信原理21/",
+    "url": "/materials/通信原理2021年试题/",
     "tags": [
       "通信原理"
     ]
   },
   {
-    "title": "通信原理22春",
+    "title": "通信原理2022年春季试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/通信原理22春/",
+    "url": "/materials/通信原理2022年春季试题/",
     "tags": [
       "通信原理"
     ]
@@ -5424,7 +5392,7 @@
     "title": "通信电子线路22",
     "summary": "",
     "section": "materials",
-    "url": "/materials/通信电子线路22/",
+    "url": "/materials/通信电子线路2022年试题/",
     "tags": [
       "通信电子线路"
     ]
@@ -5440,10 +5408,10 @@
     ]
   },
   {
-    "title": "金属材料20AB",
+    "title": "金属材料2020年AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/金属材料20AB/",
+    "url": "/materials/金属材料2020年AB卷试题/",
     "tags": [
       "金属材料"
     ]
@@ -5467,10 +5435,10 @@
     ]
   },
   {
-    "title": "钣金成形原理与工艺22",
+    "title": "钣金成形原理与工艺2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/钣金成形原理与工艺22/",
+    "url": "/materials/钣金成形原理与工艺2022年试题/",
     "tags": [
       "钣金成形原理与工艺"
     ]
@@ -5496,19 +5464,19 @@
     ]
   },
   {
-    "title": "随机信号分析20",
+    "title": "随机信号分析2020年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/随机信号分析20/",
+    "url": "/materials/随机信号分析2020年试题/",
     "tags": [
       "随机信号分析"
     ]
   },
   {
-    "title": "随机信号分析22",
+    "title": "随机信号分析2022年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/随机信号分析22/",
+    "url": "/materials/随机信号分析2022年试题/",
     "tags": [
       "随机信号分析"
     ]
@@ -5537,7 +5505,7 @@
     "title": "项目管理22秋",
     "summary": "",
     "section": "materials",
-    "url": "/materials/项目管理22秋/",
+    "url": "/materials/项目管理2022年秋季试题/",
     "tags": [
       "项目管理"
     ]
@@ -5546,25 +5514,25 @@
     "title": "飞行器结构力学20",
     "summary": "",
     "section": "materials",
-    "url": "/materials/飞行器结构力学20/",
+    "url": "/materials/飞行器结构力学2020年试题/",
     "tags": [
       "飞行器结构力学"
     ]
   },
   {
-    "title": "飞行器结构力学22补",
+    "title": "飞行器结构力学2022年补考试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/飞行器结构力学22补/",
+    "url": "/materials/飞行器结构力学2022年补考试题/",
     "tags": [
       "飞行器结构力学"
     ]
   },
   {
-    "title": "飞行器结构设计23",
+    "title": "飞行器结构设计2023年试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/飞行器结构设计23/",
+    "url": "/materials/飞行器结构设计2023年试题/",
     "tags": [
       "飞行器结构设计"
     ]
@@ -5576,6 +5544,16 @@
     "url": "/materials/飞行器结构试验技术知识点与习题解答/",
     "tags": [
       "飞行器结构试验技术"
+    ]
+  },
+  {
+    "title": "马克思主义基本原理2020年A卷试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/马克思主义基本原理2020年A卷试题/",
+    "tags": [
+      "马克思主义基本原理",
+      "马原"
     ]
   },
   {
@@ -5603,16 +5581,6 @@
     "summary": "",
     "section": "materials",
     "url": "/materials/马克思主义基本原理2021年B卷试题/",
-    "tags": [
-      "马克思主义基本原理",
-      "马原"
-    ]
-  },
-  {
-    "title": "马原20A",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/马原20A/",
     "tags": [
       "马克思主义基本原理",
       "马原"
@@ -5709,181 +5677,75 @@
     ]
   },
   {
-    "title": "高数II上20期中",
+    "title": "高等代数2020年上册AB卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/高数II上20期中/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数II上21期中",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数II上21期中/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数II上23期末",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数II上23期末/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数II上24期末",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数II上24期末/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数II下22期末",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数II下22期末/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数II下期中24",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数II下期中24/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数IV22期末补",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数IV22期末补/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数上20期中",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数上20期中/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数上20期末",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数上20期末/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数上21期中",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数上21期中/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数上21期中答案",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数上21期中答案/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数上21期末",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数上21期末/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数上21期末A",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数上21期末A/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数上21期末B",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数上21期末B/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数上23期中",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数上23期中/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高数下22期中",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高数下22期中/",
-    "tags": [
-      "高等数学",
-      "高数"
-    ]
-  },
-  {
-    "title": "高等代数上20AB",
-    "summary": "",
-    "section": "materials",
-    "url": "/materials/高等代数上20AB/",
+    "url": "/materials/高等代数2020年上册AB卷试题/",
     "tags": [
       "高等代数"
     ]
   },
   {
-    "title": "高等代数上21",
+    "title": "高等代数2021年上册试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/高等代数上21/",
+    "url": "/materials/高等代数2021年上册试题/",
     "tags": [
       "高等代数"
+    ]
+  },
+  {
+    "title": "高等代数A(2)2024年期末模拟题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等代数A(2)2024年期末模拟题/",
+    "tags": [
+      "高等代数"
+    ]
+  },
+  {
+    "title": "高等代数A(2)2024年期末模拟题答案",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等代数A(2)2024年期末模拟题答案/",
+    "tags": [
+      "高等代数"
+    ]
+  },
+  {
+    "title": "高等工程数学2020年秋季试卷",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等工程数学2020年秋季试卷/",
+    "tags": [
+      "高等工程数学"
+    ]
+  },
+  {
+    "title": "高等工程数学2020年秋季试题答案",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等工程数学2020年秋季试题答案/",
+    "tags": [
+      "高等工程数学"
+    ]
+  },
+  {
+    "title": "高等工程数学2022年秋季试卷",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等工程数学2022年秋季试卷/",
+    "tags": [
+      "高等工程数学"
+    ]
+  },
+  {
+    "title": "高等工程数学2022年秋季试卷答案",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等工程数学2022年秋季试卷答案/",
+    "tags": [
+      "高等工程数学"
     ]
   },
   {
@@ -6007,10 +5869,30 @@
     ]
   },
   {
+    "title": "高等数学I2020年上册期中试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学I2020年上册期中试题/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
     "title": "高等数学I2020年上册期末B卷试题",
     "summary": "",
     "section": "materials",
     "url": "/materials/高等数学I2020年上册期末B卷试题/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
+    "title": "高等数学I2020年上册期末试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学I2020年上册期末试题/",
     "tags": [
       "高等数学",
       "高数"
@@ -6027,10 +5909,30 @@
     ]
   },
   {
-    "title": "高等数学I2021上册期中A卷试题",
+    "title": "高等数学I2021年上册期中A卷试题",
     "summary": "",
     "section": "materials",
-    "url": "/materials/高等数学I2021上册期中A卷试题/",
+    "url": "/materials/高等数学I2021年上册期中A卷试题/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
+    "title": "高等数学I2021年上册期中试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学I2021年上册期中试题/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
+    "title": "高等数学I2021年上册期中试题答案",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学I2021年上册期中试题答案/",
     "tags": [
       "高等数学",
       "高数"
@@ -6047,10 +5949,40 @@
     ]
   },
   {
+    "title": "高等数学I2021年上册期末A卷试题（PDF版）",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学I2021年上册期末A卷试题（PDF版）/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
     "title": "高等数学I2021年上册期末B卷试题",
     "summary": "",
     "section": "materials",
     "url": "/materials/高等数学I2021年上册期末B卷试题/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
+    "title": "高等数学I2021年上册期末B卷试题（PDF版）",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学I2021年上册期末B卷试题（PDF版）/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
+    "title": "高等数学I2021年上册期末试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学I2021年上册期末试题/",
     "tags": [
       "高等数学",
       "高数"
@@ -6127,10 +6059,30 @@
     ]
   },
   {
+    "title": "高等数学I2022年下册期中试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学I2022年下册期中试题/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
     "title": "高等数学I2022年下册期末B卷试题",
     "summary": "",
     "section": "materials",
     "url": "/materials/高等数学I2022年下册期末B卷试题/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
+    "title": "高等数学I2023年上册期中试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学I2023年上册期中试题/",
     "tags": [
       "高等数学",
       "高数"
@@ -6277,6 +6229,16 @@
     ]
   },
   {
+    "title": "高等数学II2020年上册期中试题（PDF版）",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学II2020年上册期中试题（PDF版）/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
     "title": "高等数学II2020年上册期末",
     "summary": "",
     "section": "materials",
@@ -6311,6 +6273,16 @@
     "summary": "",
     "section": "materials",
     "url": "/materials/高等数学II2020年下册期末试题/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
+    "title": "高等数学II2021年上册期中试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学II2021年上册期中试题/",
     "tags": [
       "高等数学",
       "高数"
@@ -6357,6 +6329,26 @@
     ]
   },
   {
+    "title": "高等数学II2022年下册期末试题（PDF版）",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学II2022年下册期末试题（PDF版）/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
+    "title": "高等数学II2023年上册期末试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学II2023年上册期末试题/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
     "title": "高等数学II2024年上册期中试题",
     "summary": "",
     "section": "materials",
@@ -6367,10 +6359,40 @@
     ]
   },
   {
+    "title": "高等数学II2024年上册期末试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学II2024年上册期末试题/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
+    "title": "高等数学II2024年下册期中试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学II2024年下册期中试题/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
     "title": "高等数学II上学期2024年期末",
     "summary": "",
     "section": "materials",
     "url": "/materials/高等数学II上学期2024年期末/",
+    "tags": [
+      "高等数学",
+      "高数"
+    ]
+  },
+  {
+    "title": "高等数学IV2022年期末补考试题",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/高等数学IV2022年期末补考试题/",
     "tags": [
       "高等数学",
       "高数"
@@ -6419,14 +6441,25 @@
     ]
   },
   {
-    "title": "南航正版软件服务入口",
-    "summary": "通过一站式门户访问学校提供的正版 Windows、Office 等软件下载与授权信息。",
-    "section": "software",
-    "url": "/software/nuaa-software-portal/",
+    "title": "四六级英语同义词替换",
+    "summary": "一位大一的NUAAer独自编写的四六级资料",
+    "section": "store",
+    "url": "/store/四六级英语同义词替换/",
     "tags": [
-      "正版",
-      "系统工具",
-      "校园服务"
+      "四六级",
+      "英语",
+      "四六级英语"
+    ]
+  },
+  {
+    "title": "高等数学上册期中考试题型与技巧",
+    "summary": "站长原创高数真题、习题分类，每道题都有答案",
+    "section": "store",
+    "url": "/store/高等数学上册期中考试题型与技巧/",
+    "tags": [
+      "高等数学",
+      "模板",
+      "高数"
     ]
   }
 ]

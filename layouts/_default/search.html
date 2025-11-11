@@ -1,25 +1,37 @@
 {{ define "main" }}
-<div class="content-section">
-    <h2>鎼滅储瀛︿範璧勬枡</h2>
-    <p class="search-notice">
-        璧勬枡涓嚭鐜扮殑姘村嵃銆佺兢鍙枫€佺綉鍧€绛変负鑷甫锛岃鑷杈ㄥ埆銆?
-    </p>
+<section class="search-page" data-search-page data-default-tab="materials">
+    <header class="search-page__header">
+        <button class="search-page__back" type="button" data-search-back data-home="/">
+            <span class="search-page__back-icon" aria-hidden="true">←</span>
+            返回上一级
+        </button>
+        <p class="search-page__eyebrow">NUAA Guide · 全量检索</p>
+        <h1>按列查看全部命中</h1>
+        <p class="search-page__intro">
+            这里是所有已检索到的资料。
+            注意：按相关性排序，再往下可能不是你想要的内容。
+        </p>
+        <form class="search-page__form" data-search-form method="get" action="/search" novalidate>
+            <input
+                type="search"
+                class="search-page__input"
+                name="q"
+                data-search-input
+                placeholder="输入关键字或课程名称，例如：高等数学 / PLC / 马原 题库"
+                autocomplete="off"
+                aria-label="搜索站内资源">
+            <button class="search-page__submit" type="submit">搜索</button>
+        </form>
+    </header>
 
-    <div class="search-widget search-widget--page"
-         data-role="search-root"
-         data-search-context="page">
-        <div class="search-widget__controls" data-role="search-controls">
-            <div class="search-widget__input-shell">
-                <input type="search"
-                       class="search-widget__input"
-                       data-role="search-input"
-                       placeholder="请输入需要的资源"
-                       autocomplete="off"
-                       aria-label="搜索资源">
-            </div>
-        </div>
-        <div class="search-widget__results" data-role="search-results" aria-live="polite"></div>
-        <div class="search-widget__status" data-role="search-status" aria-live="assertive"></div>
+    <div class="search-page__tabs" role="tablist">
+        <button type="button" role="tab" data-search-tab="subjects">科目</button>
+        <button type="button" role="tab" data-search-tab="materials">文件</button>
+        <button type="button" role="tab" data-search-tab="store">干货</button>
+        <button type="button" role="tab" data-search-tab="tools">工具</button>
     </div>
-</div>
+
+    <div class="search-page__status" data-search-status>请输入关键词开始检索。</div>
+    <div class="search-page__results" data-search-results></div>
+</section>
 {{ end }}

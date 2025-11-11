@@ -120,6 +120,8 @@
             });
     </script>
     <script type="module" src="/js/enhanced-search.js?v={{ now.Unix }}"></script>
+    <script type="module" src="/js/chat-search.js?v={{ now.Unix }}"></script>
+    <script type="module" src="/js/search-page.js?v={{ now.Unix }}"></script>
     <script defer src="/js/materials.js?v={{ now.Unix }}"></script>
 
     <script>
@@ -379,6 +381,12 @@
         }
         if (typeof window.initLooseDirectories === 'function') {
           window.initLooseDirectories();
+        }
+        if (typeof window.initChatSearch === 'function') {
+          window.initChatSearch();
+        }
+        if (typeof window.initSearchPage === 'function') {
+          window.initSearchPage();
         }
 
         initSearchWidgets();
