@@ -40,12 +40,12 @@
       this.thread = root.querySelector('[data-chat-thread]');
       this.form = root.querySelector('[data-chat-form]');
       this.input = root.querySelector('[data-chat-input]');
-      this.clearBtn = root.querySelector('[data-chat-clear]');
       this.token = 0;
       this.busy = false;
       this.restore();
       if (!this.thread || this.thread.children.length === 0) this.greeting();
       this.bind();
+      registerAutoCleanup();
     }
 
     bind() {
@@ -68,7 +68,6 @@
       });
       this.input?.addEventListener('input', () => this.autogrow());
       this.autogrow();
-      this.clearBtn?.addEventListener('click', () => this.clear(true));
     }
 
     autogrow() { if (!this.input) return; this.input.style.height = 'auto'; this.input.style.height = `${Math.min(this.input.scrollHeight, 220)}px`; }
@@ -123,19 +122,19 @@
       }
     }
 
-    clear(confirmNeed) {
-      if (this.busy) return;
-      if (confirmNeed && !window.confirm('确认清空当前对话？')) return;
-      if (!this.thread) return;
-      this.thread.innerHTML = '';
-      this.greeting();
-      storage.remove();
-      this.persist();
-      this.scroll();
-    }
-
     scroll() { const last = this.thread?.lastElementChild; if (!last) return; requestAnimationFrame(() => last.scrollIntoView({ behavior: 'smooth', block: 'end' })); }
   }
+
+  const registerAutoCleanup = (() => {
+    let registered = false;
+    return () => {
+      if (registered || typeof window === 'undefined') return;
+      registered = true;
+      const wipe = () => storage.remove();
+      window.addEventListener('pagehide', wipe, { capture: true });
+      window.addEventListener('beforeunload', wipe, { capture: true });
+    };
+  })();
 
   function boot() {
     document.querySelectorAll('[data-chat-search]').forEach((root) => {

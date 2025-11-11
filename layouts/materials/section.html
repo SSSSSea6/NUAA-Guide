@@ -39,13 +39,21 @@
             </button>
             <div class="subject-directory" data-role="subject-directory">
                 {{ range $subjects }}
-                <button type="button"
-                        class="subject-chip"
-                        data-role="subject-chip"
-                        data-subject="{{ . }}"
-                        data-subject-name="{{ . }}">
-                    {{ . }}
-                </button>
+                {{ $subjectName := . }}
+                {{ $subjectPage := $.Site.GetPage (printf "/subjects/%s" (urlize $subjectName)) }}
+                {{ $subjectURL := "" }}
+                {{ if $subjectPage }}
+                {{ $subjectURL = $subjectPage.RelPermalink }}
+                {{ else }}
+                {{ $subjectURL = printf "/subjects/%s/" (urlize $subjectName) }}
+                {{ end }}
+                <a class="subject-chip"
+                   data-role="subject-chip"
+                   data-subject="{{ $subjectName | htmlEscape }}"
+                   data-subject-name="{{ $subjectName | htmlEscape }}"
+                   href="{{ $subjectURL }}">
+                    {{ $subjectName }}
+                </a>
                 {{ end }}
             </div>
         </div>

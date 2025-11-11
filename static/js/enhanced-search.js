@@ -8,6 +8,8 @@ const DATA_ENDPOINTS = {
 
 const BUCKET_KEYS = ["subjects", "materials", "store", "tools"];
 const ASCII_PATTERN = /^[\x00-\x7F]+$/;
+const COMMON_CHAR_MIN_HITS = 60; // guard against extremely common single-character hits (e.g. U+6570 / U+5B66)
+const COMMON_CHAR_RATIO = 0.1;
 
 const bucketCache = {
     subjects: null,
@@ -16,6 +18,7 @@ const bucketCache = {
     tools: null
 };
 const bucketPromises = {};
+const bucketCharFrequency = {};
 
 let charDictPromise = null;
 let charDictSet = null;
@@ -319,6 +322,51 @@ const matchBucketByPinyin = async (query, entries, taken) => {
     return results;
 };
 
+const ensureBucketCharFrequency = (bucket) => {
+    if (bucketCharFrequency[bucket]) {
+        return bucketCharFrequency[bucket];
+    }
+    const freq = new Map();
+    const entries = bucketCache[bucket] || [];
+    entries.forEach((entry) => {
+        const chars = Array.isArray(entry._chars) ? entry._chars : [];
+        chars.forEach((char) => {
+            freq.set(char, (freq.get(char) || 0) + 1);
+        });
+    });
+    bucketCharFrequency[bucket] = freq;
+    return freq;
+};
+
+const totalEntriesForBuckets = (buckets) =>
+    buckets.reduce((sum, bucket) => {
+        const entries = bucketCache[bucket];
+        return sum + (Array.isArray(entries) ? entries.length : 0);
+    }, 0);
+
+const getCharHitCount = (char, buckets) => {
+    if (!char) {
+        return 0;
+    }
+    return buckets.reduce((sum, bucket) => {
+        const freq = ensureBucketCharFrequency(bucket);
+        return sum + (freq.get(char) || 0);
+    }, 0);
+};
+
+const isCommonSingleCharQuery = (char, buckets) => {
+    if (!char || char.length !== 1) {
+        return false;
+    }
+    const hits = getCharHitCount(char, buckets);
+    if (!hits) {
+        return false;
+    }
+    const total = Math.max(1, totalEntriesForBuckets(buckets));
+    const ratio = hits / total;
+    return hits >= COMMON_CHAR_MIN_HITS && ratio >= COMMON_CHAR_RATIO;
+};
+
 const loadBuckets = async (options = {}) => {
     const bucketFilter = Array.isArray(options.buckets) && options.buckets.length ? options.buckets : BUCKET_KEYS;
     await Promise.all([ensureCharDict(), ensureBuckets(bucketFilter)]);
@@ -342,6 +390,12 @@ const runSearch = async (query, scopes = {}) => {
         store: [],
         tools: []
     };
+    if (!cleaned) {
+        return result;
+    }
+    if (isCommonSingleCharQuery(cleaned, bucketsToSearch)) {
+        return result;
+    }
 
     const takenByBucket = {};
     for (const bucket of bucketsToSearch) {

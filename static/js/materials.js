@@ -257,6 +257,9 @@
                 if (!chip || !subjectList.contains(chip)) {
                     return;
                 }
+                if (chip.tagName === "A" && chip.hasAttribute("href")) {
+                    return;
+                }
                 const subjectValue = chip.dataset.subject || "all";
                 if (subjectValue === activeSubject) {
                     return;
