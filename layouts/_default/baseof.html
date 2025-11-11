@@ -376,6 +376,12 @@
           });
         }
 
+        // Normalize donation button label (handle legacy encoding issues)
+        const donationBtn = document.querySelector('.utility-button[onclick="openDonationModal()"] span');
+        if (donationBtn && donationBtn.textContent.trim() !== '支持我') {
+          donationBtn.textContent = '支持我';
+        }
+
         if (typeof window.initMaterialsPage === 'function') {
           window.initMaterialsPage();
         }
