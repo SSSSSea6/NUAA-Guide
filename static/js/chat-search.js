@@ -40,10 +40,11 @@
       this.thread = root.querySelector('[data-chat-thread]');
       this.form = root.querySelector('[data-chat-form]');
       this.input = root.querySelector('[data-chat-input]');
+      this.introBlocks = Array.from(root.querySelectorAll('[data-chat-intro]'));
       this.token = 0;
       this.busy = false;
       this.restore();
-      if (!this.thread || this.thread.children.length === 0) this.greeting();
+      this.syncIntro();
       this.bind();
       registerAutoCleanup();
     }
@@ -72,13 +73,13 @@
 
     autogrow() { if (!this.input) return; this.input.style.height = 'auto'; this.input.style.height = `${Math.min(this.input.scrollHeight, 220)}px`; }
 
-    greeting() {
-      if (!this.thread) return;
-      const sys = document.createElement('div');
-      sys.className = 'chat-message chat-message--system';
-      sys.innerHTML = '<p>你好！告诉我你正在找的课程、资料或工具（例如“马原 题库”“PLC 绘图 软件”），我会在站内帮你拼出最靠谱的组合。</p>'+
-                      '<p class="chat-message__hint">Enter 发送，Shift+Enter 换行。支持中文与拼音首字母。</p>';
-      this.thread.appendChild(sys);
+    syncIntro() {
+      const hasMessages = !!this.thread && this.thread.children.length > 0;
+      this.introBlocks.forEach((el) => {
+        if (el && typeof el.classList?.toggle === 'function') {
+          el.classList.toggle('is-hidden', hasMessages);
+        }
+      });
     }
 
     persist() { if (this.thread) storage.set(this.thread.innerHTML || ''); }
@@ -90,6 +91,7 @@
       this.busy = true;
       this.root?.classList?.add('is-busy');
       const user = document.createElement('div'); user.className = 'chat-message chat-message--user'; user.innerHTML = `<p>${q.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>`; this.thread.appendChild(user);
+      this.syncIntro();
       this.scroll(); this.persist(); this.input.value = ''; this.autogrow();
 
       const sys = document.createElement('div'); sys.className = 'chat-message chat-message--system chat-message--thinking'; sys.textContent = '正在为你检索…'; this.thread.appendChild(sys);
@@ -103,7 +105,7 @@
         const typed = document.createElement('div'); typed.className = 'chat-result__typed'; sys.appendChild(typed);
         const total = ['subjects','materials','store','tools'].reduce((n,k)=>n+(Array.isArray(data?.[k])?data[k].length:0),0);
         if (!total) { await typewriterHtml(typed, `<p>没找到与「${q}」相关的资源。</p>`); this.persist(); return; }
-        await typewriterHtml(typed, `<p>为「${q}」找到 ${total} 条相关资源。</p>`);
+        await typewriterHtml(typed, `<p>为「${q}」找到若干条资源，并按相关性排序。</p>`);
 
         const block = document.createElement('div'); block.className = 'chat-result__block'; const grid = document.createElement('div'); grid.className = 'chat-result__grid'; block.appendChild(grid); sys.appendChild(block);
         const col = (title, arr, tab) => { const c=document.createElement('div'); c.className='chat-col'; const h=document.createElement('h4'); h.textContent=title; c.appendChild(h); const list=document.createElement('div'); list.className='chat-col__list'; c.appendChild(list); const items=(arr||[]).slice(0,3).map((it)=>{ const a=document.createElement('a'); a.className='chat-card'; a.href=it.url||'#'; const t=document.createElement('p'); t.className='chat-card__title'; t.textContent=it.title||'未命名'; a.appendChild(t); const m=document.createElement('p'); m.className='chat-card__meta'; m.textContent = tab==='materials'?(it.subjects?.[0]||'学习资料'):(tab==='tools'?(it.section||'工具'):(tab==='store'?'干货速览':'科目合集')); a.appendChild(m); return a; }); if (items.length){ revealListStaggered(list, items, rand(60, 90)); } else { const p=document.createElement('p'); p.className='chat-col__empty'; p.textContent='暂无匹配'; list.appendChild(p);} const more=document.createElement('a'); more.className='chat-col__more'; more.href=`/search?tab=${tab}&q=${encodeURIComponent(q)}`; more.textContent='查看更多'; c.appendChild(more); return c; };

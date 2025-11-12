@@ -1,4 +1,4 @@
-﻿{{ define "main" }}
+{{ define "main" }}
 {{ $materials := sort .Pages "Title" }}
 {{ $subjects := slice }}
 {{ range $materials }}
@@ -19,109 +19,29 @@
             {{ . }}
         </div>
         {{ end }}
-        <div class="materials-controls">
-            <label class="materials-search">
-                <span class="materials-search__label">搜索资料</span>
-                <input type="search"
-                       class="materials-search__input"
-                       placeholder="输入科目或资料名称，例如 高等数学"
-                       autocomplete="off"
-                       data-role="materials-search">
-            </label>
-        </div>
         {{ if gt (len $subjects) 0 }}
-        <div class="materials-subjects" data-role="subject-list">
-            <button type="button"
-                    class="subject-chip subject-chip--all is-active"
-                    data-role="subject-chip"
-                    data-subject="all">
-                全部资料
-            </button>
-            <div class="subject-directory" data-role="subject-directory">
-                {{ range $subjects }}
-                {{ $subjectName := . }}
-                {{ $subjectPage := $.Site.GetPage (printf "/subjects/%s" (urlize $subjectName)) }}
-                {{ $subjectURL := "" }}
-                {{ if $subjectPage }}
-                {{ $subjectURL = $subjectPage.RelPermalink }}
-                {{ else }}
-                {{ $subjectURL = printf "/subjects/%s/" (urlize $subjectName) }}
-                {{ end }}
-                <a class="subject-chip"
-                   data-role="subject-chip"
-                   data-subject="{{ $subjectName | htmlEscape }}"
-                   data-subject-name="{{ $subjectName | htmlEscape }}"
-                   href="{{ $subjectURL }}">
-                    {{ $subjectName }}
-                </a>
-                {{ end }}
-            </div>
+        <div class="subject-directory" data-role="subject-directory">
+            {{ range $subjects }}
+            {{ $subjectName := . }}
+            {{ $subjectPage := $.Site.GetPage (printf "/subjects/%s" (urlize $subjectName)) }}
+            {{ $subjectURL := "" }}
+            {{ if $subjectPage }}
+            {{ $subjectURL = $subjectPage.RelPermalink }}
+            {{ else }}
+            {{ $subjectURL = printf "/subjects/%s/" (urlize $subjectName) }}
+            {{ end }}
+            <a class="subject-chip"
+               data-role="subject-chip"
+               data-subject="{{ $subjectName | htmlEscape }}"
+               data-subject-name="{{ $subjectName | htmlEscape }}"
+               href="{{ $subjectURL }}">
+                {{ $subjectName }}
+            </a>
+            {{ end }}
         </div>
+        {{ else }}
+        <p class="materials-empty-note">暂时没有可显示的学科。</p>
         {{ end }}
     </header>
-
-    <div class="materials-summary">
-        <span>当前显示 <strong data-material-count>{{ len $materials }}</strong> 项学习资料</span>
-        <a class="materials-reset" href="#materials-top" data-role="materials-reset" hidden>重置筛选</a>
-    </div>
-
-    <div class="materials-grid" data-role="materials-grid">
-        {{ range $materials }}
-        {{ $subjectsStr := "" }}
-        {{ with .Params.subjects }}
-            {{ $subjectsStr = delimit . "|" }}
-        {{ end }}
-        <article class="material-card"
-                 data-title="{{ .Title | plainify | htmlEscape }}"
-                 {{ with $subjectsStr }}data-subjects="{{ . | htmlEscape }}"{{ end }}
-                 {{ with .Params.tags }}data-tags="{{ delimit . "|" | htmlEscape }}"{{ end }}>
-            <div class="material-card__body">
-                <h3 class="material-card__title">
-                    <a href="{{ .Permalink }}" title="查看资料详情">{{ .Title }}</a>
-                </h3>
-                <div class="material-card__meta">
-                    {{ with .Params.subjects }}
-                    <div class="material-card__subjects">
-                        <span class="meta-label">科目</span>
-                        <span class="meta-value">{{ delimit . "、" }}</span>
-                    </div>
-                    {{ end }}
-                    {{ with .Params.tags }}
-                    <div class="material-card__tags">
-                        <span class="meta-label">标签</span>
-                        <span class="meta-value">{{ delimit . "、" }}</span>
-                    </div>
-                    {{ end }}
-                    {{ with .Date }}
-                    <div class="material-card__date">
-                        <span class="meta-label">更新</span>
-                        <span class="meta-value">{{ .Format "2006-01-02" }}</span>
-                    </div>
-                    {{ end }}
-                </div>
-            </div>
-            <div class="material-card__actions">
-                {{ with .Params.file_type }}
-                <span class="material-card__type">{{ . | upper }}</span>
-                {{ end }}
-                {{ with .Params.file_size }}
-                <span class="material-card__size">{{ . }}</span>
-                {{ end }}
-                {{ with .Params.file_url }}
-                <a class="material-card__link" href="{{ . }}" target="_blank" rel="noopener">
-                    直接下载
-                </a>
-                {{ end }}
-                <a class="material-card__detail" href="{{ .Permalink }}">
-                    查看详情
-                </a>
-            </div>
-        </article>
-        {{ end }}
-    </div>
-
-    <div class="materials-empty" data-role="materials-empty" hidden>
-        <p>未找到符合当前筛选条件的资料。尝试修改搜索词或选择其他科目。</p>
-    </div>
 </section>
 {{ end }}
