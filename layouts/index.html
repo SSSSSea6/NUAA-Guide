@@ -7,7 +7,7 @@
                 {{ with .text }}
                 <div class="chat-landing__banner" data-chat-banner data-chat-intro>
                     <span class="chat-landing__banner-dot">·</span>
-                    <p>{{ . }}</p>
+                    <p>{{ replace . "\n" "<br>" | safeHTML }}</p>
                 </div>
                 {{ end }}
             {{ end }}
