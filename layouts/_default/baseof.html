@@ -31,44 +31,49 @@
 
 </head>
 <body>
-    <div class="theme-switcher" data-theme-switcher>
-        <button type="button"
-                class="theme-switcher__button"
-                data-theme-toggle
-                aria-haspopup="true"
-                aria-expanded="false">
-            <span class="theme-switcher__icon" data-theme-icon>🌓</span>
-            <span class="theme-switcher__label" data-theme-label>跟随系统</span>
-            <span class="theme-switcher__chevron" aria-hidden="true"></span>
+    <div class="theme-toolbar">
+        <button type="button" class="utility-button utility-button--support" onclick="openDonationModal()">
+            <span>支持我</span>
         </button>
-        <div class="theme-switcher__panel"
-             data-theme-panel
-             role="menu"
-             aria-hidden="true">
+        <div class="theme-switcher" data-theme-switcher>
             <button type="button"
-                    class="theme-switcher__option"
-                    data-theme-value="auto"
-                    role="menuitemradio"
-                    aria-checked="true">
-                <span>跟随系统</span>
-                <span class="theme-switcher__option-hint">Auto</span>
+                    class="theme-switcher__button"
+                    data-theme-toggle
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                <span class="theme-switcher__icon" data-theme-icon>🌓</span>
+                <span class="theme-switcher__label" data-theme-label>跟随系统</span>
+                <span class="theme-switcher__chevron" aria-hidden="true"></span>
             </button>
-            <button type="button"
-                    class="theme-switcher__option"
-                    data-theme-value="light"
-                    role="menuitemradio"
-                    aria-checked="false">
-                <span>浅色模式</span>
-                <span class="theme-switcher__option-hint">Light</span>
-            </button>
-            <button type="button"
-                    class="theme-switcher__option"
-                    data-theme-value="dark"
-                    role="menuitemradio"
-                    aria-checked="false">
-                <span>深色模式</span>
-                <span class="theme-switcher__option-hint">Dark</span>
-            </button>
+            <div class="theme-switcher__panel"
+                 data-theme-panel
+                 role="menu"
+                 aria-hidden="true">
+                <button type="button"
+                        class="theme-switcher__option"
+                        data-theme-value="auto"
+                        role="menuitemradio"
+                        aria-checked="true">
+                    <span>跟随系统</span>
+                    <span class="theme-switcher__option-hint">Auto</span>
+                </button>
+                <button type="button"
+                        class="theme-switcher__option"
+                        data-theme-value="light"
+                        role="menuitemradio"
+                        aria-checked="false">
+                    <span>浅色模式</span>
+                    <span class="theme-switcher__option-hint">Light</span>
+                </button>
+                <button type="button"
+                        class="theme-switcher__option"
+                        data-theme-value="dark"
+                        role="menuitemradio"
+                        aria-checked="false">
+                    <span>深色模式</span>
+                    <span class="theme-switcher__option-hint">Dark</span>
+                </button>
+            </div>
         </div>
     </div>
     <div class="app-shell">
@@ -82,9 +87,13 @@
                     <span class="utility-button__icon" aria-hidden="true"></span>
                     <span class="sr-only">小红书</span>
                 </a>
-                <button type="button" class="utility-button" onclick="openDonationModal()">
-                    <span>赞助我</span>
-                </button>
+                <a class="utility-button utility-button--bili"
+                   href="https://b23.tv/5aW5JSg"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    <span class="utility-button__icon" aria-hidden="true"></span>
+                    <span class="sr-only">Bilibili</span>
+                </a>
                 <button type="button" class="utility-button contact-btn" aria-haspopup="dialog" aria-controls="contactPopover">
                     <span>联系我</span>
                 </button>
@@ -306,7 +315,7 @@
 
       const getActiveNavId = (pathname) => {
         if (!pathname) return "";
-        const path = pathname.replace(/index\.html$/, '').toLowerCase();
+        const path = pathname.replace(/index.html$/, '').toLowerCase();
         if (path === '/' || path === '') return 'home';
         if (path.startsWith('/subjects') || path.startsWith('/materials')) return 'study';
         if (path.startsWith('/compass')) return 'compass';
@@ -415,9 +424,13 @@
         const nextPath = event?.to?.url?.pathname || window.location.pathname;
         runInitializers(nextPath);
       });
+
     </script>
 </body>
 </html>
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-﻿/* 鏇存柊鍏ㄥ眬鍙橀噺 - 鍏ㄥ眬娴呰摑椋庢牸 */
+﻿/* 閺囧瓨鏌婇崗銊ョ湰閸欐﹢鍣?- 閸忋劌鐪ù鍛版憫妞嬪孩鐗?*/
 :root {
     color-scheme: light;
     --primary-color: #1d3a6b;
@@ -220,7 +220,7 @@ html.theme-transition *::after {
     --chat-input-shadow-strong: 0 26px 46px rgba(0, 0, 0, 0.7);
 }
 
-/* 鍩虹鏍峰紡 */
+/* 閸╄櫣顢呴弽宄扮础 */
 body {
     font-family: 'Noto Sans SC', sans-serif;
     line-height: 1.75;
@@ -264,23 +264,33 @@ body {
 .transition-holo-flow {
     position: relative;
     opacity: 1;
-    transform: translate3d(0, 0, 0);
-    transition:
-        opacity 0.4s ease,
-        transform 0.45s cubic-bezier(0.4, 0.0, 0.2, 1);
-    will-change: opacity, transform;
+    transition: opacity 0.3s ease;
+    will-change: opacity;
 }
 
-html.is-animating .transition-holo-flow {
+html.is-changing .transition-holo-flow {
     opacity: 0;
-    transform: translate3d(0, 22px, 0);
 }
 
-.theme-switcher {
+@media (prefers-reduced-motion: reduce) {
+    .transition-holo-flow { transition: none; }
+    html.is-changing .transition-holo-flow { opacity: 1; }
+}
+
+
+.theme-toolbar {
     position: fixed;
     top: 24px;
     right: 28px;
     z-index: 120;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.theme-switcher {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -411,17 +421,20 @@ html.is-animating .transition-holo-flow {
 }
 
 @media (max-width: 720px) {
-    .theme-switcher {
+    .theme-toolbar {
         top: 14px;
         right: 14px;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
     }
 }
 
 /* Top-left utility buttons (XHS / Donate / Contact) */
 .utility-actions {
     position: fixed;
-    top: 24px;
-    left: 24px;
+    top: 18px;
+    left: 18px;
     z-index: 120;
     display: flex;
     gap: 8px;
@@ -434,15 +447,26 @@ html.is-animating .transition-holo-flow {
     color: var(--theme-toggle-text);
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    font-size: 0.9rem;
+    justify-content: center;
+    gap: 6px;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    line-height: 1.1;
+    white-space: nowrap;
     cursor: pointer;
     box-shadow: var(--theme-toggle-shadow);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
+
+.utility-button:not(.utility-button--xhs):not(.utility-button--bili) {
+    border-radius: 16px;
+    padding: 4px 16px;
+    min-height: 30px;
+}
+
+.utility-button--support {\n    padding: 10px 16px; /* 与主题切换按钮一致 */\n    min-height: unset;\n    height: auto;\n    font-size: 0.9rem;\n    line-height: 1; /* 垂直居中一致 */\n    gap: 10px;\n    border-radius: 999px;\n}
 
 .utility-button:hover,
 .utility-button:focus-visible {
@@ -453,8 +477,8 @@ html.is-animating .transition-holo-flow {
 }
 
 .utility-button__icon {
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -464,16 +488,31 @@ html.is-animating .transition-holo-flow {
 }
 
 .utility-button--xhs {
-    padding: 10px;
-    width: 48px;
-    height: 48px;
+    padding: 4px;
+    width: 36px;
+    height: 36px;
     justify-content: center;
+    border-radius: 50%;
 }
 
 .utility-button--xhs .utility-button__icon {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background-image: url("/images/icons/xiaohongshu.png");
+}
+
+.utility-button--bili {
+    padding: 4px;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.utility-button--bili .utility-button__icon {
+    width: 20px;
+    height: 20px;
+    background-image: url("/images/icons/bilibili.png");
 }
 
 @media (max-width: 1080px) {
@@ -1178,7 +1217,7 @@ a:hover {
 }
 
 
-/* 鎼滅储鎻愮ず鏍峰紡 */
+/* 閹兼粎鍌ㄩ幓鎰仛閺嶅嘲绱?*/
 .search-notice {
     background-color: var(--callout-bg);
     border: 1px solid var(--callout-border);
@@ -1196,12 +1235,12 @@ a:hover {
 }
 
 .search-notice p::before {
-    content: "鈩癸笍";
+    content: "閳╃櫢绗?;
     margin-right: 8px;
     font-size: 1.1em;
 }
 
-/* 旧搜索结果兼容样式 */
+/* 鏃ф悳绱㈢粨鏋滃吋瀹规牱寮?*/
 #search-box {
     margin-bottom: 20px;
 }
@@ -1229,7 +1268,7 @@ a:hover {
     color: var(--text-muted);
 }
 
-/* 头部 / 欢迎区（旧页面兼容） */
+/* 澶撮儴 / 娆㈣繋鍖猴紙鏃ч〉闈㈠吋瀹癸級 */
 .site-header {
     background: var(--surface-card);
     border-bottom: 1px solid var(--border-color);
@@ -1325,7 +1364,7 @@ a:hover {
     color: var(--text-muted);
 }
 
-/* 内容分区 / 卡片布局 */
+/* 鍐呭鍒嗗尯 / 鍗＄墖甯冨眬 */
 .content-section {
     background: var(--surface-panel);
     border-radius: 24px;
@@ -1528,7 +1567,7 @@ a:hover {
     }
 }
 
-/* 学习资料页 & 标签 */
+/* 瀛︿範璧勬枡椤?& 鏍囩 */
 .materials-page {
     display: flex;
     flex-direction: column;
@@ -1867,7 +1906,7 @@ a:hover {
     }
 }
 
-/* Additions: Sci‑fi minimal link + button styles */
+/* Additions: Sci?fi minimal link + button styles */
 /* ------------------------------------------------------------- */
 /* Article content layout */
 .article-body {
@@ -2052,7 +2091,7 @@ a:hover {
 }
 /* ------------------------------------------------------------- */
 
-/* Floating actions and modal — sci‑fi minimal */
+/* Floating actions and modal 鈥?sci?fi minimal */
 /* removed floating donation button: handled by top-left utility */
 
 .donation-modal {
@@ -2768,3 +2807,7 @@ html[data-theme="light"] .chat-landing__banner {
         padding: 14px;
     }
 }
+
+
+
+
