@@ -304,7 +304,7 @@
     "type": "subject",
     "title": "军事理论",
     "url": "/subjects/%E5%86%9B%E4%BA%8B%E7%90%86%E8%AE%BA/",
-    "count": 6,
+    "count": 7,
     "_chars": [
       "军",
       "事",
@@ -2823,6 +2823,25 @@
       "组成",
       "成原",
       "原理"
+    ]
+  },
+  {
+    "type": "subject",
+    "title": "计算机网络",
+    "url": "/subjects/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/",
+    "count": 2,
+    "_chars": [
+      "计",
+      "算",
+      "机",
+      "网",
+      "络"
+    ],
+    "_bigrams": [
+      "计算",
+      "算机",
+      "机网",
+      "网络"
     ]
   },
   {
