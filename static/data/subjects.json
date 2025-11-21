@@ -1378,6 +1378,23 @@
   },
   {
     "type": "subject",
+    "title": "机器学习",
+    "url": "/subjects/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/",
+    "count": 1,
+    "_chars": [
+      "机",
+      "器",
+      "学",
+      "习"
+    ],
+    "_bigrams": [
+      "机器",
+      "器学",
+      "学习"
+    ]
+  },
+  {
+    "type": "subject",
     "title": "机床数控技术",
     "url": "/subjects/%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8E%A7%E6%8A%80%E6%9C%AF/",
     "count": 2,

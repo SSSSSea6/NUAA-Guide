@@ -13043,6 +13043,40 @@
   },
   {
     "type": "material",
+    "title": "机器学习大作业",
+    "url": "/materials/机器学习大作业/",
+    "subjects": [
+      "机器学习"
+    ],
+    "tags": [
+      "机器学习"
+    ],
+    "summary": "",
+    "date": "2025-11-21T21:00:40.306006+00:00",
+    "file_url": "https://assets.nuaaguide.shop/机器学习大作业__机器学习__.zip",
+    "file_type": "zip",
+    "_chars": [
+      "机",
+      "器",
+      "学",
+      "习",
+      "大",
+      "作",
+      "业"
+    ],
+    "_bigrams": [
+      "机器",
+      "器学",
+      "学习",
+      "习大",
+      "大作",
+      "作业",
+      "业机",
+      "习机"
+    ]
+  },
+  {
+    "type": "material",
     "title": "机床数控技术21",
     "url": "/materials/机床数控技术2021年试题/",
     "subjects": [
