@@ -460,7 +460,7 @@ html.is-changing .transition-holo-flow {
     transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
-.utility-button:not(.utility-button--xhs):not(.utility-button--bili) {
+.utility-button:not(.utility-button--xhs):not(.utility-button--bili):not(.utility-button--totoro) {
     border-radius: 16px;
     padding: 4px 16px;
     min-height: 30px;
@@ -485,6 +485,20 @@ html.is-changing .transition-holo-flow {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.utility-button--totoro {
+    padding: 4px;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.utility-button--totoro .utility-button__icon {
+    width: 22px;
+    height: 22px;
+    background-image: url("/images/icons/totoro.png");
 }
 
 .utility-button--xhs {
