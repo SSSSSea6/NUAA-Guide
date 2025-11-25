@@ -111,6 +111,10 @@
         </div>
     </div>
 
+    {{ $isSearchPage := eq .Layout "search" }}
+    {{ $needsMaterialsScript := or (eq .Type "materials") (eq .Type "subjects") }}
+    {{ $needsChatSearch := .IsHome }}
+
     <script src="https://unpkg.com/swup@4"></script>
     <script type="module">
         window.pinyinProReadyState = "pending";
@@ -127,9 +131,15 @@
             });
     </script>
     <script type="module" src="/js/enhanced-search.js?v={{ now.Unix }}"></script>
+    {{ if $needsChatSearch }}
     <script type="module" src="/js/chat-search.js?v={{ now.Unix }}"></script>
+    {{ end }}
+    {{ if $isSearchPage }}
     <script type="module" src="/js/search-page.js?v={{ now.Unix }}"></script>
+    {{ end }}
+    {{ if $needsMaterialsScript }}
     <script defer src="/js/materials.js?v={{ now.Unix }}"></script>
+    {{ end }}
 
     <script>
       const THEME_STORAGE_KEY = "nuaa-theme";
@@ -320,9 +330,11 @@
 
       initThemeControls();
 
+      const normalizePath = (pathname) =>
+        (pathname || '').replace(/index.html$/, '').toLowerCase();
+
       const getActiveNavId = (pathname) => {
-        if (!pathname) return "";
-        const path = pathname.replace(/index.html$/, '').toLowerCase();
+        const path = normalizePath(pathname);
         if (path === '/' || path === '') return 'home';
         if (path.startsWith('/subjects') || path.startsWith('/materials')) return 'study';
         if (path.startsWith('/compass')) return 'compass';
@@ -369,8 +381,55 @@
         };
       })(), { passive: true });
 
-      const runInitializers = (pathname) => {
+      const ASSET_VERSION = "{{ now.Unix }}";
+      const moduleLoaders = {
+        materials: () => import(`/js/materials.js?v=${ASSET_VERSION}`),
+        chatSearch: () => import(`/js/chat-search.js?v=${ASSET_VERSION}`),
+        searchPage: () => import(`/js/search-page.js?v=${ASSET_VERSION}`),
+      };
+      const modulePromises = {};
+      const ensureModule = (key) => {
+        if (modulePromises[key]) return modulePromises[key];
+        if (!moduleLoaders[key]) return Promise.resolve(null);
+        modulePromises[key] = moduleLoaders[key]().catch((error) => {
+          console.error(`[loader] failed to load ${key} module:`, error);
+          modulePromises[key] = null;
+          return null;
+        });
+        return modulePromises[key] || Promise.resolve(null);
+      };
+
+      const isHomePath = (pathname) => {
+        const path = normalizePath(pathname);
+        return path === '/' || path === '';
+      };
+      const isSearchPath = (pathname) => normalizePath(pathname).startsWith('/search');
+      const isMaterialsPath = (pathname) => {
+        const path = normalizePath(pathname);
+        return path.startsWith('/materials') || path.startsWith('/subjects');
+      };
+
+      const runInitializers = async (pathname) => {
         updateActiveNav(pathname);
+        const path = normalizePath(pathname || window.location.pathname);
+
+        const loaders = [];
+        if (isMaterialsPath(path) && typeof window.initMaterialsPage !== 'function') {
+          loaders.push(ensureModule('materials'));
+        }
+        if (isHomePath(path) && typeof window.initChatSearch !== 'function') {
+          loaders.push(ensureModule('chatSearch'));
+        }
+        if (isSearchPath(path) && typeof window.initSearchPage !== 'function') {
+          loaders.push(ensureModule('searchPage'));
+        }
+        if (loaders.length) {
+          try {
+            await Promise.all(loaders);
+          } catch (error) {
+            console.error('[loader] module preload failed:', error);
+          }
+        }
 
         const contactBtn = document.querySelector('.contact-btn');
         const contactPopover = document.getElementById('contactPopover');

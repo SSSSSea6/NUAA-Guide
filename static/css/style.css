@@ -507,15 +507,15 @@ html.is-changing .transition-holo-flow {
 }
 
 .utility-button--totoro .utility-button__icon {
-    background-image: url("/images/icons/totoro.png");
+    background-image: url("/images/icons/totoro.webp");
 }
 
 .utility-button--xhs .utility-button__icon {
-    background-image: url("/images/icons/xiaohongshu.png");
+    background-image: url("/images/icons/xiaohongshu.webp");
 }
 
 .utility-button--bili .utility-button__icon {
-    background-image: url("/images/icons/bilibili.png");
+    background-image: url("/images/icons/bilibili.webp");
 }
 
 @media (max-width: 1080px) {
