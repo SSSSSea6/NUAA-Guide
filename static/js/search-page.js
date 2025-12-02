@@ -5,7 +5,7 @@ const resolveEntryUrl = (entry, tab) => {
     if (entry?.permalink) return entry.permalink;
     if (entry?.path) return entry.path;
     if (entry?.slug) return `/${tab || "materials"}/${entry.slug}/`;
-    if (entry?.title) return `/search?tab=${tab || "materials"}&q=${encodeURIComponent(entry.title)}`;
+    if (entry?.title) return `/search/all?tab=${tab || "materials"}&q=${encodeURIComponent(entry.title)}`;
     return "#";
 };
 
@@ -135,7 +135,7 @@ class SearchPage {
         }
         this.updateTabsUI();
         if (!this.query) {
-            this.setStatus("请输入关键词开始检索。");
+            this.setStatus("请输入关键词开始检索");
         }
     }
 
@@ -175,18 +175,18 @@ class SearchPage {
 
     async runSearch() {
         if (!this.query) {
-            this.setStatus("请输入关键词开始检索。");
+            this.setStatus("请输入关键词开始检索");
             this.clearResults();
             return;
         }
 
         if (!window.NuaaSearch || typeof window.NuaaSearch.runSearch !== "function") {
-            this.setStatus("搜索模块尚未就绪。");
+            this.setStatus("搜索模块尚未就绪");
             return;
         }
 
         const token = ++this.token;
-        this.setStatus("正在检索中…");
+        this.setStatus("正在检索中");
         this.clearResults();
 
         try {
@@ -205,7 +205,7 @@ class SearchPage {
             this.renderList(items);
         } catch (error) {
             console.error("[search-page] runSearch failed:", error);
-            this.setStatus("检索失败，请稍后重试。");
+            this.setStatus("检索失败，请稍后重试");
         }
     }
 

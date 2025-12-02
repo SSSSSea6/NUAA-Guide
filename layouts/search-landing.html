@@ -1,0 +1,27 @@
+{{ define "main" }}
+<section class="chat-landing" id="chatLanding">
+    <div class="chat-landing__grid">
+        <div class="chat-landing__chat chat-column" data-chat-search>
+            <div class="chat-thread" data-chat-thread aria-live="polite"></div>
+            <div class="chat-landing__hero" data-chat-hero data-chat-intro>
+                <p class="chat-landing__hero-title">你在忙什么？</p>
+                <p class="chat-landing__hero-subtitle">我会为你找到最好的搭配</p>
+            </div>
+            <form class="chat-input" data-chat-form novalidate>
+                <textarea
+                    class="chat-input__field"
+                    data-chat-input
+                    rows="1"
+                    placeholder="查找任何资源"
+                    autocomplete="off"
+                    aria-label="对话搜索输入"></textarea>
+                <button class="chat-send" type="submit" aria-label="发送搜索">
+                    <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                        <path d="M12 3l7.5 7.5-1.42 1.42L13 7.84V21h-2V7.84L5.92 11.92 4.5 10.5z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{{ end }}

@@ -3,15 +3,15 @@
     <header class="search-page__header">
         <button class="search-page__back" type="button" data-search-back data-home="/">
             <span class="search-page__back-icon" aria-hidden="true">←</span>
-            返回上一级
+            返回上一页
         </button>
         <p class="search-page__eyebrow">NUAA Guide · 全量检索</p>
         <h1>按列查看全部命中</h1>
         <p class="search-page__intro">
-            这里是所有已检索到的资料。
+            这里是所有已检索到的资料列表。
             注意：按相关性排序，再往下可能不是你想要的内容。
         </p>
-        <form class="search-page__form" data-search-form method="get" action="/search" novalidate>
+        <form class="search-page__form" data-search-form method="get" action="/search/all" novalidate>
             <input
                 type="search"
                 class="search-page__input"
@@ -31,7 +31,7 @@
         <button type="button" role="tab" data-search-tab="tools">工具</button>
     </div>
 
-    <div class="search-page__status" data-search-status>请输入关键词开始检索。</div>
+    <div class="search-page__status" data-search-status>请输入关键词开始检索</div>
     <div class="search-page__results" data-search-results></div>
 </section>
 {{ end }}

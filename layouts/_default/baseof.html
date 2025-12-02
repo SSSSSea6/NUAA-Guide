@@ -112,8 +112,9 @@
     </div>
 
     {{ $isSearchPage := eq .Layout "search" }}
+    {{ $isChatLanding := eq .Layout "search-landing" }}
     {{ $needsMaterialsScript := or (eq .Type "materials") (eq .Type "subjects") }}
-    {{ $needsChatSearch := .IsHome }}
+    {{ $needsChatSearch := $isChatLanding }}
 
     <script src="https://unpkg.com/swup@4"></script>
     <script type="module">
@@ -336,6 +337,7 @@
       const getActiveNavId = (pathname) => {
         const path = normalizePath(pathname);
         if (path === '/' || path === '') return 'home';
+        if (path.startsWith('/search')) return 'search';
         if (path.startsWith('/subjects') || path.startsWith('/materials')) return 'study';
         if (path.startsWith('/compass')) return 'compass';
         if (path.startsWith('/store')) return 'store';
@@ -399,11 +401,11 @@
         return modulePromises[key] || Promise.resolve(null);
       };
 
-      const isHomePath = (pathname) => {
+      const isChatSearchPath = (pathname) => {
         const path = normalizePath(pathname);
-        return path === '/' || path === '';
+        return path === '/search' || path === '/search/';
       };
-      const isSearchPath = (pathname) => normalizePath(pathname).startsWith('/search');
+      const isSearchResultsPath = (pathname) => normalizePath(pathname).startsWith('/search/all');
       const isMaterialsPath = (pathname) => {
         const path = normalizePath(pathname);
         return path.startsWith('/materials') || path.startsWith('/subjects');
@@ -417,10 +419,10 @@
         if (isMaterialsPath(path) && typeof window.initMaterialsPage !== 'function') {
           loaders.push(ensureModule('materials'));
         }
-        if (isHomePath(path) && typeof window.initChatSearch !== 'function') {
+        if (isChatSearchPath(path) && typeof window.initChatSearch !== 'function') {
           loaders.push(ensureModule('chatSearch'));
         }
-        if (isSearchPath(path) && typeof window.initSearchPage !== 'function') {
+        if (isSearchResultsPath(path) && typeof window.initSearchPage !== 'function') {
           loaders.push(ensureModule('searchPage'));
         }
         if (loaders.length) {
@@ -454,10 +456,10 @@
         if (typeof window.initLooseDirectories === 'function') {
           window.initLooseDirectories();
         }
-        if (typeof window.initChatSearch === 'function') {
+        if (typeof window.initChatSearch === 'function' && isChatSearchPath(path)) {
           window.initChatSearch();
         }
-        if (typeof window.initSearchPage === 'function') {
+        if (typeof window.initSearchPage === 'function' && isSearchResultsPath(path)) {
           window.initSearchPage();
         }
 

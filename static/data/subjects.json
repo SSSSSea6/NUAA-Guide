@@ -2945,6 +2945,25 @@
   },
   {
     "type": "subject",
+    "title": "近代史纲要",
+    "url": "/subjects/%E8%BF%91%E4%BB%A3%E5%8F%B2%E7%BA%B2%E8%A6%81/",
+    "count": 1,
+    "_chars": [
+      "近",
+      "代",
+      "史",
+      "纲",
+      "要"
+    ],
+    "_bigrams": [
+      "近代",
+      "代史",
+      "史纲",
+      "纲要"
+    ]
+  },
+  {
+    "type": "subject",
     "title": "通信原理",
     "url": "/subjects/%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86/",
     "count": 3,

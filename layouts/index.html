@@ -1,36 +1,38 @@
 {{ define "main" }}
-<section class="chat-landing" id="chatLanding">
-    <div class="chat-landing__grid">
-        <div class="chat-landing__chat chat-column" data-chat-search>
-            <div class="chat-thread" data-chat-thread aria-live="polite"></div>
-            {{ with .Site.Data.announcement }}
-                {{ with .text }}
-                <div class="chat-landing__banner" data-chat-banner data-chat-intro>
-                    <span class="chat-landing__banner-dot">·</span>
-                    <p>{{ replace . "\n" "<br>" | safeHTML }}</p>
-                </div>
-                {{ end }}
-            {{ end }}
-            <div class="chat-landing__hero" data-chat-hero data-chat-intro>
-                <p class="chat-landing__hero-title">你在忙什么？</p>
-                <p class="chat-landing__hero-subtitle">我会为你找到最好的搭配</p>
-            </div>
-            <form class="chat-input" data-chat-form novalidate>
-                <textarea
-                    class="chat-input__field"
-                    data-chat-input
-                    rows="1"
-                    placeholder="查找任何资源"
-                    autocomplete="off"
-                    aria-label="对话搜索输入"></textarea>
-                <button class="chat-send" type="submit" aria-label="发送搜索">
-                    <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
-                        <path d="M12 3l7.5 7.5-1.42 1.42L13 7.84V21h-2V7.84L5.92 11.92 4.5 10.5z" fill="currentColor"/>
-                    </svg>
-                </button>
-            </form>
+<section class="announcement-page">
+  <header class="announcement-header">
+    <p class="announcement-header__eyebrow">NUAA Guide</p>
+    <h1 class="announcement-header__title">公示</h1>
+  </header>
+
+  <div class="announcement-columns">
+    <div class="announcement-board">
+      <div class="announcement-board__header">
+        <h2 class="announcement-board__title">龙猫跑步</h2>
+      </div>
+      <div class="announcement-board__body">
+        <div class="announcement-board__content">
+          <ul class="announcement-list">
+            <li>新增自由跑功能。</li>
+            <li>优化跑步流程，错误率降低（仍可能出错，记得查看）。</li>
+          </ul>
         </div>
+      </div>
     </div>
-    
+
+    <div class="announcement-board">
+      <div class="announcement-board__header">
+        <h2 class="announcement-board__title">学习资料</h2>
+      </div>
+      <div class="announcement-board__body">
+        <div class="announcement-board__content">
+          <ul class="announcement-list">
+            <li>新增近代史纲要、航概题库excel版</li>
+            <li>不日将推出资料贡献奖励机制，考试时记住几道题，出来换奖励！（拼凑成的试卷将供大家参阅。）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 {{ end }}
