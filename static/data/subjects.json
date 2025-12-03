@@ -2673,7 +2673,7 @@
     "type": "subject",
     "title": "航空航天概论",
     "url": "/subjects/%E8%88%AA%E7%A9%BA%E8%88%AA%E5%A4%A9%E6%A6%82%E8%AE%BA/",
-    "count": 7,
+    "count": 8,
     "_chars": [
       "航",
       "空",
@@ -2945,18 +2945,20 @@
   },
   {
     "type": "subject",
-    "title": "近代史纲要",
-    "url": "/subjects/%E8%BF%91%E4%BB%A3%E5%8F%B2%E7%BA%B2%E8%A6%81/",
+    "title": "近现代史纲要",
+    "url": "/subjects/%E8%BF%91%E7%8E%B0%E4%BB%A3%E5%8F%B2%E7%BA%B2%E8%A6%81/",
     "count": 1,
     "_chars": [
       "近",
+      "现",
       "代",
       "史",
       "纲",
       "要"
     ],
     "_bigrams": [
-      "近代",
+      "近现",
+      "现代",
       "代史",
       "史纲",
       "纲要"

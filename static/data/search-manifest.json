@@ -65,6 +65,16 @@
     ]
   },
   {
+    "title": "18院航概题库",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/18院航概题库/",
+    "tags": [
+      "航空航天概论",
+      "航概"
+    ]
+  },
+  {
     "title": "2018年计算机软件技术基础试题",
     "summary": "",
     "section": "materials",
@@ -185,6 +195,15 @@
     "url": "/materials/24习概/",
     "tags": [
       "习近平新时代中国特色社会主义思想概论"
+    ]
+  },
+  {
+    "title": "25近代史纲要",
+    "summary": "",
+    "section": "materials",
+    "url": "/materials/25近代史纲要/",
+    "tags": [
+      "近现代史纲要"
     ]
   },
   {
@@ -5431,18 +5450,6 @@
     "url": "/materials/运筹学2023年试题/",
     "tags": [
       "运筹学"
-    ]
-  },
-  {
-    "title": "近代史纲要题库",
-    "summary": "按章节整理的近代史纲要 Excel 版本，附重点、年表与真题摘录，方便快速翻阅。",
-    "section": "materials",
-    "url": "/materials/近代史纲要题库/",
-    "tags": [
-      "近代史",
-      "近代史纲要",
-      "题库",
-      "Excel"
     ]
   },
   {
