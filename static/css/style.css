@@ -460,7 +460,7 @@ html.is-changing .transition-holo-flow {
     transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
-.utility-button:not(.utility-button--xhs):not(.utility-button--bili):not(.utility-button--totoro) {
+.utility-button:not(.utility-button--xhs):not(.utility-button--bili):not(.utility-button--totoro):not(.utility-button--qq) {
     border-radius: 16px;
     padding: 4px 16px;
     min-height: 30px;
@@ -489,7 +489,8 @@ html.is-changing .transition-holo-flow {
 
 .utility-button--totoro,
 .utility-button--xhs,
-.utility-button--bili {
+.utility-button--bili,
+.utility-button--qq {
     padding: 0;
     width: 40px;
     height: 40px;
@@ -500,7 +501,8 @@ html.is-changing .transition-holo-flow {
 
 .utility-button--totoro .utility-button__icon,
 .utility-button--xhs .utility-button__icon,
-.utility-button--bili .utility-button__icon {
+.utility-button--bili .utility-button__icon,
+.utility-button--qq .utility-button__icon {
     width: 100%;
     height: 100%;
     background-size: cover;
@@ -516,6 +518,12 @@ html.is-changing .transition-holo-flow {
 
 .utility-button--bili .utility-button__icon {
     background-image: url("/images/icons/bilibili.webp");
+}
+
+.utility-button--qq .utility-button__icon {
+    background-image: url("/images/icons/qq.webp");
+    background-size: 110% 110%;
+    background-position: center;
 }
 
 @media (max-width: 1080px) {
@@ -1206,6 +1214,124 @@ html.is-changing .transition-holo-flow {
     margin: 0;
     font-size: 0.82rem;
     color: var(--text-muted);
+}
+
+.qq-channel-popover {
+    position: fixed;
+    left: 18px;
+    top: 72px;
+    z-index: 130;
+    width: 220px;
+    background: var(--surface-popover);
+    border-radius: 16px;
+    padding: 16px 18px 22px;
+    box-shadow: var(--popover-shadow);
+    border: 1px solid var(--popover-border);
+}
+
+.qq-channel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.qq-channel-header h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--accent-color);
+}
+
+.qq-channel-close {
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.qq-channel-tip {
+    margin: 0 0 12px;
+    font-size: 0.88rem;
+    color: var(--text-strong);
+}
+
+.qq-channel-qr {
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    background: var(--surface-elevated);
+    box-shadow: inset 0 0 0 1px var(--popover-border);
+}
+
+.qq-channel-qr img {
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.qq-channel-intro-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(2, 6, 18, 0.65);
+    z-index: 1002;
+    padding: 20px;
+}
+
+.qq-channel-intro-modal.is-visible {
+    display: flex;
+}
+
+.qq-channel-intro-content {
+    width: min(360px, 100%);
+    background: var(--surface-popover);
+    border-radius: 20px;
+    padding: 28px 26px 24px;
+    box-shadow: 0 25px 60px rgba(6, 15, 41, 0.25);
+    border: 1px solid var(--popover-border);
+    position: relative;
+    text-align: center;
+}
+
+.qq-channel-intro-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    border: none;
+    background: transparent;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.qq-channel-intro-content h3 {
+    margin: 0 0 10px;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+.qq-channel-intro-content p {
+    margin: 0 0 18px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.qq-channel-intro-qr {
+    padding: 14px;
+    border-radius: 16px;
+    background: var(--surface-elevated);
+    box-shadow: inset 0 0 0 1px var(--popover-border);
+}
+
+.qq-channel-intro-qr img {
+    display: block;
+    width: 100%;
+    border-radius: 12px;
 }
 
 a {

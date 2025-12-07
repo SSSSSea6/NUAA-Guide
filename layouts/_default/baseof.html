@@ -101,6 +101,13 @@
                     <span class="utility-button__icon" aria-hidden="true"></span>
                     <span class="sr-only">Bilibili</span>
                 </a>
+                <button type="button"
+                        class="utility-button utility-button--qq qq-channel-btn"
+                        aria-haspopup="dialog"
+                        aria-controls="qqChannelPopover">
+                    <span class="utility-button__icon" aria-hidden="true"></span>
+                    <span class="sr-only">QQ 频道</span>
+                </button>
                 <button type="button" class="utility-button contact-btn" aria-haspopup="dialog" aria-controls="contactPopover">
                     <span>联系我</span>
                 </button>
@@ -442,6 +449,23 @@
             const isOpen = contactPopover.style.display === 'block';
             contactPopover.style.display = isOpen ? 'none' : 'block';
           });
+        }
+
+        const qqChannelBtn = document.querySelector('.qq-channel-btn');
+        const qqChannelPopover = document.getElementById('qqChannelPopover');
+        if (qqChannelBtn && qqChannelPopover && !qqChannelBtn.dataset.boundQq) {
+          qqChannelBtn.dataset.boundQq = 'true';
+          qqChannelBtn.setAttribute('aria-expanded', 'false');
+          qqChannelBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const isOpen = qqChannelPopover.style.display === 'block';
+            qqChannelPopover.style.display = isOpen ? 'none' : 'block';
+            qqChannelBtn.setAttribute('aria-expanded', String(!isOpen));
+          });
+        }
+
+        if (typeof window.maybeShowQqChannelIntroModal === 'function') {
+          window.maybeShowQqChannelIntroModal();
         }
 
         // Normalize donation button label (handle legacy encoding issues)

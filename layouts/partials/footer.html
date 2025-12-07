@@ -46,6 +46,30 @@
   <p class="contact-note">欢迎提出建议与合作想法。</p>
 </div>
 
+<!-- QQ 频道弹窗（用于顶部 QQ 图标） -->
+<div class="qq-channel-popover" id="qqChannelPopover" role="dialog" aria-modal="false" aria-label="NUAA Guide QQ频道" style="display:none">
+  <div class="qq-channel-header">
+    <h4>NUAA Guide 频道</h4>
+    <button type="button" class="qq-channel-close" onclick="closeQqChannelPopover()" aria-label="关闭">×</button>
+  </div>
+  <p class="qq-channel-tip">欢迎加入NUAA Guide频道NG20251207</p>
+  <div class="qq-channel-qr">
+    <img src="/images/频道.webp" alt="NUAA Guide QQ频道二维码" loading="lazy">
+  </div>
+</div>
+
+<!-- 页面打开时的 QQ 频道欢迎弹窗 -->
+<div class="qq-channel-intro-modal" id="qqChannelIntroModal" role="dialog" aria-modal="true" aria-labelledby="qqChannelIntroTitle" aria-describedby="qqChannelIntroDesc">
+  <div class="qq-channel-intro-content">
+    <button type="button" class="qq-channel-intro-close" onclick="closeQqChannelIntroModal()" aria-label="关闭">×</button>
+    <h3 id="qqChannelIntroTitle">NUAA Guide QQ频道已创立</h3>
+    <p id="qqChannelIntroDesc">欢迎加入畅所欲言。</p>
+    <div class="qq-channel-intro-qr">
+      <img src="/images/频道.webp" alt="NUAA Guide QQ频道二维码" loading="lazy">
+    </div>
+  </div>
+</div>
+
 <script>
   function openDonationModal() {
     const modal = document.getElementById('donationModal');
@@ -73,6 +97,8 @@
       closeDonationModal();
       closeContactModal();
       closeSocialTip();
+      closeQqChannelPopover();
+      closeQqChannelIntroModal();
     }
   });
 
@@ -102,11 +128,47 @@
     if (pop) pop.style.display = 'none';
   }
 
+  function closeQqChannelPopover() {
+    const pop = document.getElementById('qqChannelPopover');
+    const trigger = document.querySelector('.qq-channel-btn');
+    if (pop) pop.style.display = 'none';
+    if (trigger) trigger.setAttribute('aria-expanded', 'false');
+  }
+
+  function openQqChannelIntroModal() {
+    const modal = document.getElementById('qqChannelIntroModal');
+    if (modal) modal.classList.add('is-visible');
+  }
+
+  function closeQqChannelIntroModal() {
+    const modal = document.getElementById('qqChannelIntroModal');
+    if (modal) modal.classList.remove('is-visible');
+  }
+
+  function maybeShowQqChannelIntroModal() {
+    const modal = document.getElementById('qqChannelIntroModal');
+    if (!modal) return;
+    let alreadyShown = false;
+    try {
+      alreadyShown = window.sessionStorage?.getItem('qqChannelIntroShown') === 'true';
+    } catch (error) {
+      alreadyShown = false;
+    }
+    if (alreadyShown || modal.classList.contains('is-visible')) return;
+    try {
+      window.sessionStorage?.setItem('qqChannelIntroShown', 'true');
+    } catch (error) {}
+    openQqChannelIntroModal();
+  }
+
   window.addEventListener('click', function(e) {
     const tip = document.getElementById('socialTip');
     const contact = document.getElementById('contactPopover');
     const tipTrigger = document.querySelector('[aria-controls="socialTip"]');
     const contactBtn = document.querySelector('.contact-btn');
+    const qqPopover = document.getElementById('qqChannelPopover');
+    const qqBtn = document.querySelector('.qq-channel-btn');
+    const qqIntroModal = document.getElementById('qqChannelIntroModal');
     if (tip && tip.style.display === 'block') {
       if (e.target !== tip && !tip.contains(e.target) && (!tipTrigger || (e.target !== tipTrigger && !tipTrigger.contains(e.target)))) {
         closeSocialTip();
@@ -117,6 +179,13 @@
         closeContactModal();
       }
     }
+    if (qqPopover && qqPopover.style.display === 'block') {
+      if (e.target !== qqPopover && !qqPopover.contains(e.target) && (!qqBtn || (e.target !== qqBtn && !qqBtn.contains(e.target)))) {
+        closeQqChannelPopover();
+      }
+    }
+    if (qqIntroModal && qqIntroModal.classList.contains('is-visible') && e.target === qqIntroModal) {
+      closeQqChannelIntroModal();
+    }
   });
 </script>
-
