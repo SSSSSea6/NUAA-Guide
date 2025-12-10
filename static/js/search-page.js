@@ -1,6 +1,8 @@
 const getQueryParams = () => new URLSearchParams(window.location.search);
 
 const resolveEntryUrl = (entry, tab) => {
+    const isMaterial = tab === "materials" || entry?.type === "material";
+    if (isMaterial && entry?.file_url) return entry.file_url;
     if (entry?.url) return entry.url;
     if (entry?.permalink) return entry.permalink;
     if (entry?.path) return entry.path;
@@ -38,6 +40,10 @@ const ensureSearchCard = (entry, tab) => {
     card.className = "search-card chat-card";
     if (nodeName === "a") {
         card.href = target;
+        if (/^https?:\/\//i.test(target)) {
+            card.target = "_blank";
+            card.rel = "noopener noreferrer";
+        }
     }
     const title = document.createElement("p");
     title.className = "chat-card__title";

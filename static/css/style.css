@@ -1849,6 +1849,70 @@ a:hover {
     font-weight: 600;
 }
 
+.subject-term__intro {
+    margin: 4px 0 16px 0;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+.subject-material-list {
+    list-style: none;
+    margin: 12px 0 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.subject-material-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.subject-material-item:last-child {
+    border-bottom: none;
+}
+
+.subject-material-link {
+    flex: 1;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.subject-material-link:hover {
+    text-decoration: underline;
+}
+
+.subject-material-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.subject-material-pill {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.subject-material-tags {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 320px;
+}
+
 .materials-summary {
     display: flex;
     justify-content: space-between;
@@ -2032,6 +2096,23 @@ a:hover {
 
     .subject-items {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .subject-material-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .subject-material-meta {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .subject-material-tags {
+        max-width: 100%;
+        white-space: normal;
     }
 }
 
@@ -3053,7 +3134,5 @@ html[data-theme="light"] .chat-landing__banner {
         padding: 14px;
     }
 }
-
-
 
 
