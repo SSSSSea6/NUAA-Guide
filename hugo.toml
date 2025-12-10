@@ -10,6 +10,8 @@ enableRobotsTXT = true
   keywords = ["NUAA", "南航", "学习资料", "校园指南", "大学生活"]
   # 您的 R2 公共自定义域 URL (最佳实践：末尾不带斜杠)
   r2_base_url = "https://assets.nuaaguide.shop"
+  # 星火计划后端 API 根地址（如 Supabase/Koyeb/自建服务），留空则前端仅提示未接入
+  starfire_api_base = ""
 
 [outputs]
   home = ["HTML", "JSON"]

@@ -1,0 +1,260 @@
+{{ define "main" }}
+{{ $subjects := slice }}
+{{ with .Site.Taxonomies.subject }}
+  {{ range $name, $_ := . }}
+    {{ $subjects = $subjects | append $name }}
+  {{ end }}
+{{ end }}
+{{ $subjects = uniq $subjects | sort }}
+{{ $apiBase := .Site.Params.starfire_api_base | default "" }}
+
+<section class="starfire-page" data-starfire-page>
+    <header class="starfire-hero">
+        <div>
+            <p class="starfire-kicker">星火计划 · 资料共建</p>
+            <h1>{{ .Title }}</h1>
+            <p class="starfire-subtitle">考试试题 / 实用资料 / 捐赠收款码 —— 让资料流动起来，英雄榜实名致谢（可匿名）。</p>
+            <div class="starfire-tags">
+                <span class="starfire-tag">直接提交文件</span>
+                <span class="starfire-tag">支持匿名</span>
+                <span class="starfire-tag">排行榜致谢</span>
+            </div>
+        </div>
+        <div class="starfire-meta">
+            <div>
+                <p class="starfire-meta__title">三种方式</p>
+                <p class="starfire-meta__desc">英雄捐赠 · 阳光跑次数 · 红包捐赠</p>
+            </div>
+            <div>
+                <p class="starfire-meta__title">科目全量</p>
+                <p class="starfire-meta__desc">与“学习资料”科目列表同步</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="starfire-layout">
+        <div class="starfire-card">
+            <div class="starfire-slider" data-role="slider">
+                <div class="starfire-slider__tabs" data-role="slider-tabs">
+                    <button type="button" class="slider-tab is-active" data-index="0">英雄捐赠</button>
+                    <button type="button" class="slider-tab" data-index="1">阳光跑次数</button>
+                    <button type="button" class="slider-tab" data-index="2">红包捐赠</button>
+                </div>
+                <div class="starfire-slider__track" data-role="slider-track">
+                    <div class="starfire-slide" data-slide="hero">
+                        <div class="starfire-slide__header">
+                            <p class="starfire-kicker">英雄捐赠</p>
+                            <h2>实名/匿名，直接上传</h2>
+                        </div>
+                        <form class="starfire-form" data-starfire-form data-api-base="{{ $apiBase }}" data-contrib="hero" novalidate>
+                            <input type="hidden" name="contrib_type" value="hero">
+                            <div class="form-row">
+                                <label class="form-label">资料类型</label>
+                                <div class="pill-group" data-role="resource-type">
+                                    <label class="pill-option">
+                                        <input type="radio" name="resource_type" value="exam" checked>
+                                        <span>考试试题</span>
+                                    </label>
+                                    <label class="pill-option">
+                                        <input type="radio" name="resource_type" value="practical">
+                                        <span>实用资料</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label class="form-label">科目</label>
+                                <div class="subject-select">
+                                    <select name="subject" data-role="subject-select" required>
+                                        <option value="" disabled selected>请选择科目</option>
+                                        {{ range $subjects }}
+                                        <option value="{{ . }}">{{ . }}</option>
+                                        {{ end }}
+                                        <option value="__custom">添加科目…</option>
+                                    </select>
+                                    <input type="text" name="subject_custom" class="input" placeholder="请输入新科目名称" data-role="subject-custom" hidden>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="inline">
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="anonymous" value="1">
+                                        <span>匿名提交</span>
+                                    </label>
+                                    <div class="input-inline" data-role="name-field">
+                                        <input class="input" name="display_name" type="text" placeholder="留下名号（可空）">
+                                    </div>
+                                </div>
+                                <label class="input-label">上传资料（可多选）</label>
+                                <input type="file" name="materials" multiple data-role="materials-input">
+                            </div>
+                            <div class="form-row">
+                                <label class="input-label">资料描述 / 备注</label>
+                                <textarea class="input textarea" name="description" rows="3" placeholder="例：2024 秋高数 A 期末卷，含答案"></textarea>
+                            </div>
+                            <div class="form-footer">
+                                <div class="form-note">
+                                    <p>支持匿名或留下名号，提交即默认允许公开在资料页。</p>
+                                </div>
+                                <button type="submit" class="cta-button" data-role="submit-btn">提交</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="starfire-slide" data-slide="sunrun">
+                        <div class="starfire-slide__header">
+                            <p class="starfire-kicker">阳光跑次数</p>
+                            <h2>默认匿名，填写学号领取次数</h2>
+                        </div>
+                        <form class="starfire-form" data-starfire-form data-api-base="{{ $apiBase }}" data-contrib="sunrun" novalidate>
+                            <input type="hidden" name="contrib_type" value="sunrun">
+                            <div class="form-row">
+                                <label class="form-label">资料类型</label>
+                                <div class="pill-group" data-role="resource-type">
+                                    <label class="pill-option">
+                                        <input type="radio" name="resource_type" value="exam" checked>
+                                        <span>考试试题</span>
+                                    </label>
+                                    <label class="pill-option">
+                                        <input type="radio" name="resource_type" value="practical">
+                                        <span>实用资料</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label class="form-label">科目</label>
+                                <div class="subject-select">
+                                    <select name="subject" data-role="subject-select" required>
+                                        <option value="" disabled selected>请选择科目</option>
+                                        {{ range $subjects }}
+                                        <option value="{{ . }}">{{ . }}</option>
+                                        {{ end }}
+                                        <option value="__custom">添加科目…</option>
+                                    </select>
+                                    <input type="text" name="subject_custom" class="input" placeholder="请输入新科目名称" data-role="subject-custom" hidden>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label class="input-label">学号（用于加次数，默认匿名）</label>
+                                <input class="input" name="student_id" type="text" placeholder="请输入学号">
+                                <label class="input-label">上传资料（可多选）</label>
+                                <input type="file" name="materials_sunrun" multiple>
+                            </div>
+                            <div class="form-row">
+                                <label class="input-label">资料描述 / 备注</label>
+                                <textarea class="input textarea" name="description" rows="3" placeholder="可补充阳光跑奖励说明"></textarea>
+                            </div>
+                            <div class="form-footer">
+                                <div class="form-note">
+                                    <p>提交默认匿名，仅用于给该学号加次数。</p>
+                                </div>
+                                <button type="submit" class="cta-button" data-role="submit-btn">提交</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="starfire-slide" data-slide="redpacket">
+                        <div class="starfire-slide__header">
+                            <p class="starfire-kicker">红包捐赠</p>
+                            <h2>默认匿名，上传收款码 + 资料</h2>
+                        </div>
+                        <form class="starfire-form" data-starfire-form data-api-base="{{ $apiBase }}" data-contrib="redpacket" novalidate>
+                            <input type="hidden" name="contrib_type" value="redpacket">
+                            <div class="form-row">
+                                <label class="form-label">资料类型</label>
+                                <div class="pill-group" data-role="resource-type">
+                                    <label class="pill-option">
+                                        <input type="radio" name="resource_type" value="exam" checked>
+                                        <span>考试试题</span>
+                                    </label>
+                                    <label class="pill-option">
+                                        <input type="radio" name="resource_type" value="practical">
+                                        <span>实用资料</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label class="form-label">科目</label>
+                                <div class="subject-select">
+                                    <select name="subject" data-role="subject-select" required>
+                                        <option value="" disabled selected>请选择科目</option>
+                                        {{ range $subjects }}
+                                        <option value="{{ . }}">{{ . }}</option>
+                                        {{ end }}
+                                        <option value="__custom">添加科目…</option>
+                                    </select>
+                                    <input type="text" name="subject_custom" class="input" placeholder="请输入新科目名称" data-role="subject-custom" hidden>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label class="input-label">收款码（微信/支付宝，图片，默认匿名）</label>
+                                <input type="file" name="payment_code" accept="image/*">
+                                <label class="input-label">上传资料（可多选）</label>
+                                <input type="file" name="materials_redpacket" multiple>
+                            </div>
+                            <div class="form-row">
+                                <label class="input-label">资料描述 / 备注</label>
+                                <textarea class="input textarea" name="description" rows="3" placeholder="可补充感谢语或奖励方式"></textarea>
+                            </div>
+                            <div class="form-footer">
+                                <div class="form-note">
+                                    <p>提交默认匿名，收款码仅用于奖励确认。</p>
+                                </div>
+                                <button type="submit" class="cta-button" data-role="submit-btn">提交</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="starfire-slider__nav">
+                    <button class="slider-btn" type="button" data-role="slider-prev">‹</button>
+                    <div class="slider-dots" data-role="slider-dots">
+                        <button type="button" class="slider-dot is-active" data-index="0" aria-label="英雄捐赠"></button>
+                        <button type="button" class="slider-dot" data-index="1" aria-label="阳光跑次数"></button>
+                        <button type="button" class="slider-dot" data-index="2" aria-label="红包捐赠"></button>
+                    </div>
+                    <button class="slider-btn" type="button" data-role="slider-next">›</button>
+                </div>
+            </div>
+        </div>
+
+        <aside class="starfire-card starfire-board">
+            <div class="board-header">
+                <div>
+                    <p class="board-kicker">英雄榜</p>
+                    <h3>感谢每一份资料</h3>
+                </div>
+                <button type="button" class="ghost-button" data-role="refresh-board">刷新</button>
+            </div>
+            <ul class="board-list" data-role="leaderboard">
+                <li class="board-item">
+                    <span class="board-rank">1</span>
+                    <span class="board-name">匿名</span>
+                    <span class="board-count">3 份</span>
+                </li>
+                <li class="board-item">
+                    <span class="board-rank">2</span>
+                    <span class="board-name">星火小队</span>
+                    <span class="board-count">2 份</span>
+                </li>
+                <li class="board-item">
+                    <span class="board-rank">3</span>
+                    <span class="board-name">远航</span>
+                    <span class="board-count">1 份</span>
+                </li>
+            </ul>
+            <p class="board-note">接入后端后将从接口实时读取排行榜。</p>
+        </aside>
+    </div>
+
+    <section class="starfire-callout">
+        <div>
+            <h3>如何接入后端？</h3>
+            <ol>
+                <li>在 <code>hugo.toml</code> 里设置 <code>params.starfire_api_base</code>，如 https://your-endpoint/api/starfire。</li>
+                <li>实现接口：<code>POST /submissions</code> 接收 FormData（resource_type、subject/subject_custom、contrib_type、anonymous/display_name、student_id、描述、文件）；<code>GET /leaderboard</code> 返回 [{ name, count }].</li>
+                <li>可用 Supabase Edge Functions/Koyeb/Cloudflare Workers 存储文件与榜单。</li>
+            </ol>
+        </div>
+        <div class="starfire-hint">未配置接口时，前端会提示“未接入后端”。</div>
+    </section>
+</section>
+{{ end }}

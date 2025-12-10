@@ -118,9 +118,15 @@
         </div>
     </div>
 
+    <a class="starfire-fab" href="/starfire/" title="星火计划" aria-label="星火计划">
+        <span class="starfire-fab__icon" aria-hidden="true">★</span>
+        <span class="starfire-fab__label">星火计划</span>
+    </a>
+
     {{ $isSearchPage := eq .Layout "search" }}
     {{ $isChatLanding := eq .Layout "search-landing" }}
     {{ $needsMaterialsScript := or (eq .Type "materials") (eq .Type "subjects") }}
+    {{ $needsStarfire := or (eq .Type "starfire") (eq .Layout "starfire") }}
     {{ $needsChatSearch := $isChatLanding }}
 
     <script src="https://unpkg.com/swup@4"></script>
@@ -147,6 +153,12 @@
     {{ end }}
     {{ if $needsMaterialsScript }}
     <script defer src="/js/materials.js?v={{ now.Unix }}"></script>
+    {{ end }}
+    {{ if $needsStarfire }}
+    <script>
+      window.STARFIRE_API_BASE = "{{ .Site.Params.starfire_api_base | default "" }}";
+    </script>
+    <script defer src="/js/starfire.js?v={{ now.Unix }}"></script>
     {{ end }}
 
     <script>
@@ -520,7 +532,6 @@
     </script>
 </body>
 </html>
-
 
 
 
