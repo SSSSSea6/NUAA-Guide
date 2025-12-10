@@ -1272,67 +1272,6 @@ html.is-changing .transition-holo-flow {
     border-radius: 10px;
 }
 
-.qq-channel-intro-modal {
-    position: fixed;
-    inset: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: rgba(2, 6, 18, 0.65);
-    z-index: 1002;
-    padding: 20px;
-}
-
-.qq-channel-intro-modal.is-visible {
-    display: flex;
-}
-
-.qq-channel-intro-content {
-    width: min(360px, 100%);
-    background: var(--surface-popover);
-    border-radius: 20px;
-    padding: 28px 26px 24px;
-    box-shadow: 0 25px 60px rgba(6, 15, 41, 0.25);
-    border: 1px solid var(--popover-border);
-    position: relative;
-    text-align: center;
-}
-
-.qq-channel-intro-close {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    border: none;
-    background: transparent;
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    cursor: pointer;
-}
-
-.qq-channel-intro-content h3 {
-    margin: 0 0 10px;
-    font-size: 1.2rem;
-    color: var(--primary-color);
-}
-
-.qq-channel-intro-content p {
-    margin: 0 0 18px;
-    color: var(--text-muted);
-    font-size: 0.95rem;
-}
-
-.qq-channel-intro-qr {
-    padding: 14px;
-    border-radius: 16px;
-    background: var(--surface-elevated);
-    box-shadow: inset 0 0 0 1px var(--popover-border);
-}
-
-.qq-channel-intro-qr img {
-    display: block;
-    width: 100%;
-    border-radius: 12px;
-}
 
 a {
     color: var(--accent-color);
