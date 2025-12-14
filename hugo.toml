@@ -1,5 +1,5 @@
 # hugo.toml
-baseURL = "https://nuaaguide.online/"
+baseURL = "https://www.nuaaguide.online/"
 languageCode = "zh-cn"
 title = "  NUAA Guide 校园指北"
 enableRobotsTXT = true
