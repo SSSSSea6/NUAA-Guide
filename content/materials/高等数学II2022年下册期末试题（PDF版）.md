@@ -3,7 +3,7 @@ title: "高等数学II2022年下册期末试题（PDF版）"
 date: 2025-10-26T17:38:40.303347+00:00
 tags: ["高等数学", "高数"]
 subjects: ["高等数学"]
-file_url: "https://assets.nuaaguide.shop/高数II下22期末__高等数学_高数__.pdf"
+file_url: "https://assets.nuaa.cc/高数II下22期末__高等数学_高数__.pdf"
 file_type: "pdf"
 ---
 

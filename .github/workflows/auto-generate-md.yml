@@ -38,7 +38,7 @@ jobs:
         env:
           # 将您的自定义域名作为环境变量传给 Python 脚本
           # 注意：URL 末尾没有斜杠，这是最佳实践
-          R2_BASE_URL: "https://assets.nuaaguide.shop"
+          R2_BASE_URL: "https://assets.nuaa.cc"
         run: |
           python scripts/improved_auto_generate.py
 

@@ -3,7 +3,7 @@ title: "实验四 变频器PID控制"
 date: 2025-09-27T13:32:58.660786+00:00
 tags: ["PLC", "plc"]
 subjects: ["PLC"]
-file_url: "https://assets.nuaaguide.shop/实验四 变频器PID控制__PLC_plc__.docx"
+file_url: "https://assets.nuaa.cc/实验四 变频器PID控制__PLC_plc__.docx"
 file_type: "docx"
 ---
 

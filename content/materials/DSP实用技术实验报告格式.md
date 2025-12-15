@@ -3,7 +3,7 @@ title: "DSP实用技术实验报告格式"
 date: 2025-09-27T13:32:58.660235+00:00
 tags: ["DSP实用技术", "DSP", "dsp"]
 subjects: ["DSP实用技术"]
-file_url: "https://assets.nuaaguide.shop/DSP实用技术实验报告格式__DSP实用技术_DSP_dsp__.doc"
+file_url: "https://assets.nuaa.cc/DSP实用技术实验报告格式__DSP实用技术_DSP_dsp__.doc"
 file_type: "doc"
 ---
 

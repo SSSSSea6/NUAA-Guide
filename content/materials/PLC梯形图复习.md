@@ -3,7 +3,7 @@ title: "PLC梯形图复习"
 date: 2025-09-27T13:32:58.656420+00:00
 tags: ["PLC", "plc"]
 subjects: ["PLC"]
-file_url: "https://assets.nuaaguide.shop/PLC梯形图复习__PLC_plc__.pdf"
+file_url: "https://assets.nuaa.cc/PLC梯形图复习__PLC_plc__.pdf"
 file_type: "pdf"
 ---
 
