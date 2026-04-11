@@ -1,4 +1,4 @@
-<!-- 打赏弹窗（仅保留弹窗，触发展现在顶部按钮） -->
+<!-- 打赏弹窗 -->
 <div id="donationModal" class="donation-modal" role="dialog" aria-modal="true" aria-labelledby="donationTitle" aria-describedby="donationDesc" style="display:none">
   <div class="donation-modal-content">
     <button class="donation-close" onclick="closeDonationModal()" aria-label="关闭">×</button>
@@ -21,18 +21,18 @@
   </div>
 </div>
 
-<!-- 小红书提示（移到左上角，受顶部按钮控制） -->
+<!-- 小红书提示 -->
 <div class="social-tip" id="socialTip" role="dialog" aria-modal="false" aria-label="社交提示" style="display:none">
   <div class="social-tip-content">
     <h4>关注小红书</h4>
     <p>获取最新更新与资料</p>
-    <p><strong>账号：26506316071</strong></p>
+    <p><strong>账号：6506316071</strong></p>
     <button class="social-tip-close" onclick="closeSocialTip()" aria-label="关闭">×</button>
   </div>
 </div>
 
-<!-- 联系我（用于顶部“联系我”按钮） -->
-<div class="contact-popover" id="contactPopover" role="dialog" aria-modal="false" aria-label="联系我" style="display:none">
+<!-- 联系方式 -->
+<div class="contact-popover" id="contactPopover" role="dialog" aria-modal="false" aria-label="联系方式" style="display:none">
   <div class="contact-methods">
     <div class="contact-method">
       <h4>QQ</h4>
@@ -46,19 +46,203 @@
   <p class="contact-note">欢迎提出建议与合作想法。</p>
 </div>
 
-<!-- QQ 频道弹窗（用于顶部 QQ 图标） -->
+<!-- QQ 频道弹窗 -->
 <div class="qq-channel-popover" id="qqChannelPopover" role="dialog" aria-modal="false" aria-label="NUAA Guide QQ频道" style="display:none">
   <div class="qq-channel-header">
     <h4>NUAA Guide 频道</h4>
     <button type="button" class="qq-channel-close" onclick="closeQqChannelPopover()" aria-label="关闭">×</button>
   </div>
-  <p class="qq-channel-tip">欢迎加入NUAA Guide频道NG20251207</p>
+  <p class="qq-channel-tip">欢迎加入 NUAA Guide 频道 NG20251207</p>
   <div class="qq-channel-qr">
     <img src="/images/频道.webp" alt="NUAA Guide QQ频道二维码" loading="lazy">
   </div>
 </div>
 
+<!-- 全站公告弹窗 -->
+<div id="miniProgramBridge"
+     data-scheme="{{ .Site.Params.mini_program_scheme | default "" | htmlEscape }}"
+     data-scheme-api="{{ .Site.Params.mini_program_scheme_api | default "" | htmlEscape }}"
+     hidden></div>
+
+<div id="siteAnnouncementModal"
+     class="site-announcement-modal"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="siteAnnouncementTitle"
+     aria-describedby="siteAnnouncementDesc"
+     style="display:none">
+  <div class="site-announcement-modal__content">
+    <button type="button"
+            class="site-announcement-modal__close"
+            onclick="closeSiteAnnouncementModal()"
+            aria-label="关闭公告">
+      ×
+    </button>
+    <p class="site-announcement-modal__eyebrow">NUAA Guide 工具箱公告</p>
+    <h3 id="siteAnnouncementTitle">学习资料在小程序中已全部可用，下载速度更快。</h3>
+    <div id="siteAnnouncementDesc" class="site-announcement-modal__body">
+      <p>点击下方按钮可自动拉起微信并进入 NUAA Guide 小程序。</p>
+    </div>
+    <div class="site-announcement-modal__actions">
+      <button type="button"
+              class="site-announcement-modal__action site-announcement-modal__action--miniapp"
+              data-mini-program-open
+              onclick="openMiniProgram(event)">
+        打开小程序
+      </button>
+      <button type="button"
+              class="site-announcement-modal__action site-announcement-modal__action--secondary"
+              onclick="closeSiteAnnouncementModal()">
+        继续浏览
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
+  const SITE_ANNOUNCEMENT_SESSION_KEY = 'nuaa-site-announcement-shown';
+  const MATERIALS_ANNOUNCEMENT_SESSION_KEY = 'nuaa-materials-announcement-shown';
+  let miniProgramSchemePromise = null;
+  let cachedMiniProgramScheme = '';
+
+  function openSiteAnnouncementModal() {
+    const modal = document.getElementById('siteAnnouncementModal');
+    if (!modal) return;
+    modal.style.display = 'block';
+    document.body.classList.add('has-site-announcement-open');
+  }
+
+  function closeSiteAnnouncementModal() {
+    const modal = document.getElementById('siteAnnouncementModal');
+    if (!modal) return;
+    modal.style.display = 'none';
+    document.body.classList.remove('has-site-announcement-open');
+  }
+
+  function isMaterialsAnnouncementPath(pathname) {
+    const path = (pathname || window.location.pathname || '').replace(/index\.html$/, '').toLowerCase();
+    return path.startsWith('/materials') || path.startsWith('/subjects');
+  }
+
+  function maybeOpenSiteAnnouncementModal(pathname) {
+    const isMaterialsPath = isMaterialsAnnouncementPath(pathname);
+    const key = isMaterialsPath ? MATERIALS_ANNOUNCEMENT_SESSION_KEY : SITE_ANNOUNCEMENT_SESSION_KEY;
+    try {
+      if (sessionStorage.getItem(key) === 'shown') {
+        return;
+      }
+      sessionStorage.setItem(key, 'shown');
+      if (isMaterialsPath) {
+        sessionStorage.setItem(SITE_ANNOUNCEMENT_SESSION_KEY, 'shown');
+      }
+    } catch (error) {
+      console.warn('[announcement] unable to persist session flag:', error);
+    }
+
+    openSiteAnnouncementModal();
+  }
+
+  function getMiniProgramBridgeConfig() {
+    const bridge = document.getElementById('miniProgramBridge');
+    return {
+      scheme: bridge?.dataset.scheme?.trim() || '',
+      schemeApi: bridge?.dataset.schemeApi?.trim() || ''
+    };
+  }
+
+  function extractMiniProgramScheme(payload) {
+    if (!payload) return '';
+    if (typeof payload === 'string') return payload.trim();
+    return [
+      payload.url,
+      payload.scheme,
+      payload.openlink,
+      payload.openLink,
+      payload.link
+    ].find((value) => typeof value === 'string' && value.trim())?.trim() || '';
+  }
+
+  async function resolveMiniProgramScheme() {
+    if (cachedMiniProgramScheme) return cachedMiniProgramScheme;
+
+    const config = getMiniProgramBridgeConfig();
+    if (config.scheme) {
+      cachedMiniProgramScheme = config.scheme;
+      return cachedMiniProgramScheme;
+    }
+
+    if (!config.schemeApi) return '';
+
+    if (!miniProgramSchemePromise) {
+      miniProgramSchemePromise = (async () => {
+        const endpoint = new URL(config.schemeApi, window.location.origin);
+        endpoint.searchParams.set('path', window.location.pathname || '/');
+        const response = await fetch(endpoint.toString(), {
+          method: 'GET',
+          credentials: 'same-origin',
+          headers: { Accept: 'application/json, text/plain;q=0.9' }
+        });
+
+        if (!response.ok) {
+          throw new Error(`mini program scheme request failed: ${response.status}`);
+        }
+
+        const contentType = response.headers.get('content-type') || '';
+        const payload = contentType.includes('application/json')
+          ? await response.json()
+          : await response.text();
+        const scheme = extractMiniProgramScheme(payload);
+
+        if (!scheme) {
+          throw new Error('mini program scheme response is empty');
+        }
+
+        cachedMiniProgramScheme = scheme;
+        return cachedMiniProgramScheme;
+      })().catch((error) => {
+        miniProgramSchemePromise = null;
+        throw error;
+      });
+    }
+
+    return miniProgramSchemePromise;
+  }
+
+  function setMiniProgramButtonsBusy(isBusy) {
+    document.querySelectorAll('[data-mini-program-open]').forEach((button) => {
+      button.setAttribute('aria-busy', String(isBusy));
+      if ('disabled' in button) {
+        button.disabled = isBusy;
+      }
+    });
+  }
+
+  async function openMiniProgram(event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setMiniProgramButtonsBusy(true);
+    try {
+      const scheme = await resolveMiniProgramScheme();
+      if (!scheme) {
+        throw new Error('mini program scheme is not configured');
+      }
+      closeSiteAnnouncementModal();
+      window.location.href = scheme;
+      window.setTimeout(() => setMiniProgramButtonsBusy(false), 1200);
+    } catch (error) {
+      console.warn('[mini-program] unable to open mini program:', error);
+      setMiniProgramButtonsBusy(false);
+      window.alert('小程序链接暂未配置，请稍后再试。');
+    }
+  }
+
+  function preloadMiniProgramScheme() {
+    resolveMiniProgramScheme().catch(() => {});
+  }
+
   function openDonationModal() {
     const modal = document.getElementById('donationModal');
     if (!modal) return;
@@ -75,13 +259,14 @@
     if (modal) modal.style.display = 'none';
   }
 
-window.addEventListener('click', function(event) {
+  window.addEventListener('click', function(event) {
     const modal = document.getElementById('donationModal');
     if (modal && event.target === modal) closeDonationModal();
   });
 
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
+      closeSiteAnnouncementModal();
       closeDonationModal();
       closeContactModal();
       closeSocialTip();
@@ -122,15 +307,18 @@ window.addEventListener('click', function(event) {
     if (trigger) trigger.setAttribute('aria-expanded', 'false');
   }
 
-
-
   window.addEventListener('click', function(e) {
+    const announcementModal = document.getElementById('siteAnnouncementModal');
     const tip = document.getElementById('socialTip');
     const contact = document.getElementById('contactPopover');
     const tipTrigger = document.querySelector('[aria-controls="socialTip"]');
     const contactBtn = document.querySelector('.contact-btn');
     const qqPopover = document.getElementById('qqChannelPopover');
     const qqBtn = document.querySelector('.qq-channel-btn');
+
+    if (announcementModal && e.target === announcementModal) {
+      closeSiteAnnouncementModal();
+    }
     if (tip && tip.style.display === 'block') {
       if (e.target !== tip && !tip.contains(e.target) && (!tipTrigger || (e.target !== tipTrigger && !tipTrigger.contains(e.target)))) {
         closeSocialTip();
@@ -147,4 +335,14 @@ window.addEventListener('click', function(event) {
       }
     }
   });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      preloadMiniProgramScheme();
+      maybeOpenSiteAnnouncementModal(window.location.pathname);
+    }, { once: true });
+  } else {
+    preloadMiniProgramScheme();
+    maybeOpenSiteAnnouncementModal(window.location.pathname);
+  }
 </script>

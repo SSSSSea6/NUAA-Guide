@@ -1,0 +1,15 @@
+name = "nuaa-wechat-scheme"
+main = "src/index.js"
+compatibility_date = "2026-04-11"
+account_id = "a2b7fc794d1db64ae85a3a5aa96d645a"
+workers_dev = true
+
+[[routes]]
+pattern = "miniapp.nuaa.cc"
+custom_domain = true
+
+[vars]
+WECHAT_APP_ID = "wx601df36eebf0b024"
+WECHAT_SCHEME_PATH = "pages/index/index"
+WECHAT_ENV_VERSION = "release"
+ALLOWED_HOST_SUFFIX = ".nuaa.cc"

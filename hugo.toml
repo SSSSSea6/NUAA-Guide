@@ -12,6 +12,10 @@ enableRobotsTXT = true
   r2_base_url = "https://assets.nuaa.cc"
   # 星火计划后端 API 根地址（如 Supabase/Koyeb/自建服务），留空则前端仅提示未接入
   starfire_api_base = ""
+  # 微信小程序 URL Scheme。可填写后端预生成的 weixin://dl/business/?t=...
+  mini_program_scheme = ""
+  # 微信小程序 URL Scheme 后端接口。接口可返回纯文本链接，或 JSON：{"url":"weixin://dl/business/?t=..."}
+  mini_program_scheme_api = "https://miniapp.nuaa.cc/"
 
 [outputs]
   home = ["HTML", "JSON"]

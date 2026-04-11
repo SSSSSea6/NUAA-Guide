@@ -1,12 +1,11 @@
 const DATA_ENDPOINTS = {
     subjects: "/data/subjects.json",
     materials: "/data/materials.json",
-    store: "/data/store.json",
     tools: "/data/tools.json",
     chars: "/data/chars.json"
 };
 
-const BUCKET_KEYS = ["subjects", "materials", "store", "tools"];
+const BUCKET_KEYS = ["subjects", "materials", "tools"];
 const ASCII_PATTERN = /^[\x00-\x7F]+$/;
 const COMMON_CHAR_MIN_HITS = 60; // guard against extremely common single-character hits (e.g. U+6570 / U+5B66)
 const COMMON_CHAR_RATIO = 0.1;
@@ -14,7 +13,6 @@ const COMMON_CHAR_RATIO = 0.1;
 const bucketCache = {
     subjects: null,
     materials: null,
-    store: null,
     tools: null
 };
 const bucketPromises = {};
@@ -44,8 +42,6 @@ const inferType = (bucket) => {
             return "subject";
         case "materials":
             return "material";
-        case "store":
-            return "store";
         case "tools":
             return "tool";
         default:
@@ -100,7 +96,7 @@ const ensureCharDict = () => {
 };
 
 const idleFetchBuckets = () => {
-    const lazyKeys = ["materials", "store", "tools"];
+    const lazyKeys = ["materials", "tools"];
     const idle = window.requestIdleCallback
         ? window.requestIdleCallback
         : (cb) => setTimeout(() => cb({ didTimeout: false, timeRemaining: () => 16 }), 350);
@@ -387,7 +383,6 @@ const runSearch = async (query, scopes = {}) => {
     const result = {
         subjects: [],
         materials: [],
-        store: [],
         tools: []
     };
     if (!cleaned) {

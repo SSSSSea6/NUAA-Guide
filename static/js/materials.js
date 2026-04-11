@@ -21,9 +21,12 @@
             return "#";
         }
         const ch = s[0];
+        if (collator.compare(ch, anchorStr[0]) < 0) {
+            return anchorLetters[0] || "A";
+        }
         for (let i = 0; i < anchorStr.length; i += 1) {
             if (collator.compare(ch, anchorStr[i]) < 0) {
-                return anchorLetters[i] || "Z";
+                return anchorLetters[Math.max(0, i - 1)] || "Z";
             }
         }
         return "Z";

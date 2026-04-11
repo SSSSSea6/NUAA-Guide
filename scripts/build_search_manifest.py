@@ -1,8 +1,8 @@
 """
 Generate search-ready datasets for the NUAA Guide.
 
-Alongside the legacy search manifest, this command now builds four focused
-JSON buckets (subjects, materials, store, tools) plus a lightweight char
+Alongside the legacy search manifest, this command now builds three focused
+JSON buckets (subjects, materials, tools) plus a lightweight char
 dictionary used by the chat-style search UI.
 """
 
@@ -25,7 +25,6 @@ STATIC_DATA_DIR = PROJECT_ROOT / "static" / "data"
 MANIFEST_FILE = STATIC_DATA_DIR / "search-manifest.json"
 SUBJECTS_FILE = STATIC_DATA_DIR / "subjects.json"
 MATERIALS_FILE = STATIC_DATA_DIR / "materials.json"
-STORE_FILE = STATIC_DATA_DIR / "store.json"
 TOOLS_FILE = STATIC_DATA_DIR / "tools.json"
 CHARS_FILE = STATIC_DATA_DIR / "chars.json"
 
@@ -240,28 +239,6 @@ def build_materials(docs: Iterable[MarkdownDoc]) -> list[dict[str, object]]:
     return items
 
 
-def build_store(docs: Iterable[MarkdownDoc]) -> list[dict[str, object]]:
-    items: list[dict[str, object]] = []
-    for doc in docs:
-        item = {
-            "type": "store",
-            "title": str(doc.metadata.get("title") or doc.relative_parts[-1]),
-            "url": doc.url,
-            "excerpt": doc.summary,
-            "fulltext": doc.plain_text,
-        }
-        chars, bigrams = compute_features(
-            item["title"],
-            doc.summary,
-            doc.plain_text,
-        )
-        item["_chars"] = chars
-        item["_bigrams"] = bigrams
-        items.append(item)
-    items.sort(key=lambda entry: entry["title"])
-    return items
-
-
 def build_tools(docs: Iterable[MarkdownDoc]) -> list[dict[str, object]]:
     items: list[dict[str, object]] = []
     for doc in docs:
@@ -332,18 +309,16 @@ def main() -> None:
         docs_by_section[doc.section].append(doc)
 
     materials_entries = build_materials(docs_by_section.get("materials", []))
-    store_entries = build_store(docs_by_section.get("store", []))
     tool_docs = [
         doc
         for doc in docs
-        if doc.section not in {"materials", "store", "subjects"}
+        if doc.section not in {"materials", "subjects"}
     ]
     tools_entries = build_tools(tool_docs)
     subjects_entries = build_subjects(materials_entries)
 
     write_json(MANIFEST_FILE, manifest_entries)
     write_json(MATERIALS_FILE, materials_entries)
-    write_json(STORE_FILE, store_entries)
     write_json(TOOLS_FILE, tools_entries)
     write_json(SUBJECTS_FILE, subjects_entries)
     write_json(
@@ -355,7 +330,7 @@ def main() -> None:
         (
             f"Wrote manifest ({len(manifest_entries)}) + "
             f"subjects ({len(subjects_entries)}), materials ({len(materials_entries)}), "
-            f"store ({len(store_entries)}), tools ({len(tools_entries)})"
+            f"tools ({len(tools_entries)})"
         )
     )
 

@@ -80,6 +80,12 @@
         {{ partial "header.html" . }}
         <div class="app-main">
             <div class="utility-actions" aria-label="Quick actions">
+                <button type="button"
+                        class="utility-button utility-button--miniapp"
+                        data-mini-program-open
+                        onclick="openMiniProgram(event)">
+                    <span>打开小程序</span>
+                </button>
                 <a class="utility-button utility-button--totoro"
                    href="https://www.nuaaguide.shop/"
                    target="_blank"
@@ -111,7 +117,7 @@
                 <button type="button" class="utility-button contact-btn" aria-haspopup="dialog" aria-controls="contactPopover">
                     <span>联系我</span>
                 </button>
-            </div>            <main id="swup" class="site-content transition-holo-flow">
+            </div>            <main id="swup" class="site-content">
                 {{- block "main" . }}{{- end }}
             </main>
             {{ partial "footer.html" . }}
@@ -124,12 +130,11 @@
     </a>
 
     {{ $isSearchPage := eq .Layout "search" }}
-    {{ $isChatLanding := eq .Layout "search-landing" }}
     {{ $needsMaterialsScript := or (eq .Type "materials") (eq .Type "subjects") }}
     {{ $needsStarfire := or (eq .Type "starfire") (eq .Layout "starfire") }}
-    {{ $needsChatSearch := $isChatLanding }}
+    {{ $needsPinyinScript := or $isSearchPage $needsMaterialsScript }}
 
-    <script src="https://unpkg.com/swup@4"></script>
+    {{ if $needsPinyinScript }}
     <script type="module">
         window.pinyinProReadyState = "pending";
         window.pinyinProReady = import("/js/vendor/pinyin-pro.mjs?v={{ now.Unix }}")
@@ -144,11 +149,9 @@
                 return null;
             });
     </script>
-    <script type="module" src="/js/enhanced-search.js?v={{ now.Unix }}"></script>
-    {{ if $needsChatSearch }}
-    <script type="module" src="/js/chat-search.js?v={{ now.Unix }}"></script>
     {{ end }}
     {{ if $isSearchPage }}
+    <script type="module" src="/js/enhanced-search.js?v={{ now.Unix }}"></script>
     <script type="module" src="/js/search-page.js?v={{ now.Unix }}"></script>
     {{ end }}
     {{ if $needsMaterialsScript }}
@@ -359,7 +362,6 @@
         if (path.startsWith('/search')) return 'search';
         if (path.startsWith('/subjects') || path.startsWith('/materials')) return 'study';
         if (path.startsWith('/compass')) return 'compass';
-        if (path.startsWith('/store')) return 'store';
         if (path.startsWith('/guides')) return 'tools';
         return '';
       };
@@ -405,7 +407,6 @@
       const ASSET_VERSION = "{{ now.Unix }}";
       const moduleLoaders = {
         materials: () => import(`/js/materials.js?v=${ASSET_VERSION}`),
-        chatSearch: () => import(`/js/chat-search.js?v=${ASSET_VERSION}`),
         searchPage: () => import(`/js/search-page.js?v=${ASSET_VERSION}`),
       };
       const modulePromises = {};
@@ -420,10 +421,6 @@
         return modulePromises[key] || Promise.resolve(null);
       };
 
-      const isChatSearchPath = (pathname) => {
-        const path = normalizePath(pathname);
-        return path === '/search' || path === '/search/';
-      };
       const isSearchResultsPath = (pathname) => normalizePath(pathname).startsWith('/search/all');
       const isMaterialsPath = (pathname) => {
         const path = normalizePath(pathname);
@@ -437,9 +434,6 @@
         const loaders = [];
         if (isMaterialsPath(path) && typeof window.initMaterialsPage !== 'function') {
           loaders.push(ensureModule('materials'));
-        }
-        if (isChatSearchPath(path) && typeof window.initChatSearch !== 'function') {
-          loaders.push(ensureModule('chatSearch'));
         }
         if (isSearchResultsPath(path) && typeof window.initSearchPage !== 'function') {
           loaders.push(ensureModule('searchPage'));
@@ -489,14 +483,14 @@
         if (typeof window.initLooseDirectories === 'function') {
           window.initLooseDirectories();
         }
-        if (typeof window.initChatSearch === 'function' && isChatSearchPath(path)) {
-          window.initChatSearch();
-        }
         if (typeof window.initSearchPage === 'function' && isSearchResultsPath(path)) {
           window.initSearchPage();
         }
 
         initSearchWidgets();
+        if (typeof window.maybeOpenSiteAnnouncementModal === 'function') {
+          window.maybeOpenSiteAnnouncementModal(path);
+        }
         restoreScrollPosition(pathname);
       };
 
@@ -506,8 +500,6 @@
           contactPopover.classList.remove('is-visible');
         }
       });
-
-      const swup = new Swup();
 
       const initSearchWidgets = () => {
         if (window.NuaaSearch && typeof window.NuaaSearch.initAll === 'function') {
@@ -521,10 +513,6 @@
       document.addEventListener('nuaasearch:ready', initSearchWidgets);
 
       runInitializers(window.location.pathname);
-      swup.hooks.on('page:view', (event) => {
-        const nextPath = event?.to?.url?.pathname || window.location.pathname;
-        runInitializers(nextPath);
-      });
 
     </script>
 </body>
