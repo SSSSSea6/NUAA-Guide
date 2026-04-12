@@ -23,6 +23,7 @@ Thumbs.db
 /browser-smoke-test*.webm
 /scripts/codex-auth.md
 /scripts/codex-auth.ps1
+/scripts/__pycache__/
 # Local agent scratch files
 /.agents/
 

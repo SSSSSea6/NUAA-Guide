@@ -8,8 +8,10 @@ dictionary used by the chat-style search UI.
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
+import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
@@ -295,7 +297,7 @@ def write_json(target: Path, payload: object) -> None:
     target.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def main() -> None:
+def build_all_payloads() -> dict[Path, object]:
     docs: list[MarkdownDoc] = []
     for path in CONTENT_ROOT.rglob("*.md"):
         parsed = parse_markdown(path)
@@ -317,23 +319,71 @@ def main() -> None:
     tools_entries = build_tools(tool_docs)
     subjects_entries = build_subjects(materials_entries)
 
-    write_json(MANIFEST_FILE, manifest_entries)
-    write_json(MATERIALS_FILE, materials_entries)
-    write_json(TOOLS_FILE, tools_entries)
-    write_json(SUBJECTS_FILE, subjects_entries)
-    write_json(
-        CHARS_FILE,
-        {"chars": "".join(sorted(GLOBAL_CHAR_SET))},
-    )
+    return {
+        MANIFEST_FILE: manifest_entries,
+        MATERIALS_FILE: materials_entries,
+        TOOLS_FILE: tools_entries,
+        SUBJECTS_FILE: subjects_entries,
+        CHARS_FILE: {"chars": "".join(sorted(GLOBAL_CHAR_SET))},
+    }
 
-    print(  # noqa: T201
-        (
-            f"Wrote manifest ({len(manifest_entries)}) + "
-            f"subjects ({len(subjects_entries)}), materials ({len(materials_entries)}), "
-            f"tools ({len(tools_entries)})"
-        )
+
+def load_json(path: Path) -> object | None:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return None
+    except json.JSONDecodeError as exc:
+        print(f"[search-data] invalid JSON in {path.relative_to(PROJECT_ROOT)}: {exc}")
+        return None
+
+
+def write_outputs(payloads: dict[Path, object]) -> None:
+    for path, payload in payloads.items():
+        write_json(path, payload)
+
+
+def check_outputs(payloads: dict[Path, object]) -> bool:
+    failures: list[str] = []
+    for path, expected in payloads.items():
+        current = load_json(path)
+        if current is None:
+            failures.append(f"missing or unreadable: {path.relative_to(PROJECT_ROOT)}")
+            continue
+        if current != expected:
+            failures.append(f"out of date: {path.relative_to(PROJECT_ROOT)}")
+
+    if failures:
+        print("[search-data] generated data is not in sync with the repository:")
+        for failure in failures:
+            print(f"  - {failure}")
+        return False
+
+    print("[search-data] data files are up to date.")
+    return True
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Generate or verify search datasets.")
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Verify that the generated datasets match the committed JSON files without writing.",
     )
+    args = parser.parse_args(argv)
+
+    payloads = build_all_payloads()
+    if args.check:
+        return 0 if check_outputs(payloads) else 1
+
+    write_outputs(payloads)
+    print(
+        f"[search-data] wrote manifest ({len(payloads[MANIFEST_FILE])}) + "
+        f"subjects ({len(payloads[SUBJECTS_FILE])}), materials ({len(payloads[MATERIALS_FILE])}), "
+        f"tools ({len(payloads[TOOLS_FILE])})"
+    )
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

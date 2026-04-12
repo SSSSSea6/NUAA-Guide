@@ -65,6 +65,13 @@
 
 **注意:** 本地运行时，学习资料的下载链接会指向 R2 上的实际文件。本地开发服务器**不会**执行文件上传到 R2 的操作。
 
+## MCP 测试
+
+当前工作区内补充了一份 MCP 工具全面测试与调用说明：
+
+- [plugins/MCP_TOOL_TEST_REPORT.md](plugins/MCP_TOOL_TEST_REPORT.md)
+- [plugins/MCP_PERMISSION_MAXIMIZATION_GUIDE.md](plugins/MCP_PERMISSION_MAXIMIZATION_GUIDE.md)
+
 ## 🙏 致谢
 
 * 感谢所有分享学习资料的同学！

@@ -1,83 +1,103 @@
 #!/usr/bin/env python3
 """
-验证生成的 Markdown 文件格式是否正确
+Validate the generated Markdown files under content/materials.
 """
-import os
-import yaml
+
+from __future__ import annotations
+
 from pathlib import Path
 
-def validate_markdown_file(file_path):
-    """验证 Markdown 文件格式"""
-    print(f"验证文件: {file_path.name}")
-    
+import yaml
+
+
+REQUIRED_FIELDS = ("title", "tags", "file_url")
+
+
+def iter_material_files(materials_dir: Path) -> list[Path]:
+    return sorted(
+        path
+        for path in materials_dir.glob("*.md")
+        if path.name != "_index.md"
+    )
+
+
+def validate_markdown_file(file_path: Path) -> bool:
+    print(f"Validating: {file_path.name}")
+
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        
-        # 检查 Front Matter 格式
-        if not content.startswith('---'):
-            print(f"错误: {file_path.name} 没有以 '---' 开头")
-            return False
-        
-        # 分割 Front Matter 和内容
-        parts = content.split('---', 2)
-        if len(parts) < 3:
-            print(f"错误: {file_path.name} Front Matter 格式不正确")
-            return False
-        
-        front_matter = parts[1].strip()
-        try:
-            data = yaml.safe_load(front_matter)
-            
-            # 检查必需字段
-            required_fields = ['title', 'tags', 'file_url']
-            for field in required_fields:
-                if field not in data:
-                    print(f"错误: {file_path.name} 缺少必需字段 '{field}'")
-                    return False
-            
-            print(f"验证通过: {file_path.name}")
-            print(f"  标题: {data.get('title')}")
-            print(f"  标签: {data.get('tags')}")
-            print(f"  文件链接: {data.get('file_url')}")
-            return True
-            
-        except yaml.YAMLError as e:
-            print(f"错误: {file_path.name} YAML 解析错误: {e}")
-            return False
-            
-    except Exception as e:
-        print(f"错误: 无法读取文件 {file_path.name}: {e}")
+        content = file_path.read_text(encoding="utf-8")
+    except Exception as exc:
+        print(f"  error: unable to read file: {exc}")
         return False
 
-def main():
-    """主函数"""
+    if not content.startswith("---"):
+        print("  error: missing front matter delimiter")
+        return False
+
+    parts = content.split("---", 2)
+    if len(parts) < 3:
+        print("  error: malformed front matter block")
+        return False
+
+    try:
+        data = yaml.safe_load(parts[1]) or {}
+    except yaml.YAMLError as exc:
+        print(f"  error: YAML parse failed: {exc}")
+        return False
+
+    if not isinstance(data, dict):
+        print("  error: front matter is not a mapping")
+        return False
+
+    missing = [field for field in REQUIRED_FIELDS if field not in data]
+    if missing:
+        print(f"  error: missing required fields: {', '.join(missing)}")
+        return False
+
+    title = str(data.get("title") or "").strip()
+    tags = data.get("tags")
+    file_url = str(data.get("file_url") or "").strip()
+
+    if not title:
+        print("  error: title must not be empty")
+        return False
+    if not file_url:
+        print("  error: file_url must not be empty")
+        return False
+    if tags is None:
+        print("  error: tags must be present")
+        return False
+    if isinstance(tags, list) and not tags:
+        print("  error: tags must not be empty")
+        return False
+
+    print("  ok")
+    return True
+
+
+def main() -> int:
     materials_dir = Path("content/materials")
-    
+
     if not materials_dir.exists():
-        print("content/materials 目录不存在")
-        return
-    
-    md_files = list(materials_dir.glob("*.md"))
-    
+        print("content/materials directory does not exist")
+        return 1
+
+    md_files = iter_material_files(materials_dir)
     if not md_files:
-        print("没有找到 Markdown 文件")
-        return
-    
-    print(f"找到 {len(md_files)} 个 Markdown 文件")
-    print("=" * 50)
-    
+        print("No Markdown files found")
+        return 1
+
     valid_count = 0
     invalid_count = 0
-    
     for md_file in md_files:
         if validate_markdown_file(md_file):
             valid_count += 1
         else:
             invalid_count += 1
-        print("-" * 30)
-    
-    print(f"\n验证完成: {valid_count} 个文件有效, {invalid_count} 个文件无效")
+
+    print(f"Validated {valid_count} files, {invalid_count} failed.")
+    return 0 if invalid_count == 0 else 1
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
