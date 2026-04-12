@@ -27,7 +27,9 @@ STATIC_DATA_DIR = PROJECT_ROOT / "static" / "data"
 MANIFEST_FILE = STATIC_DATA_DIR / "search-manifest.json"
 SUBJECTS_FILE = STATIC_DATA_DIR / "subjects.json"
 MATERIALS_FILE = STATIC_DATA_DIR / "materials.json"
+MATERIALS_SEARCH_FILE = STATIC_DATA_DIR / "materials-search.json"
 TOOLS_FILE = STATIC_DATA_DIR / "tools.json"
+TOOLS_SEARCH_FILE = STATIC_DATA_DIR / "tools-search.json"
 CHARS_FILE = STATIC_DATA_DIR / "chars.json"
 
 FRONT_MATTER_REGEX = re.compile(r"^---\s*\n(.*?)\n---\s*\n?", re.S)
@@ -265,6 +267,48 @@ def build_tools(docs: Iterable[MarkdownDoc]) -> list[dict[str, object]]:
     return items
 
 
+def build_material_search_index(
+    materials: Iterable[dict[str, object]],
+) -> list[dict[str, object]]:
+    items: list[dict[str, object]] = []
+    for material in materials:
+        item: dict[str, object] = {
+            "type": material["type"],
+            "title": material["title"],
+            "url": material["url"],
+            "subjects": material["subjects"],
+            "tags": material["tags"],
+            "_chars": material["_chars"],
+            "_bigrams": material["_bigrams"],
+        }
+        if material.get("date"):
+            item["date"] = material["date"]
+        if material.get("file_url"):
+            item["file_url"] = material["file_url"]
+        if material.get("file_type"):
+            item["file_type"] = material["file_type"]
+        items.append(item)
+    return items
+
+
+def build_tools_search_index(
+    tools: Iterable[dict[str, object]],
+) -> list[dict[str, object]]:
+    items: list[dict[str, object]] = []
+    for tool in tools:
+        items.append(
+            {
+                "type": tool["type"],
+                "title": tool["title"],
+                "url": tool["url"],
+                "section": tool["section"],
+                "_chars": tool["_chars"],
+                "_bigrams": tool["_bigrams"],
+            }
+        )
+    return items
+
+
 def build_subjects(materials: Iterable[dict[str, object]]) -> list[dict[str, object]]:
     subject_map: dict[str, dict[str, object]] = {}
     for material in materials:
@@ -292,9 +336,13 @@ def build_subjects(materials: Iterable[dict[str, object]]) -> list[dict[str, obj
     return subjects
 
 
-def write_json(target: Path, payload: object) -> None:
+def write_json(target: Path, payload: object, *, compact: bool = False) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    if compact:
+        text = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+    else:
+        text = json.dumps(payload, ensure_ascii=False, indent=2)
+    target.write_text(text, encoding="utf-8")
 
 
 def build_all_payloads() -> dict[Path, object]:
@@ -318,11 +366,15 @@ def build_all_payloads() -> dict[Path, object]:
     ]
     tools_entries = build_tools(tool_docs)
     subjects_entries = build_subjects(materials_entries)
+    materials_search_entries = build_material_search_index(materials_entries)
+    tools_search_entries = build_tools_search_index(tools_entries)
 
     return {
         MANIFEST_FILE: manifest_entries,
         MATERIALS_FILE: materials_entries,
+        MATERIALS_SEARCH_FILE: materials_search_entries,
         TOOLS_FILE: tools_entries,
+        TOOLS_SEARCH_FILE: tools_search_entries,
         SUBJECTS_FILE: subjects_entries,
         CHARS_FILE: {"chars": "".join(sorted(GLOBAL_CHAR_SET))},
     }
@@ -339,8 +391,9 @@ def load_json(path: Path) -> object | None:
 
 
 def write_outputs(payloads: dict[Path, object]) -> None:
+    compact_targets = {MATERIALS_SEARCH_FILE, TOOLS_SEARCH_FILE, CHARS_FILE}
     for path, payload in payloads.items():
-        write_json(path, payload)
+        write_json(path, payload, compact=path in compact_targets)
 
 
 def check_outputs(payloads: dict[Path, object]) -> bool:
@@ -380,7 +433,8 @@ def main(argv: list[str] | None = None) -> int:
     print(
         f"[search-data] wrote manifest ({len(payloads[MANIFEST_FILE])}) + "
         f"subjects ({len(payloads[SUBJECTS_FILE])}), materials ({len(payloads[MATERIALS_FILE])}), "
-        f"tools ({len(payloads[TOOLS_FILE])})"
+        f"materials-search ({len(payloads[MATERIALS_SEARCH_FILE])}), "
+        f"tools ({len(payloads[TOOLS_FILE])}), tools-search ({len(payloads[TOOLS_SEARCH_FILE])})"
     )
     return 0
 

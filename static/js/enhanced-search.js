@@ -1,7 +1,7 @@
 const DATA_ENDPOINTS = {
     subjects: "/data/subjects.json",
-    materials: "/data/materials.json",
-    tools: "/data/tools.json",
+    materials: "/data/materials-search.json",
+    tools: "/data/tools-search.json",
     chars: "/data/chars.json"
 };
 
@@ -22,10 +22,14 @@ let charDictPromise = null;
 let charDictSet = null;
 
 const pinyinCache = new Map();
+const SEARCH_WARMUP_SELECTOR = "[data-search-input], .search-home__input, [data-chat-input]";
 
 const fetchJson = async (url) => {
     try {
-        const response = await fetch(url, { credentials: "same-origin" });
+        const response = await fetch(url, {
+            credentials: "same-origin",
+            cache: "force-cache"
+        });
         if (!response.ok) {
             return null;
         }
@@ -95,19 +99,42 @@ const ensureCharDict = () => {
     return charDictPromise;
 };
 
-const idleFetchBuckets = () => {
-    const lazyKeys = ["materials", "tools"];
-    const idle = window.requestIdleCallback
-        ? window.requestIdleCallback
-        : (cb) => setTimeout(() => cb({ didTimeout: false, timeRemaining: () => 16 }), 350);
-    idle(() => lazyKeys.forEach((bucket) => ensureBucket(bucket)));
+const warmupSearchData = async (buckets = ["subjects"]) => {
+    await Promise.all([ensureCharDict(), ensureBuckets(buckets)]);
 };
 
-ensureBucket("subjects");
-ensureCharDict();
-if (typeof window !== "undefined") {
-    idleFetchBuckets();
-}
+const bindWarmupInput = (input) => {
+    if (!input || input.dataset.searchWarmupBound === "true") {
+        return;
+    }
+
+    input.dataset.searchWarmupBound = "true";
+
+    const primeEssentials = () => {
+        warmupSearchData(["subjects"]).catch(() => {});
+    };
+    const primeFullSearch = () => {
+        const value = typeof input.value === "string" ? input.value.trim() : "";
+        if (!value) {
+            return;
+        }
+        warmupSearchData(["materials", "tools"]).catch(() => {});
+    };
+
+    input.addEventListener("focus", primeEssentials, { once: true });
+    input.addEventListener("pointerdown", primeEssentials, { once: true });
+    input.addEventListener("keydown", primeEssentials, { once: true });
+    input.addEventListener("input", primeFullSearch);
+};
+
+const initWarmupInputs = () => {
+    if (typeof document === "undefined") {
+        return;
+    }
+    document.querySelectorAll(SEARCH_WARMUP_SELECTOR).forEach((input) => {
+        bindWarmupInput(input);
+    });
+};
 
 const cleanQuery = (query, dict) => {
     const dictionary = dict || charDictSet || new Set();
@@ -415,7 +442,7 @@ const runSearch = async (query, scopes = {}) => {
 };
 
 const initAll = () => {
-    // Legacy hook retained for backwards compatibility with older widgets.
+    initWarmupInputs();
 };
 
 if (!window.NuaaSearch) {
@@ -434,6 +461,7 @@ if (!window.NuaaSearch) {
 
 if (!window.NuaaSearchReady) {
     window.NuaaSearchReady = Promise.resolve().then(() => {
+        initWarmupInputs();
         document.dispatchEvent(new CustomEvent("nuaasearch:ready"));
     });
 }
