@@ -1,11 +1,15 @@
-const DEFAULT_ALLOWED_HOST_SUFFIX = ".nuaa.cc";
+const DEFAULT_ALLOWED_HOST_SUFFIXES = [".nuaa.cc", ".nuaaguide.online"];
+const DEFAULT_SCHEME_PATH = "pages/index/index";
+const DEFAULT_ENV_VERSION = "release";
+const SCHEME_CACHE_TTL_SECONDS = 3600;
+const SCHEME_CACHE_PRUNE_LIMIT = 100;
 const LOCAL_ORIGINS = new Set([
   "http://localhost:1313",
   "http://127.0.0.1:1313",
 ]);
 
 let tokenCache = null;
-let schemeCache = null;
+const schemeCache = new Map();
 
 export default {
   async fetch(request, env) {
@@ -22,11 +26,13 @@ export default {
     }
 
     try {
-      const openlink = await getScheme(env);
+      const schemeContext = resolveSchemeContext(url, env);
+      const openlink = await getScheme(env, schemeContext);
       return jsonResponse(
         {
           url: openlink,
           openlink,
+          context_path: schemeContext.sitePath,
         },
         200,
         {
@@ -70,26 +76,143 @@ function isAllowedOrigin(origin, env) {
     return true;
   }
 
+  const explicitOrigins = (env.ALLOWED_ORIGINS || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  if (explicitOrigins.includes(origin)) {
+    return true;
+  }
+
   try {
     const { hostname, protocol } = new URL(origin);
-    const suffix = env.ALLOWED_HOST_SUFFIX || DEFAULT_ALLOWED_HOST_SUFFIX;
-    return protocol === "https:" && (hostname === suffix.slice(1) || hostname.endsWith(suffix));
+    if (protocol === "http:" && (hostname === "localhost" || hostname === "127.0.0.1")) {
+      return true;
+    }
+
+    const suffixes = (env.ALLOWED_HOST_SUFFIX || "")
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean);
+    const allowedSuffixes = suffixes.length ? suffixes : DEFAULT_ALLOWED_HOST_SUFFIXES;
+    return protocol === "https:" && allowedSuffixes.some((suffix) => hostname === suffix.replace(/^\./, "") || hostname.endsWith(suffix));
   } catch {
     return false;
   }
 }
 
-async function getScheme(env) {
+function resolveSchemeContext(url, env) {
+  const miniProgramPath =
+    sanitizeMiniProgramPath(url.searchParams.get("mini_path")) ||
+    (env.WECHAT_SCHEME_PATH || DEFAULT_SCHEME_PATH);
+  const sitePath = sanitizeSitePath(url.searchParams.get("path"));
+  const envQuery = sanitizeQuery(env.WECHAT_SCHEME_QUERY || "");
+  const requestQuery = sanitizeQuery(url.searchParams.get("query"));
+  const queryParts = [envQuery, requestQuery];
+
+  if (sitePath) {
+    queryParts.push(`path=${encodeURIComponent(sitePath)}`);
+  }
+
+  return {
+    miniProgramPath,
+    sitePath,
+    query: queryParts.filter(Boolean).join("&"),
+    envVersion:
+      sanitizeEnvVersion(url.searchParams.get("env_version")) ||
+      env.WECHAT_ENV_VERSION ||
+      DEFAULT_ENV_VERSION,
+  };
+}
+
+function sanitizeMiniProgramPath(rawPath) {
+  if (typeof rawPath !== "string") {
+    return "";
+  }
+
+  const value = rawPath.trim().replace(/^\/+/, "");
+  if (!value || value.length > 256) {
+    return "";
+  }
+  if (!/^[A-Za-z0-9/_-]+$/.test(value)) {
+    return "";
+  }
+
+  return value;
+}
+
+function sanitizeSitePath(rawPath) {
+  if (typeof rawPath !== "string") {
+    return "";
+  }
+
+  const value = rawPath.trim();
+  if (!value || value.length > 512) {
+    return "";
+  }
+  if (!value.startsWith("/") || value.startsWith("//")) {
+    return "";
+  }
+  if (/[\r\n]/.test(value)) {
+    return "";
+  }
+
+  return value;
+}
+
+function sanitizeQuery(rawQuery) {
+  if (typeof rawQuery !== "string") {
+    return "";
+  }
+
+  const value = rawQuery.trim().replace(/^\?/, "");
+  if (!value || value.length > 512 || /[\r\n]/.test(value)) {
+    return "";
+  }
+
+  return value;
+}
+
+function sanitizeEnvVersion(rawValue) {
+  if (typeof rawValue !== "string") {
+    return "";
+  }
+
+  const value = rawValue.trim();
+  return ["develop", "trial", "release"].includes(value) ? value : "";
+}
+
+function pruneExpiredSchemeCache(now) {
+  for (const [key, cached] of schemeCache.entries()) {
+    if (!cached || cached.expiresAt <= now) {
+      schemeCache.delete(key);
+    }
+  }
+
+  while (schemeCache.size > SCHEME_CACHE_PRUNE_LIMIT) {
+    const oldestKey = schemeCache.keys().next().value;
+    if (!oldestKey) {
+      break;
+    }
+    schemeCache.delete(oldestKey);
+  }
+}
+
+async function getScheme(env, schemeContext) {
   const now = Math.floor(Date.now() / 1000);
-  if (schemeCache && schemeCache.expiresAt > now + 60) {
-    return schemeCache.openlink;
+  const cacheKey = JSON.stringify([
+    schemeContext.miniProgramPath,
+    schemeContext.query,
+    schemeContext.envVersion,
+  ]);
+  const cached = schemeCache.get(cacheKey);
+  if (cached && cached.expiresAt > now + 60) {
+    return cached.openlink;
   }
 
   const accessToken = await getAccessToken(env);
   const endpoint = `https://api.weixin.qq.com/wxa/generatescheme?access_token=${encodeURIComponent(accessToken)}`;
-  const path = env.WECHAT_SCHEME_PATH || "pages/index/index";
-  const query = env.WECHAT_SCHEME_QUERY || "";
-  const envVersion = env.WECHAT_ENV_VERSION || "release";
 
   const response = await fetch(endpoint, {
     method: "POST",
@@ -98,9 +221,9 @@ async function getScheme(env) {
     },
     body: JSON.stringify({
       jump_wxa: {
-        path,
-        query,
-        env_version: envVersion,
+        path: schemeContext.miniProgramPath,
+        query: schemeContext.query,
+        env_version: schemeContext.envVersion,
       },
       is_expire: false,
     }),
@@ -111,10 +234,11 @@ async function getScheme(env) {
     throw new Error(`generate scheme failed: ${data.errcode ?? response.status} ${data.errmsg ?? response.statusText}`);
   }
 
-  schemeCache = {
+  schemeCache.set(cacheKey, {
     openlink: data.openlink,
-    expiresAt: now + 3600,
-  };
+    expiresAt: now + SCHEME_CACHE_TTL_SECONDS,
+  });
+  pruneExpiredSchemeCache(now);
 
   return data.openlink;
 }

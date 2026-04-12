@@ -1,16 +1,7 @@
 {{ define "main" }}
-<section class="search-page" data-search-page data-default-tab="materials">
+<section class="search-page" data-search-page data-default-tab="all">
     <header class="search-page__header">
-        <div class="search-page__toolbar">
-            <button class="search-page__back" type="button" data-search-back data-home="/search/">
-                <span class="search-page__back-icon" aria-hidden="true">←</span>
-                返回搜索页
-            </button>
-            <p class="search-page__eyebrow">站内搜索</p>
-        </div>
-
-        <h1>搜索结果</h1>
-        <p class="search-page__intro">在文件、科目和工具里按相关性查看。</p>
+        <h1 class="search-page__title" data-search-title>搜索</h1>
 
         <form class="search-page__form" data-search-form method="get" action="/search/all" novalidate>
             <input
@@ -18,23 +9,19 @@
                 class="search-page__input"
                 name="q"
                 data-search-input
-                placeholder="输入关键字或课程名称，例如：高等数学 / PLC / 马原题库"
+                placeholder="输入关键词"
                 autocomplete="off"
                 aria-label="搜索站内资源">
             <button class="search-page__submit" type="submit">搜索</button>
         </form>
     </header>
 
-    <div class="search-page__tabs" role="tablist" aria-label="搜索分类">
-        <button type="button" role="tab" data-search-tab="subjects">科目</button>
-        <button type="button" role="tab" data-search-tab="materials">文件</button>
-        <button type="button" role="tab" data-search-tab="tools">工具</button>
-    </div>
-
-    <div class="search-page__status" data-search-status>请输入关键词开始检索</div>
-    <div class="search-page__results" data-search-results></div>
-    <div class="search-page__controls" data-search-controls hidden>
-        <button class="search-page__more" type="button" data-search-more>加载更多</button>
+    <div class="search-page__status" data-search-status aria-live="polite" hidden></div>
+    <div class="search-page__results-shell" data-search-results-shell hidden>
+        <div class="search-page__results-viewport" data-search-scroll tabindex="0" aria-label="搜索结果列表">
+            <div class="search-page__results" data-search-results></div>
+            <div class="search-page__sentinel" data-search-sentinel aria-hidden="true"></div>
+        </div>
     </div>
 </section>
 {{ end }}

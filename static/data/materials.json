@@ -4380,8 +4380,12 @@
     "type": "material",
     "title": "南航矩阵论08-09A试卷",
     "url": "/materials/南航矩阵论08-09A试卷/",
-    "subjects": [],
-    "tags": [],
+    "subjects": [
+      "矩阵论"
+    ],
+    "tags": [
+      "矩阵论"
+    ],
     "summary": "",
     "date": "2025-10-26T17:38:40.311394+00:00",
     "file_url": "https://assets.nuaa.cc/南航矩阵论08-09A试卷.doc",
@@ -4412,7 +4416,9 @@
       "09",
       "9A",
       "A试",
-      "试卷"
+      "试卷",
+      "卷矩",
+      "论矩"
     ]
   },
   {
@@ -4464,8 +4470,12 @@
     "type": "material",
     "title": "南航矩阵论09-10A试卷",
     "url": "/materials/南航矩阵论09-10A试卷/",
-    "subjects": [],
-    "tags": [],
+    "subjects": [
+      "矩阵论"
+    ],
+    "tags": [
+      "矩阵论"
+    ],
     "summary": "",
     "date": "2025-10-26T17:38:40.311482+00:00",
     "file_url": "https://assets.nuaa.cc/南航矩阵论09-10A试卷.doc",
@@ -4496,15 +4506,21 @@
       "10",
       "0A",
       "A试",
-      "试卷"
+      "试卷",
+      "卷矩",
+      "论矩"
     ]
   },
   {
     "type": "material",
     "title": "南航矩阵论10-11A答案",
     "url": "/materials/南航矩阵论10-11A答案/",
-    "subjects": [],
-    "tags": [],
+    "subjects": [
+      "矩阵论"
+    ],
+    "tags": [
+      "矩阵论"
+    ],
     "summary": "",
     "date": "2025-10-26T17:38:40.311563+00:00",
     "file_url": "https://assets.nuaa.cc/南航矩阵论10-11A答案.doc",
@@ -4534,7 +4550,9 @@
       "11",
       "1A",
       "A答",
-      "答案"
+      "答案",
+      "案矩",
+      "论矩"
     ]
   },
   {
@@ -4693,8 +4711,12 @@
     "type": "material",
     "title": "南航矩阵论15-16A答案",
     "url": "/materials/南航矩阵论15-16A答案/",
-    "subjects": [],
-    "tags": [],
+    "subjects": [
+      "矩阵论"
+    ],
+    "tags": [
+      "矩阵论"
+    ],
     "summary": "",
     "date": "2025-10-26T17:38:40.311746+00:00",
     "file_url": "https://assets.nuaa.cc/南航矩阵论15-16A答案.doc",
@@ -4725,15 +4747,21 @@
       "16",
       "6A",
       "A答",
-      "答案"
+      "答案",
+      "案矩",
+      "论矩"
     ]
   },
   {
     "type": "material",
     "title": "南航矩阵论15-16A试卷",
     "url": "/materials/南航矩阵论15-16A试卷/",
-    "subjects": [],
-    "tags": [],
+    "subjects": [
+      "矩阵论"
+    ],
+    "tags": [
+      "矩阵论"
+    ],
     "summary": "",
     "date": "2025-10-26T17:38:40.311644+00:00",
     "file_url": "https://assets.nuaa.cc/南航矩阵论15-16A试卷.doc",
@@ -4764,7 +4792,9 @@
       "16",
       "6A",
       "A试",
-      "试卷"
+      "试卷",
+      "卷矩",
+      "论矩"
     ]
   },
   {

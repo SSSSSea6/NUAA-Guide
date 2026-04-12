@@ -1,11 +1,7 @@
 {{ define "main" }}
 <section class="search-home">
     <div class="search-home__panel">
-        <p class="search-home__eyebrow">站内搜索</p>
-        <h1>查资料，先搜一下</h1>
-        <p class="search-home__intro">
-            支持课程名、关键词、资料类型和常见英文缩写，例如：高等数学、马原、PLC。
-        </p>
+        <h1>搜索</h1>
 
         <form class="search-home__form" method="get" action="/search/all" novalidate>
             <label class="sr-only" for="searchHomeInput">搜索站内资源</label>
@@ -14,33 +10,11 @@
                 type="search"
                 class="search-home__input"
                 name="q"
-                placeholder="输入课程名、关键词或缩写"
+                placeholder="输入关键词"
                 autocomplete="off"
                 aria-label="搜索站内资源">
             <button class="search-home__submit" type="submit">搜索</button>
         </form>
-
-        <div class="search-home__quick" aria-label="常用搜索">
-            <a href="/search/all?tab=materials&q=%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6">高等数学</a>
-            <a href="/search/all?tab=materials&q=%E5%A4%A7%E7%89%A9%E5%AE%9E%E9%AA%8C">大物实验</a>
-            <a href="/search/all?tab=materials&q=%E9%A9%AC%E5%8E%9F">马原</a>
-            <a href="/search/all?tab=materials&q=PLC">PLC</a>
-        </div>
-    </div>
-
-    <div class="search-home__sections">
-        <a class="search-home__section" href="/search/all?tab=materials">
-            <strong>文件</strong>
-            <span>试卷、题库、讲义、实验资料</span>
-        </a>
-        <a class="search-home__section" href="/search/all?tab=subjects">
-            <strong>科目</strong>
-            <span>按课程名称聚合浏览</span>
-        </a>
-        <a class="search-home__section" href="/search/all?tab=tools">
-            <strong>工具</strong>
-            <span>常用入口、软件与校园服务</span>
-        </a>
     </div>
 </section>
 {{ end }}

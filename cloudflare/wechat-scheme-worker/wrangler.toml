@@ -12,4 +12,5 @@ custom_domain = true
 WECHAT_APP_ID = "wx601df36eebf0b024"
 WECHAT_SCHEME_PATH = "pages/index/index"
 WECHAT_ENV_VERSION = "release"
-ALLOWED_HOST_SUFFIX = ".nuaa.cc"
+ALLOWED_HOST_SUFFIX = ".nuaa.cc,.nuaaguide.online"
+ALLOWED_ORIGINS = "https://www.nuaaguide.online,https://nuaaguide.online,https://www.nuaa.cc"

@@ -15,6 +15,17 @@ Thumbs.db
 # Node.js dependencies (if you ever use them)
 /node_modules/
 
+# Local Codex auth backups
+/.codex-local/
+/.playwright-cli/
+/browser-smoke-test*.png
+/browser-smoke-test*.pdf
+/browser-smoke-test*.webm
+/scripts/codex-auth.md
+/scripts/codex-auth.ps1
+# Local agent scratch files
+/.agents/
+
 # Potentially ignore the source files directory
 # 如果您决定在 Git 之外管理您的原始学习资料文件，请取消下面这行的注释
 # static/files/

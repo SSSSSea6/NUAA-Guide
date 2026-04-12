@@ -6,10 +6,22 @@ const SECTION_LABELS = {
     materials: "文件",
     subjects: "科目"
 };
-const ALLOWED_TABS = new Set(["subjects", "materials", "tools"]);
+const TAB_LABELS = {
+    all: "全部",
+    materials: "文件",
+    subjects: "科目",
+    tools: "工具"
+};
+const ALLOWED_TABS = new Set(["all", "subjects", "materials", "tools"]);
+const RESULT_BUCKET_ORDER = {
+    materials: 0,
+    subjects: 1,
+    tools: 2
+};
 const SEARCH_READY_TIMEOUT_MS = 4000;
 const SEARCH_READY_POLL_MS = 50;
-const RESULTS_PAGE_SIZE = 50;
+const RESULTS_PAGE_SIZE = 32;
+const RESULTS_SCROLL_THRESHOLD = 120;
 
 const hasSearchRuntime = () =>
     Boolean(window.NuaaSearch && typeof window.NuaaSearch.runSearch === "function");
@@ -55,15 +67,6 @@ const resolveEntryUrl = (entry, tab) => {
     return "#";
 };
 
-const formatDate = (value) => {
-    if (!value) return "";
-    const date = new Date(value);
-    if (Number.isNaN(date.valueOf())) {
-        return "";
-    }
-    return date.toISOString().split("T")[0];
-};
-
 const pickExcerpt = (entry) => {
     if (typeof entry?.summary === "string" && entry.summary.trim()) {
         return entry.summary.trim();
@@ -77,17 +80,17 @@ const pickExcerpt = (entry) => {
 const buildMetaText = (entry, tab) => {
     const pieces = [];
 
+    if (tab && TAB_LABELS[tab] && tab !== "all") {
+        pieces.push(TAB_LABELS[tab]);
+    }
+
     if (tab === "subjects" && Number.isFinite(entry?.count)) {
         pieces.push(`${entry.count} 份资料`);
     } else if (Array.isArray(entry?.subjects) && entry.subjects.length) {
-        pieces.push(entry.subjects.slice(0, 2).join(" / "));
+        pieces.push(entry.subjects[0]);
     }
 
-    if (Array.isArray(entry?.tags) && entry.tags.length) {
-        pieces.push(entry.tags.slice(0, 2).join(" · "));
-    }
-
-    if (entry?.section) {
+    if (entry?.section && tab === "tools") {
         pieces.push(SECTION_LABELS[entry.section] || entry.section);
     }
 
@@ -95,12 +98,7 @@ const buildMetaText = (entry, tab) => {
         pieces.push(String(entry.file_type).toUpperCase());
     }
 
-    const formattedDate = formatDate(entry?.date);
-    if (formattedDate) {
-        pieces.push(formattedDate);
-    }
-
-    return pieces.join(" · ");
+    return Array.from(new Set(pieces.filter(Boolean))).slice(0, 3).join(" · ");
 };
 
 const ensureSearchCard = (entry, tab) => {
@@ -147,22 +145,27 @@ window.NuaaSearchUI.createCard = ensureSearchCard;
 class SearchPage {
     constructor(root) {
         this.root = root;
+        this.title = root.querySelector("[data-search-title]");
         this.form = root.querySelector("[data-search-form]");
         this.input = root.querySelector("[data-search-input]");
         this.status = root.querySelector("[data-search-status]");
+        this.resultsShell = root.querySelector("[data-search-results-shell]");
+        this.resultsViewport = root.querySelector("[data-search-scroll]");
         this.results = root.querySelector("[data-search-results]");
-        this.controls = root.querySelector("[data-search-controls]");
-        this.moreButton = root.querySelector("[data-search-more]");
+        this.sentinel = root.querySelector("[data-search-sentinel]");
         this.tabs = Array.from(root.querySelectorAll("[data-search-tab]"));
         this.backButton = root.querySelector("[data-search-back]");
-        this.defaultTab = root.dataset.defaultTab || "materials";
+        this.defaultTab = root.dataset.defaultTab || "all";
         this.activeTab = this.defaultTab;
         this.query = "";
         this.token = 0;
         this.allItems = [];
         this.visibleCount = 0;
+        this.observer = null;
+        this.loadMoreQueued = false;
 
         this.bindEvents();
+        this.setupInfiniteScroll();
         this.syncFromUrl();
         if (this.query) {
             this.runSearch();
@@ -190,9 +193,9 @@ class SearchPage {
             });
         }
 
-        if (this.moreButton) {
-            this.moreButton.addEventListener("click", () => {
-                this.showMoreResults();
+        if (this.resultsViewport) {
+            this.resultsViewport.addEventListener("scroll", () => {
+                this.queueLoadMoreCheck();
             });
         }
 
@@ -219,6 +222,29 @@ class SearchPage {
         });
     }
 
+    setupInfiniteScroll() {
+        if (!this.resultsViewport || !this.sentinel || typeof IntersectionObserver === "undefined") {
+            return;
+        }
+
+        this.observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        this.showMoreResults();
+                    }
+                });
+            },
+            {
+                root: this.resultsViewport,
+                rootMargin: `0px 0px ${RESULTS_SCROLL_THRESHOLD}px 0px`,
+                threshold: 0.01
+            }
+        );
+
+        this.observer.observe(this.sentinel);
+    }
+
     syncFromUrl() {
         const params = getQueryParams();
         this.query = (params.get("q") || "").trim();
@@ -232,7 +258,8 @@ class SearchPage {
         this.updateTabsUI();
 
         if (!this.query) {
-            this.setStatus("请输入关键词开始检索");
+            this.setHeading(false);
+            this.setStatus("");
         }
     }
 
@@ -262,6 +289,13 @@ class SearchPage {
     setStatus(message) {
         if (this.status) {
             this.status.textContent = message;
+            this.status.hidden = !message;
+        }
+    }
+
+    setHeading(hasResults) {
+        if (this.title) {
+            this.title.textContent = hasResults ? "搜索结果" : "搜索";
         }
     }
 
@@ -271,27 +305,15 @@ class SearchPage {
             return;
         }
 
-        if (this.visibleCount >= total) {
-            this.setStatus(`找到 ${total} 条结果`);
-            return;
-        }
-
-        this.setStatus(`找到 ${total} 条结果，当前显示 ${this.visibleCount} 条`);
+        this.setHeading(true);
+        this.setStatus("");
     }
 
-    updateLoadMoreUI() {
-        if (!this.controls || !this.moreButton) {
+    updateResultsShell() {
+        if (!this.resultsShell) {
             return;
         }
-
-        const remaining = this.allItems.length - this.visibleCount;
-        const shouldShow = remaining > 0;
-        this.controls.hidden = !shouldShow;
-        this.moreButton.hidden = !shouldShow;
-
-        if (shouldShow) {
-            this.moreButton.textContent = `加载更多（剩余 ${remaining} 条）`;
-        }
+        this.resultsShell.hidden = this.allItems.length === 0;
     }
 
     clearResults() {
@@ -300,11 +322,48 @@ class SearchPage {
         }
         this.allItems = [];
         this.visibleCount = 0;
-        this.updateLoadMoreUI();
+        if (this.resultsViewport) {
+            this.resultsViewport.scrollTop = 0;
+        }
+        this.updateResultsShell();
+    }
+
+    collectItems(data) {
+        if (!data || typeof data !== "object") {
+            return [];
+        }
+
+        if (this.activeTab !== "all") {
+            const scopedItems = Array.isArray(data[this.activeTab]) ? data[this.activeTab] : [];
+            return scopedItems.map((item) => ({ ...item, _bucket: this.activeTab }));
+        }
+
+        return ["materials", "subjects", "tools"]
+            .flatMap((bucket) =>
+                (Array.isArray(data[bucket]) ? data[bucket] : []).map((item) => ({
+                    ...item,
+                    _bucket: bucket
+                }))
+            )
+            .sort((left, right) => {
+                const scoreDelta = (right?._score || 0) - (left?._score || 0);
+                if (scoreDelta !== 0) {
+                    return scoreDelta;
+                }
+
+                const bucketDelta =
+                    (RESULT_BUCKET_ORDER[left?._bucket] ?? Number.MAX_SAFE_INTEGER) -
+                    (RESULT_BUCKET_ORDER[right?._bucket] ?? Number.MAX_SAFE_INTEGER);
+                if (bucketDelta !== 0) {
+                    return bucketDelta;
+                }
+
+                return String(left?.title || "").localeCompare(String(right?.title || ""), "zh-CN");
+            });
     }
 
     showMoreResults() {
-        if (!this.allItems.length) {
+        if (!this.allItems.length || this.visibleCount >= this.allItems.length) {
             return;
         }
 
@@ -313,50 +372,83 @@ class SearchPage {
         this.visibleCount = end;
         this.renderList(this.allItems.slice(start, end), true);
         this.updateResultsSummary();
-        this.updateLoadMoreUI();
+        this.queueLoadMoreCheck();
+    }
+
+    queueLoadMoreCheck() {
+        if (!this.resultsViewport || this.loadMoreQueued) {
+            return;
+        }
+
+        this.loadMoreQueued = true;
+        window.requestAnimationFrame(() => {
+            this.loadMoreQueued = false;
+            this.maybeLoadMore();
+        });
+    }
+
+    maybeLoadMore() {
+        if (!this.resultsViewport || this.visibleCount >= this.allItems.length) {
+            return;
+        }
+
+        const { scrollTop, clientHeight, scrollHeight } = this.resultsViewport;
+        const distanceToBottom = scrollHeight - scrollTop - clientHeight;
+        const needsMore =
+            scrollHeight <= clientHeight + RESULTS_SCROLL_THRESHOLD ||
+            distanceToBottom <= RESULTS_SCROLL_THRESHOLD;
+
+        if (needsMore) {
+            this.showMoreResults();
+        }
     }
 
     async runSearch() {
         if (!this.query) {
-            this.setStatus("请输入关键词开始检索");
+            this.setHeading(false);
+            this.setStatus("");
             this.clearResults();
             return;
         }
 
         const searchReady = await waitForSearchRuntime();
         if (!searchReady) {
-            this.setStatus("搜索模块尚未就绪，请稍后重试");
+            this.setHeading(false);
+            this.setStatus("搜索暂不可用");
             return;
         }
 
         const token = ++this.token;
-        this.setStatus("正在检索…");
+        this.setHeading(false);
+        this.setStatus("搜索中…");
         this.clearResults();
 
         try {
-            const data = await window.NuaaSearch.runSearch(this.query, {
-                buckets: [this.activeTab]
-            });
+            const searchScope = this.activeTab === "all" ? {} : { buckets: [this.activeTab] };
+            const data = await window.NuaaSearch.runSearch(this.query, searchScope);
 
             if (token !== this.token) {
                 return;
             }
 
-            const items = Array.isArray(data?.[this.activeTab]) ? data[this.activeTab] : [];
+            const items = this.collectItems(data);
             if (items.length === 0) {
-                this.setStatus(`没有找到与“${this.query}”相关的结果`);
+                this.setHeading(false);
+                this.setStatus("未找到结果");
                 this.clearResults();
                 return;
             }
 
             this.allItems = items;
-            this.visibleCount = Math.min(RESULTS_PAGE_SIZE, items.length);
-            this.renderList(this.allItems.slice(0, this.visibleCount));
+            this.updateResultsShell();
+            this.visibleCount = 0;
+            this.renderList([]);
+            this.showMoreResults();
             this.updateResultsSummary();
-            this.updateLoadMoreUI();
         } catch (error) {
             console.error("[search-page] runSearch failed:", error);
-            this.setStatus("检索失败，请稍后重试");
+            this.setHeading(false);
+            this.setStatus("搜索失败，请稍后重试");
             this.clearResults();
         }
     }
@@ -378,7 +470,7 @@ class SearchPage {
             });
 
         items.forEach((item) => {
-            fragment.appendChild(createCard(item, this.activeTab));
+            fragment.appendChild(createCard(item, item?._bucket || this.activeTab));
         });
 
         this.results.appendChild(fragment);

@@ -78,10 +78,10 @@
             aria-label="关闭公告">
       ×
     </button>
-    <p class="site-announcement-modal__eyebrow">NUAA Guide 工具箱公告</p>
-    <h3 id="siteAnnouncementTitle">学习资料在小程序中已全部可用，下载速度更快。</h3>
+    <p class="site-announcement-modal__eyebrow">提示</p>
+    <h3 id="siteAnnouncementTitle">学习资料都在小程序里，下载更快。</h3>
     <div id="siteAnnouncementDesc" class="site-announcement-modal__body">
-      <p>点击下方按钮可自动拉起微信并进入 NUAA Guide 小程序。</p>
+      <p>点“打开小程序”即可。</p>
     </div>
     <div class="site-announcement-modal__actions">
       <button type="button"
@@ -102,8 +102,13 @@
 <script>
   const SITE_ANNOUNCEMENT_SESSION_KEY = 'nuaa-site-announcement-shown';
   const MATERIALS_ANNOUNCEMENT_SESSION_KEY = 'nuaa-materials-announcement-shown';
+  const MINI_PROGRAM_SCHEME_STORAGE_KEY = 'nuaa-mini-program-scheme-cache-v1';
+  const MINI_PROGRAM_SCHEME_TTL_MS = 30 * 60 * 1000;
+  const MINI_PROGRAM_SCHEME_REQUEST_TIMEOUT_MS = 6000;
   let miniProgramSchemePromise = null;
+  let miniProgramSchemePromiseKey = '';
   let cachedMiniProgramScheme = '';
+  let cachedMiniProgramSchemeKey = '';
 
   function openSiteAnnouncementModal() {
     const modal = document.getElementById('siteAnnouncementModal');
@@ -150,6 +155,40 @@
     };
   }
 
+  function readStoredMiniProgramScheme() {
+    try {
+      const raw = localStorage.getItem(MINI_PROGRAM_SCHEME_STORAGE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object') return null;
+      const scheme = typeof parsed.scheme === 'string' ? parsed.scheme.trim() : '';
+      const key = typeof parsed.key === 'string' ? parsed.key : '';
+      const storedAt = Number(parsed.storedAt || 0);
+      if (!scheme || !key || !storedAt) return null;
+      if (Date.now() - storedAt > MINI_PROGRAM_SCHEME_TTL_MS) {
+        localStorage.removeItem(MINI_PROGRAM_SCHEME_STORAGE_KEY);
+        return null;
+      }
+      return { scheme, key, storedAt };
+    } catch (error) {
+      console.warn('[mini-program] unable to read stored scheme cache:', error);
+      return null;
+    }
+  }
+
+  function persistMiniProgramScheme(scheme, key) {
+    if (!scheme || !key) return;
+    try {
+      localStorage.setItem(MINI_PROGRAM_SCHEME_STORAGE_KEY, JSON.stringify({
+        scheme,
+        key,
+        storedAt: Date.now()
+      }));
+    } catch (error) {
+      console.warn('[mini-program] unable to persist scheme cache:', error);
+    }
+  }
+
   function extractMiniProgramScheme(payload) {
     if (!payload) return '';
     if (typeof payload === 'string') return payload.trim();
@@ -162,48 +201,156 @@
     ].find((value) => typeof value === 'string' && value.trim())?.trim() || '';
   }
 
-  async function resolveMiniProgramScheme() {
-    if (cachedMiniProgramScheme) return cachedMiniProgramScheme;
+  function getImmediateMiniProgramScheme() {
+    const pageContextPath = getCurrentMiniProgramContextPath();
+    if (cachedMiniProgramScheme && (cachedMiniProgramSchemeKey === pageContextPath || cachedMiniProgramSchemeKey === '__static__')) {
+      return cachedMiniProgramScheme;
+    }
+
+    const storedScheme = readStoredMiniProgramScheme();
+    if (storedScheme && (storedScheme.key === pageContextPath || storedScheme.key === '__static__')) {
+      cachedMiniProgramScheme = storedScheme.scheme;
+      cachedMiniProgramSchemeKey = storedScheme.key;
+      return cachedMiniProgramScheme;
+    }
 
     const config = getMiniProgramBridgeConfig();
     if (config.scheme) {
       cachedMiniProgramScheme = config.scheme;
+      cachedMiniProgramSchemeKey = '__static__';
+      persistMiniProgramScheme(cachedMiniProgramScheme, cachedMiniProgramSchemeKey);
+      return cachedMiniProgramScheme;
+    }
+    return '';
+  }
+
+  function getCurrentMiniProgramContextPath() {
+    const pathname = window.location.pathname || '/';
+    const search = window.location.search || '';
+    return `${pathname}${search}`;
+  }
+
+  function navigateToMiniProgramScheme(scheme) {
+    if (!scheme) return false;
+    closeSiteAnnouncementModal();
+    window.location.href = scheme;
+    window.setTimeout(() => setMiniProgramButtonsBusy(false), 1200);
+    return true;
+  }
+
+  async function fetchMiniProgramScheme(endpointUrl) {
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    const timeoutId = controller
+      ? window.setTimeout(() => controller.abort(), MINI_PROGRAM_SCHEME_REQUEST_TIMEOUT_MS)
+      : null;
+
+    try {
+      const response = await fetch(endpointUrl, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'omit',
+        cache: 'no-store',
+        signal: controller?.signal,
+        headers: { Accept: 'application/json, text/plain;q=0.9' }
+      });
+
+      if (!response.ok) {
+        throw new Error(`mini program scheme request failed: ${response.status}`);
+      }
+
+      const contentType = response.headers.get('content-type') || '';
+      const payload = contentType.includes('application/json')
+        ? await response.json()
+        : await response.text();
+      const scheme = extractMiniProgramScheme(payload);
+
+      if (!scheme) {
+        throw new Error('mini program scheme response is empty');
+      }
+
+      return scheme;
+    } finally {
+      if (timeoutId) {
+        window.clearTimeout(timeoutId);
+      }
+    }
+  }
+
+  function describeMiniProgramError(error) {
+    const message = error instanceof Error ? error.message : String(error || '');
+    if (message.includes('Failed to fetch')) {
+      return '当前网络或浏览器拦截了小程序接口请求，请稍后重试，或更换网络/浏览器。';
+    }
+    if (message.includes('abort') || message.includes('timeout')) {
+      return '小程序接口响应超时，请稍后重试。';
+    }
+    if (message.includes('502') || message.includes('500')) {
+      return '小程序接口暂时不可用，请稍后再试。';
+    }
+    if (message.includes('response is empty')) {
+      return '小程序接口返回了空链接，请稍后再试。';
+    }
+    if (message.includes('not configured')) {
+      return '小程序链接尚未配置完成，请联系维护者处理。';
+    }
+    return '暂时无法拉起小程序，请稍后重试。';
+  }
+
+  async function resolveMiniProgramScheme() {
+    const pageContextPath = getCurrentMiniProgramContextPath();
+    if (cachedMiniProgramScheme && (cachedMiniProgramSchemeKey === pageContextPath || cachedMiniProgramSchemeKey === '__static__')) {
+      return cachedMiniProgramScheme;
+    }
+
+    const config = getMiniProgramBridgeConfig();
+    if (config.scheme) {
+      cachedMiniProgramScheme = config.scheme;
+      cachedMiniProgramSchemeKey = '__static__';
+      persistMiniProgramScheme(cachedMiniProgramScheme, cachedMiniProgramSchemeKey);
       return cachedMiniProgramScheme;
     }
 
     if (!config.schemeApi) return '';
 
-    if (!miniProgramSchemePromise) {
-      miniProgramSchemePromise = (async () => {
-        const endpoint = new URL(config.schemeApi, window.location.origin);
-        endpoint.searchParams.set('path', window.location.pathname || '/');
-        const response = await fetch(endpoint.toString(), {
-          method: 'GET',
-          credentials: 'same-origin',
-          headers: { Accept: 'application/json, text/plain;q=0.9' }
-        });
+    if (miniProgramSchemePromise && miniProgramSchemePromiseKey === pageContextPath) {
+      return miniProgramSchemePromise;
+    }
 
-        if (!response.ok) {
-          throw new Error(`mini program scheme request failed: ${response.status}`);
+    miniProgramSchemePromiseKey = pageContextPath;
+    miniProgramSchemePromise = (async () => {
+        const requestKey = pageContextPath;
+        const endpoint = new URL(config.schemeApi, window.location.origin);
+        endpoint.searchParams.set('path', requestKey);
+        let lastError = null;
+        let scheme = '';
+
+        for (let attempt = 0; attempt < 2; attempt += 1) {
+          try {
+            scheme = await fetchMiniProgramScheme(endpoint.toString());
+            break;
+          } catch (error) {
+            lastError = error;
+            if (attempt === 0) {
+              await new Promise((resolve) => window.setTimeout(resolve, 300));
+            }
+          }
         }
 
-        const contentType = response.headers.get('content-type') || '';
-        const payload = contentType.includes('application/json')
-          ? await response.json()
-          : await response.text();
-        const scheme = extractMiniProgramScheme(payload);
-
         if (!scheme) {
-          throw new Error('mini program scheme response is empty');
+          throw lastError || new Error('mini program scheme response is empty');
         }
 
         cachedMiniProgramScheme = scheme;
+        cachedMiniProgramSchemeKey = requestKey;
+        persistMiniProgramScheme(cachedMiniProgramScheme, cachedMiniProgramSchemeKey);
         return cachedMiniProgramScheme;
       })().catch((error) => {
-        miniProgramSchemePromise = null;
+        if (miniProgramSchemePromiseKey === pageContextPath) {
+          miniProgramSchemePromise = null;
+          miniProgramSchemePromiseKey = '';
+        }
         throw error;
       });
-    }
 
     return miniProgramSchemePromise;
   }
@@ -225,17 +372,19 @@
 
     setMiniProgramButtonsBusy(true);
     try {
+      const immediateScheme = getImmediateMiniProgramScheme();
+      if (navigateToMiniProgramScheme(immediateScheme)) {
+        return;
+      }
+
       const scheme = await resolveMiniProgramScheme();
-      if (!scheme) {
+      if (!navigateToMiniProgramScheme(scheme)) {
         throw new Error('mini program scheme is not configured');
       }
-      closeSiteAnnouncementModal();
-      window.location.href = scheme;
-      window.setTimeout(() => setMiniProgramButtonsBusy(false), 1200);
     } catch (error) {
       console.warn('[mini-program] unable to open mini program:', error);
       setMiniProgramButtonsBusy(false);
-      window.alert('小程序链接暂未配置，请稍后再试。');
+      window.alert(describeMiniProgramError(error));
     }
   }
 

@@ -6,6 +6,7 @@ from pathlib import Path
 import html
 import sys
 import datetime
+from urllib.parse import quote
 
 def safe_filename(name):
     """将字符串转换为安全的文件名"""
@@ -61,7 +62,8 @@ def generate_markdown(resource_name, tags, description, filename, file_extension
         print("错误: 环境变量 R2_BASE_URL 未设置。")
         sys.exit(1)
         
-    file_url = f"{r2_base_url.rstrip('/')}/{filename}"
+    encoded_filename = quote(filename, safe="")
+    file_url = f"{r2_base_url.rstrip('/')}/{encoded_filename}"
 
     md_content = f"""---
 title: "{escaped_resource_name}"
