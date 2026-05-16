@@ -50,6 +50,16 @@ jobs:
       - name: Build website
         run: hugo --gc --minify --cleanDestinationDir
 
+      - name: Deploy guide origin Worker
+        run: npx wrangler@latest deploy --config cloudflare/guide-origin-proxy/wrangler.toml
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Deploy guide main Worker
+        run: npx wrangler@latest deploy --config cloudflare/main-proxy-worker/wrangler.toml
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
       - name: Deploy to Cloudflare Pages
         run: npx wrangler@latest pages deploy public --project-name="${CLOUDFLARE_PROJECT_NAME}" --branch=main
         env:
