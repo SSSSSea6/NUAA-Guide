@@ -1,6 +1,7 @@
 const GUIDE_ORIGIN = "nuaa-guide.pages.dev";
 const GUIDE_HOSTS = new Set(["www.nuaaguide.online", "source.nuaa.cc"]);
 const STATIC_PREFIXES = ["/css/", "/js/", "/images/"];
+const EDGE_CACHE_VERSION = "2026-05-17-v2";
 
 const SITE_ORIGINS = {
     "www.nuaaguide.online": GUIDE_ORIGIN,
@@ -51,7 +52,9 @@ export default {
         }
 
         const cache = caches.default;
-        const cacheKey = new Request(url.toString(), request);
+        const cacheUrl = new URL(url.toString());
+        cacheUrl.searchParams.set("__nuaa_edge_cache", EDGE_CACHE_VERSION);
+        const cacheKey = new Request(cacheUrl.toString(), request);
         const cached = await cache.match(cacheKey);
         if (cached) {
             return withHeader(cached, "X-NUAA-Edge-Cache", "HIT");
