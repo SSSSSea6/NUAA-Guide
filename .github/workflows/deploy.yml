@@ -42,6 +42,11 @@ jobs:
           hugo-version: ${{ env.HUGO_VERSION }}
           extended: true
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Build website
         run: hugo --gc --minify --cleanDestinationDir
 

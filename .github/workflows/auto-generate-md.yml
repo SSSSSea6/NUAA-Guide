@@ -102,6 +102,11 @@ jobs:
           hugo-version: "0.121.1"
           extended: true
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Build website
         run: hugo --gc --minify --cleanDestinationDir
 
