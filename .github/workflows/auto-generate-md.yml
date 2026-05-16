@@ -27,7 +27,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyyaml awscli
+          pip install pyyaml pypinyin awscli
 
       - name: Run improved auto-generate script
         env:
@@ -48,7 +48,9 @@ jobs:
         run: |
           aws configure set aws_access_key_id ${{ secrets.R2_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          aws s3 sync static/files/ s3://${{ secrets.R2_BUCKET_NAME }} --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          aws s3 sync static/files/ s3://${{ secrets.R2_BUCKET_NAME }} \
+            --endpoint-url https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com \
+            --cache-control "public, max-age=31536000, immutable"
 
       - name: Clean up uploaded files from repository
         run: |
@@ -80,11 +82,11 @@ jobs:
 
           CHANGES=$(git diff --staged --name-status)
           if echo "$CHANGES" | grep -q "D.*static/files/"; then
-            COMMIT_MSG="feat: Sync new learning resources and clean up repo [skip ci]"
+            COMMIT_MSG="feat: Sync new learning resources and clean up repo"
           elif echo "$CHANGES" | grep -q "A.*content/materials/"; then
-            COMMIT_MSG="feat: Add new learning resources [skip ci]"
+            COMMIT_MSG="feat: Add new learning resources"
           else
-            COMMIT_MSG="chore: Update learning resources [skip ci]"
+            COMMIT_MSG="chore: Update learning resources"
           fi
 
           git commit -m "$COMMIT_MSG"
@@ -93,3 +95,31 @@ jobs:
       - name: Report no changes
         if: steps.check_changes.outputs.changes == 'false'
         run: echo "No changes to commit"
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.121.1"
+          extended: true
+
+      - name: Build website
+        run: hugo --gc --minify --cleanDestinationDir
+
+      - name: Deploy to Cloudflare Pages
+        run: npx wrangler@latest pages deploy public --project-name=nuaa-guide --branch=main
+        env:
+          CLOUDFLARE_ACCOUNT_ID: a2b7fc794d1db64ae85a3a5aa96d645a
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Smoke public routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for url in \
+            "https://www.nuaaguide.online/" \
+            "https://www.nuaaguide.online/data/materials-search.json" \
+            "https://nuaa-guide.pages.dev/"; do
+            echo "==> $url"
+            curl -fsSI "$url" | tee /tmp/headers.txt
+            grep -i '^cache-control:' /tmp/headers.txt || true
+          done

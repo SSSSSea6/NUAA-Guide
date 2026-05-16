@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+{{ $styleVersion := substr (sha256 (readFile "static/css/style.css")) 0 12 }}
+{{ $enhancedSearchVersion := substr (sha256 (readFile "static/js/enhanced-search.js")) 0 12 }}
+{{ $searchPageVersion := substr (sha256 (readFile "static/js/search-page.js")) 0 12 }}
+{{ $materialsVersion := substr (sha256 (readFile "static/js/materials.js")) 0 12 }}
+{{ $starfireVersion := substr (sha256 (readFile "static/js/starfire.js")) 0 12 }}
+<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
@@ -24,7 +29,7 @@
         })();
     </script>
 
-    <link rel="stylesheet" href="/css/style.css?v={{ now.Unix }}">
+    <link rel="stylesheet" href="/css/style.css?v={{ $styleVersion }}">
 
 </head>
 <body>
@@ -129,36 +134,18 @@
     {{ $isSearchPage := eq .Layout "search" }}
     {{ $needsMaterialsScript := or (eq .Type "materials") (eq .Type "subjects") }}
     {{ $needsStarfire := or (eq .Type "starfire") (eq .Layout "starfire") }}
-    {{ $needsPinyinScript := or $isSearchPage $needsMaterialsScript }}
-
-    {{ if $needsPinyinScript }}
-    <script type="module">
-        window.pinyinProReadyState = "pending";
-        window.pinyinProReady = import("/js/vendor/pinyin-pro.mjs?v={{ now.Unix }}")
-            .then((module) => {
-                window.pinyinPro = module;
-                window.pinyinProReadyState = "resolved";
-                return module;
-            })
-            .catch((error) => {
-                console.error("[pinyin-pro] failed to load module:", error);
-                window.pinyinProReadyState = "rejected";
-                return null;
-            });
-    </script>
-    {{ end }}
     {{ if $isSearchPage }}
-    <script type="module" src="/js/enhanced-search.js?v={{ now.Unix }}"></script>
-    <script type="module" src="/js/search-page.js?v={{ now.Unix }}"></script>
+    <script type="module" src="/js/enhanced-search.js?v={{ $enhancedSearchVersion }}"></script>
+    <script type="module" src="/js/search-page.js?v={{ $searchPageVersion }}"></script>
     {{ end }}
     {{ if $needsMaterialsScript }}
-    <script defer src="/js/materials.js?v={{ now.Unix }}"></script>
+    <script defer src="/js/materials.js?v={{ $materialsVersion }}"></script>
     {{ end }}
     {{ if $needsStarfire }}
     <script>
       window.STARFIRE_API_BASE = "{{ .Site.Params.starfire_api_base | default "" }}";
     </script>
-    <script defer src="/js/starfire.js?v={{ now.Unix }}"></script>
+    <script defer src="/js/starfire.js?v={{ $starfireVersion }}"></script>
     {{ end }}
 
     <script>
@@ -401,10 +388,9 @@
         };
       })(), { passive: true });
 
-      const ASSET_VERSION = "{{ now.Unix }}";
       const moduleLoaders = {
-        materials: () => import(`/js/materials.js?v=${ASSET_VERSION}`),
-        searchPage: () => import(`/js/search-page.js?v=${ASSET_VERSION}`),
+        materials: () => import("/js/materials.js?v={{ $materialsVersion }}"),
+        searchPage: () => import("/js/search-page.js?v={{ $searchPageVersion }}"),
       };
       const modulePromises = {};
       const ensureModule = (key) => {

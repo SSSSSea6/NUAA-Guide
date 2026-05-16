@@ -21,7 +21,6 @@ const bucketCharFrequency = {};
 let charDictPromise = null;
 let charDictSet = null;
 
-const pinyinCache = new Map();
 const SEARCH_WARMUP_SELECTOR = "[data-search-input], .search-home__input, [data-chat-input]";
 
 const fetchJson = async (url) => {
@@ -56,10 +55,24 @@ const inferType = (bucket) => {
 const hydrateEntry = (entry, bucket) => {
     const clone = { ...entry };
     clone.type = clone.type || inferType(bucket);
-    const chars = Array.isArray(clone._chars) ? clone._chars : [];
+    const chars = Array.isArray(clone._chars)
+        ? clone._chars
+        : typeof clone._chars === "string"
+            ? Array.from(clone._chars)
+            : [];
     const bigrams = Array.isArray(clone._bigrams) ? clone._bigrams : [];
     clone._charSet = new Set(chars);
     clone._bigramSet = new Set(bigrams);
+    clone._pinyin = typeof clone._p === "string"
+        ? clone._p
+        : typeof clone._pinyin === "string"
+            ? clone._pinyin
+            : "";
+    clone._initials = typeof clone._i === "string"
+        ? clone._i
+        : typeof clone._initials === "string"
+            ? clone._initials
+            : "";
     return clone;
 };
 
@@ -267,50 +280,6 @@ const mergeResults = (primary, fallback) => {
     return merged;
 };
 
-const loadPinyin = async () => {
-    if (window.pinyinPro) {
-        return window.pinyinPro;
-    }
-    if (window.pinyinProReady) {
-        try {
-            await window.pinyinProReady;
-            return window.pinyinPro || null;
-        } catch {
-            return null;
-        }
-    }
-    return null;
-};
-
-const getPinyinVariants = async (text) => {
-    if (!text) {
-        return null;
-    }
-    if (pinyinCache.has(text)) {
-        return pinyinCache.get(text);
-    }
-    const lib = await loadPinyin();
-    if (!lib) {
-        return null;
-    }
-    try {
-        const syllables = lib
-            .pinyin(text, { toneType: "none", type: "array" })
-            .filter(Boolean);
-        const full = syllables.join("").toLowerCase();
-        const initials = syllables
-            .map((syllable) => (syllable ? syllable[0] : ""))
-            .join("")
-            .toLowerCase();
-        const variants = { full, initials };
-        pinyinCache.set(text, variants);
-        return variants;
-    } catch (error) {
-        console.warn("[search] pinyin conversion failed:", error);
-        return null;
-    }
-};
-
 const matchBucketByPinyin = async (query, entries, taken) => {
     if (!ASCII_PATTERN.test(query) || !Array.isArray(entries) || !entries.length) {
         return [];
@@ -325,11 +294,12 @@ const matchBucketByPinyin = async (query, entries, taken) => {
         if (entry.url && seen.has(entry.url)) {
             continue;
         }
-        const variants = await getPinyinVariants(entry.title || "");
-        if (!variants) {
+        const full = entry._pinyin || "";
+        const initials = entry._initials || "";
+        if (!full && !initials) {
             continue;
         }
-        if (variants.full.includes(normalized) || variants.initials.includes(normalized)) {
+        if (full.includes(normalized) || initials.includes(normalized)) {
             const boost = Math.min(normalized.length * 0.5, 4);
             results.push({
                 ...entry,
@@ -352,7 +322,11 @@ const ensureBucketCharFrequency = (bucket) => {
     const freq = new Map();
     const entries = bucketCache[bucket] || [];
     entries.forEach((entry) => {
-        const chars = Array.isArray(entry._chars) ? entry._chars : [];
+        const chars = Array.isArray(entry._chars)
+            ? entry._chars
+            : typeof entry._chars === "string"
+                ? Array.from(entry._chars)
+                : [];
         chars.forEach((char) => {
             freq.set(char, (freq.get(char) || 0) + 1);
         });

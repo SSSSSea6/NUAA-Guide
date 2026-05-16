@@ -7,11 +7,14 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
+
+env:
+  CLOUDFLARE_ACCOUNT_ID: a2b7fc794d1db64ae85a3a5aa96d645a
+  CLOUDFLARE_PROJECT_NAME: nuaa-guide
+  HUGO_VERSION: "0.121.1"
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -25,32 +28,38 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyyaml
+          pip install pyyaml pypinyin
 
       - name: Verify generated search data
         run: python scripts/build_search_manifest.py --check
 
+      - name: Validate material metadata
+        run: python scripts/validate_md_files.py
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: "0.121.1"
+          hugo-version: ${{ env.HUGO_VERSION }}
           extended: true
 
       - name: Build website
-        run: hugo --minify
+        run: hugo --gc --minify --cleanDestinationDir
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./public
+      - name: Deploy to Cloudflare Pages
+        run: npx wrangler@latest pages deploy public --project-name="${CLOUDFLARE_PROJECT_NAME}" --branch=main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Smoke public routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for url in \
+            "https://www.nuaaguide.online/" \
+            "https://www.nuaaguide.online/css/style.css" \
+            "https://www.nuaaguide.online/data/materials-search.json" \
+            "https://nuaa-guide.pages.dev/"; do
+            echo "==> $url"
+            curl -fsSI "$url" | tee /tmp/headers.txt
+            grep -i '^cache-control:' /tmp/headers.txt || true
+          done

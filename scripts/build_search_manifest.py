@@ -19,6 +19,11 @@ from pathlib import Path
 from typing import Iterable
 from urllib.parse import quote
 
+try:
+    from pypinyin import lazy_pinyin
+except ImportError:  # pragma: no cover - CI installs pypinyin, fallback keeps local checks usable.
+    lazy_pinyin = None
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CONTENT_ROOT = PROJECT_ROOT / "content"
@@ -156,17 +161,31 @@ def unique_preserve(values: Iterable[str]) -> list[str]:
     return ordered
 
 
-def compute_features(*parts: str) -> tuple[list[str], list[str]]:
+def compute_features(*parts: str) -> tuple[str, list[str]]:
     filtered = "".join(part or "" for part in parts)
     filtered = "".join(ch for ch in filtered if not ch.isspace())
     if not filtered:
-        return [], []
+        return "", []
     chars = unique_preserve(filtered)
     bigrams = unique_preserve(
         filtered[i : i + 2] for i in range(len(filtered) - 1)
     )
     GLOBAL_CHAR_SET.update(chars)
-    return chars, bigrams
+    return "".join(chars), bigrams
+
+
+def compute_pinyin_features(*parts: str) -> tuple[str, str]:
+    text = "".join(part or "" for part in parts)
+    if not text or lazy_pinyin is None:
+        return "", ""
+
+    syllables = [item for item in lazy_pinyin(text, errors="ignore") if item]
+    if not syllables:
+        return "", ""
+
+    full = "".join(syllables).lower()
+    initials = "".join(syllable[0] for syllable in syllables if syllable).lower()
+    return full, initials
 
 
 def parse_markdown(path: Path) -> MarkdownDoc | None:
@@ -236,8 +255,15 @@ def build_materials(docs: Iterable[MarkdownDoc]) -> list[dict[str, object]]:
             doc.summary,
             doc.plain_text,
         )
+        pinyin, initials = compute_pinyin_features(
+            item["title"],
+            "".join(subjects),
+            "".join(tags),
+        )
         item["_chars"] = chars
         item["_bigrams"] = bigrams
+        item["_p"] = pinyin
+        item["_i"] = initials
         items.append(item)
     items.sort(key=lambda entry: entry["title"])
     return items
@@ -260,8 +286,15 @@ def build_tools(docs: Iterable[MarkdownDoc]) -> list[dict[str, object]]:
             doc.summary,
             doc.plain_text,
         )
+        pinyin, initials = compute_pinyin_features(
+            item["title"],
+            doc.section,
+            doc.summary,
+        )
         item["_chars"] = chars
         item["_bigrams"] = bigrams
+        item["_p"] = pinyin
+        item["_i"] = initials
         items.append(item)
     items.sort(key=lambda entry: (entry["section"], entry["title"]))
     return items
@@ -280,6 +313,8 @@ def build_material_search_index(
             "tags": material["tags"],
             "_chars": material["_chars"],
             "_bigrams": material["_bigrams"],
+            "_p": material["_p"],
+            "_i": material["_i"],
         }
         if material.get("date"):
             item["date"] = material["date"]
@@ -304,6 +339,8 @@ def build_tools_search_index(
                 "section": tool["section"],
                 "_chars": tool["_chars"],
                 "_bigrams": tool["_bigrams"],
+                "_p": tool["_p"],
+                "_i": tool["_i"],
             }
         )
     return items
@@ -329,8 +366,12 @@ def build_subjects(materials: Iterable[dict[str, object]]) -> list[dict[str, obj
     subjects: list[dict[str, object]] = []
     for entry in subject_map.values():
         chars, bigrams = compute_features(entry["title"])
+        pinyin, initials = compute_pinyin_features(entry["title"])
         entry["_chars"] = chars
         entry["_bigrams"] = bigrams
+        entry["_p"] = pinyin
+        entry["_i"] = initials
+        entry["initial"] = initials[:1].upper() if initials else ""
         subjects.append(entry)
     subjects.sort(key=lambda item: item["title"])
     return subjects

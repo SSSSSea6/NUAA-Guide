@@ -27,7 +27,18 @@
 <aside class="app-sidebar" aria-label="Main navigation">
   <div class="sidebar-brand">
     <a href="/" class="brand-link">
-      <img src="{{ "images/logo.png" | relURL }}" alt="NUAA Guide Logo" class="brand-logo">
+      <picture>
+        <source
+          srcset="{{ "images/logo-160.webp" | relURL }} 160w, {{ "images/logo-320.webp" | relURL }} 320w"
+          type="image/webp">
+        <img
+          src="{{ "images/logo-160.webp" | relURL }}"
+          width="160"
+          height="160"
+          decoding="async"
+          alt="NUAA Guide Logo"
+          class="brand-logo">
+      </picture>
     </a>
   </div>
   <nav class="sidebar-nav">

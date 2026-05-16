@@ -14,6 +14,7 @@ Thumbs.db
 
 # Node.js dependencies (if you ever use them)
 /node_modules/
+.wrangler/
 
 # Local Codex auth backups
 /.codex-local/

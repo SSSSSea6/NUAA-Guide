@@ -38,23 +38,6 @@
             return "#";
         }
 
-        if (window.pinyinPro && typeof window.pinyinPro.pinyin === "function") {
-            try {
-                const full = window.pinyinPro.pinyin(trimmed, {
-                    toneType: "none",
-                    multiple: false,
-                });
-                if (typeof full === "string" && full.length > 0) {
-                    const firstAlpha = full.match(/[a-zA-Z]/);
-                    if (firstAlpha && firstAlpha[0]) {
-                        return firstAlpha[0].toUpperCase();
-                    }
-                }
-            } catch (error) {
-                console.warn("[materials] pinyin conversion failed:", error);
-            }
-        }
-
         const fallbackChar = trimmed[0];
         if (/[A-Za-z]/.test(fallbackChar)) {
             return fallbackChar.toUpperCase();
@@ -65,21 +48,6 @@
 
     const buildSubjectDirectory = (directoryRoot) => {
         if (!directoryRoot || directoryRoot.dataset.prepared === "true") {
-            return null;
-        }
-
-        if (
-            typeof window !== "undefined" &&
-            !window.pinyinPro &&
-            window.pinyinProReady &&
-            window.pinyinProReadyState === "pending" &&
-            !directoryRoot.dataset.awaitingPinyin
-        ) {
-            directoryRoot.dataset.awaitingPinyin = "true";
-            window.pinyinProReady.then(() => {
-                delete directoryRoot.dataset.awaitingPinyin;
-                buildSubjectDirectory(directoryRoot);
-            });
             return null;
         }
 
@@ -98,7 +66,7 @@
                 chip,
                 name,
                 subject: chip.dataset.subject,
-                initial: getInitialLetter(name),
+                initial: (chip.dataset.initial || "").trim().toUpperCase() || getInitialLetter(name),
             };
         });
 

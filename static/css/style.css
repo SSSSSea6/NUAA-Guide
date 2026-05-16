@@ -519,19 +519,19 @@ html.is-changing .transition-holo-flow {
 }
 
 .utility-button--totoro .utility-button__icon {
-    background-image: url("/images/icons/totoro.webp");
+    background-image: url("/images/icons/totoro-80.webp");
 }
 
 .utility-button--xhs .utility-button__icon {
-    background-image: url("/images/icons/xiaohongshu.webp");
+    background-image: url("/images/icons/xiaohongshu-80.webp");
 }
 
 .utility-button--bili .utility-button__icon {
-    background-image: url("/images/icons/bilibili.webp");
+    background-image: url("/images/icons/bilibili-80.webp");
 }
 
 .utility-button--qq .utility-button__icon {
-    background-image: url("/images/icons/qq.webp");
+    background-image: url("/images/icons/qq-80.webp");
     background-size: 110% 110%;
     background-position: center;
 }
