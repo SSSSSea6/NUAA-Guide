@@ -13,7 +13,7 @@
 .DS_Store
 Thumbs.db
 
-# Node.js dependencies (if you ever use them)
+# Node.js dependencies
 /node_modules/
 .wrangler/
 
@@ -26,13 +26,12 @@ Thumbs.db
 /scripts/codex-auth.md
 /scripts/codex-auth.ps1
 /scripts/__pycache__/
+
 # Local agent scratch files
 /.agents/
 /AGENTS.md
 /plugins/
 
-# Potentially ignore the source files directory
-# 如果您决定在 Git 之外管理您的原始学习资料文件，请取消下面这行的注释
 /static/files/
 
 # Raw document packages should stay outside Git
