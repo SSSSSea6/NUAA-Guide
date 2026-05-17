@@ -1,6 +1,7 @@
 # Hugo build directories
 /public/
 /resources/
+/.hugo_build.lock
 
 # Visual Studio cache and settings
 .vs/
@@ -28,6 +29,7 @@ Thumbs.db
 # Local agent scratch files
 /.agents/
 /AGENTS.md
+/plugins/
 
 # Potentially ignore the source files directory
 # 如果您决定在 Git 之外管理您的原始学习资料文件，请取消下面这行的注释
