@@ -3,6 +3,7 @@ baseURL = "https://www.nuaaguide.online/"
 languageCode = "zh-cn"
 title = "  NUAA Guide 校园指北"
 enableRobotsTXT = true
+disableKinds = ["taxonomy", "term", "RSS"]
 
 
 [params]
@@ -10,30 +11,19 @@ enableRobotsTXT = true
   keywords = ["NUAA", "南航", "学习资料", "校园指南", "大学生活"]
   # 您的 R2 公共自定义域 URL (最佳实践：末尾不带斜杠)
   r2_base_url = "https://assets.nuaa.cc"
-  # 星火计划后端 API 根地址（如 Supabase/Koyeb/自建服务），留空则前端仅提示未接入
-  starfire_api_base = ""
   # 微信小程序 URL Scheme。可填写后端预生成的 weixin://dl/business/?t=...
   mini_program_scheme = ""
   # 微信小程序 URL Scheme 后端接口。接口可返回纯文本链接，或 JSON：{"url":"weixin://dl/business/?t=..."}
   mini_program_scheme_api = "https://miniapp.nuaa.cc/"
 
 [outputs]
-  home = ["HTML", "JSON"]
-  section = ["HTML", "JSON"]
-
-[outputFormats.JSON]
-  baseName = "index"
-  mediaType = "application/json"
+  home = ["HTML"]
+  section = ["HTML"]
 
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
-
-# 新增分类法配置
-[taxonomies]
-  tag = "tags"
-  subject = "subjects"
 
 [menu]
   [[menu.main]]
@@ -46,16 +36,5 @@ enableRobotsTXT = true
     weight = 2
   [[menu.main]]
     name = "学习资料"
-    url = "/subjects/"
+    url = "/materials/"
     weight = 3
-  [[menu.main]]
-    name = "常用软件下载"
-    url = "/software/"
-    weight = 4
-  [[menu.main]]
-    name = "常用网址跳转"
-    url = "/links/"
-    weight = 5
-
-[pagination]
-  pagerSize = 12

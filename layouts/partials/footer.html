@@ -1,107 +1,9 @@
-<!-- 打赏弹窗 -->
-<div id="donationModal" class="donation-modal" role="dialog" aria-modal="true" aria-labelledby="donationTitle" aria-describedby="donationDesc" style="display:none">
-  <div class="donation-modal-content">
-    <button class="donation-close" onclick="closeDonationModal()" aria-label="关闭">×</button>
-    <h3 id="donationTitle">感谢支持</h3>
-    <p id="donationDesc">您的支持将用于维护网站与内容创作。</p>
-
-    <div class="donation-codes">
-      <div class="donation-code">
-        <h4>微信</h4>
-        <img data-src="/images/wechat-pay.webp" alt="微信支付收款码" loading="lazy">
-      </div>
-      <div class="donation-code">
-        <h4>支付宝</h4>
-        <img data-src="/images/alipay.webp" alt="支付宝收款码" loading="lazy">
-      </div>
-    </div>
-
-    <p class="donation-note">提示：理性支持，无任何强制与回报。</p>
-    <p class="donation-note">也欢迎通过社交平台向我们反馈建议。</p>
-  </div>
-</div>
-
-<!-- 小红书提示 -->
-<div class="social-tip" id="socialTip" role="dialog" aria-modal="false" aria-label="社交提示" style="display:none">
-  <div class="social-tip-content">
-    <h4>关注小红书</h4>
-    <p>获取最新更新与资料</p>
-    <p><strong>账号：6506316071</strong></p>
-    <button class="social-tip-close" onclick="closeSocialTip()" aria-label="关闭">×</button>
-  </div>
-</div>
-
-<!-- 联系方式 -->
-<div class="contact-popover" id="contactPopover" role="dialog" aria-modal="false" aria-label="联系方式" style="display:none">
-  <div class="contact-methods">
-    <div class="contact-method">
-      <h4>QQ</h4>
-      <p>2773849038</p>
-    </div>
-    <div class="contact-method">
-      <h4>Email</h4>
-      <p>sssssea666@gmail.com</p>
-    </div>
-  </div>
-  <p class="contact-note">欢迎提出建议与合作想法。</p>
-</div>
-
-<!-- QQ 频道弹窗 -->
-<div class="qq-channel-popover" id="qqChannelPopover" role="dialog" aria-modal="false" aria-label="NUAA Guide QQ频道" style="display:none">
-  <div class="qq-channel-header">
-    <h4>NUAA Guide 频道</h4>
-    <button type="button" class="qq-channel-close" onclick="closeQqChannelPopover()" aria-label="关闭">×</button>
-  </div>
-  <p class="qq-channel-tip">欢迎加入 NUAA Guide 频道 NG20251207</p>
-  <div class="qq-channel-qr">
-    <img src="/images/频道.webp" alt="NUAA Guide QQ频道二维码" loading="lazy">
-  </div>
-</div>
-
-<!-- 全站公告弹窗 -->
 <div id="miniProgramBridge"
      data-scheme="{{ .Site.Params.mini_program_scheme | default "" | htmlEscape }}"
      data-scheme-api="{{ .Site.Params.mini_program_scheme_api | default "" | htmlEscape }}"
      hidden></div>
 
-<div id="siteAnnouncementModal"
-     class="site-announcement-modal"
-     role="dialog"
-     aria-modal="true"
-     aria-labelledby="siteAnnouncementTitle"
-     aria-describedby="siteAnnouncementDesc"
-     style="display:none">
-  <div class="site-announcement-modal__content">
-    <button type="button"
-            class="site-announcement-modal__close"
-            onclick="closeSiteAnnouncementModal()"
-            aria-label="关闭公告">
-      ×
-    </button>
-    <p class="site-announcement-modal__eyebrow">提示</p>
-    <h3 id="siteAnnouncementTitle">学习资料都在小程序里，下载更快。</h3>
-    <div id="siteAnnouncementDesc" class="site-announcement-modal__body">
-      <p>点“打开小程序”即可。</p>
-    </div>
-    <div class="site-announcement-modal__actions">
-      <button type="button"
-              class="site-announcement-modal__action site-announcement-modal__action--miniapp"
-              data-mini-program-open
-              onclick="openMiniProgram(event)">
-        打开小程序
-      </button>
-      <button type="button"
-              class="site-announcement-modal__action site-announcement-modal__action--secondary"
-              onclick="closeSiteAnnouncementModal()">
-        继续浏览
-      </button>
-    </div>
-  </div>
-</div>
-
 <script>
-  const SITE_ANNOUNCEMENT_SESSION_KEY = 'nuaa-site-announcement-shown';
-  const MATERIALS_ANNOUNCEMENT_SESSION_KEY = 'nuaa-materials-announcement-shown';
   const MINI_PROGRAM_SCHEME_STORAGE_KEY = 'nuaa-mini-program-scheme-cache-v1';
   const MINI_PROGRAM_SCHEME_TTL_MS = 30 * 60 * 1000;
   const MINI_PROGRAM_SCHEME_REQUEST_TIMEOUT_MS = 6000;
@@ -109,43 +11,6 @@
   let miniProgramSchemePromiseKey = '';
   let cachedMiniProgramScheme = '';
   let cachedMiniProgramSchemeKey = '';
-
-  function openSiteAnnouncementModal() {
-    const modal = document.getElementById('siteAnnouncementModal');
-    if (!modal) return;
-    modal.style.display = 'block';
-    document.body.classList.add('has-site-announcement-open');
-  }
-
-  function closeSiteAnnouncementModal() {
-    const modal = document.getElementById('siteAnnouncementModal');
-    if (!modal) return;
-    modal.style.display = 'none';
-    document.body.classList.remove('has-site-announcement-open');
-  }
-
-  function isMaterialsAnnouncementPath(pathname) {
-    const path = (pathname || window.location.pathname || '').replace(/index\.html$/, '').toLowerCase();
-    return path.startsWith('/materials') || path.startsWith('/subjects');
-  }
-
-  function maybeOpenSiteAnnouncementModal(pathname) {
-    const isMaterialsPath = isMaterialsAnnouncementPath(pathname);
-    const key = isMaterialsPath ? MATERIALS_ANNOUNCEMENT_SESSION_KEY : SITE_ANNOUNCEMENT_SESSION_KEY;
-    try {
-      if (sessionStorage.getItem(key) === 'shown') {
-        return;
-      }
-      sessionStorage.setItem(key, 'shown');
-      if (isMaterialsPath) {
-        sessionStorage.setItem(SITE_ANNOUNCEMENT_SESSION_KEY, 'shown');
-      }
-    } catch (error) {
-      console.warn('[announcement] unable to persist session flag:', error);
-    }
-
-    openSiteAnnouncementModal();
-  }
 
   function getMiniProgramBridgeConfig() {
     const bridge = document.getElementById('miniProgramBridge');
@@ -201,6 +66,12 @@
     ].find((value) => typeof value === 'string' && value.trim())?.trim() || '';
   }
 
+  function getCurrentMiniProgramContextPath() {
+    const pathname = window.location.pathname || '/';
+    const search = window.location.search || '';
+    return `${pathname}${search}`;
+  }
+
   function getImmediateMiniProgramScheme() {
     const pageContextPath = getCurrentMiniProgramContextPath();
     if (cachedMiniProgramScheme && (cachedMiniProgramSchemeKey === pageContextPath || cachedMiniProgramSchemeKey === '__static__')) {
@@ -224,15 +95,8 @@
     return '';
   }
 
-  function getCurrentMiniProgramContextPath() {
-    const pathname = window.location.pathname || '/';
-    const search = window.location.search || '';
-    return `${pathname}${search}`;
-  }
-
   function navigateToMiniProgramScheme(scheme) {
     if (!scheme) return false;
-    closeSiteAnnouncementModal();
     window.location.href = scheme;
     window.setTimeout(() => setMiniProgramButtonsBusy(false), 1200);
     return true;
@@ -318,39 +182,39 @@
 
     miniProgramSchemePromiseKey = pageContextPath;
     miniProgramSchemePromise = (async () => {
-        const requestKey = pageContextPath;
-        const endpoint = new URL(config.schemeApi, window.location.origin);
-        endpoint.searchParams.set('path', requestKey);
-        let lastError = null;
-        let scheme = '';
+      const requestKey = pageContextPath;
+      const endpoint = new URL(config.schemeApi, window.location.origin);
+      endpoint.searchParams.set('path', requestKey);
+      let lastError = null;
+      let scheme = '';
 
-        for (let attempt = 0; attempt < 2; attempt += 1) {
-          try {
-            scheme = await fetchMiniProgramScheme(endpoint.toString());
-            break;
-          } catch (error) {
-            lastError = error;
-            if (attempt === 0) {
-              await new Promise((resolve) => window.setTimeout(resolve, 300));
-            }
+      for (let attempt = 0; attempt < 2; attempt += 1) {
+        try {
+          scheme = await fetchMiniProgramScheme(endpoint.toString());
+          break;
+        } catch (error) {
+          lastError = error;
+          if (attempt === 0) {
+            await new Promise((resolve) => window.setTimeout(resolve, 300));
           }
         }
+      }
 
-        if (!scheme) {
-          throw lastError || new Error('mini program scheme response is empty');
-        }
+      if (!scheme) {
+        throw lastError || new Error('mini program scheme response is empty');
+      }
 
-        cachedMiniProgramScheme = scheme;
-        cachedMiniProgramSchemeKey = requestKey;
-        persistMiniProgramScheme(cachedMiniProgramScheme, cachedMiniProgramSchemeKey);
-        return cachedMiniProgramScheme;
-      })().catch((error) => {
-        if (miniProgramSchemePromiseKey === pageContextPath) {
-          miniProgramSchemePromise = null;
-          miniProgramSchemePromiseKey = '';
-        }
-        throw error;
-      });
+      cachedMiniProgramScheme = scheme;
+      cachedMiniProgramSchemeKey = requestKey;
+      persistMiniProgramScheme(cachedMiniProgramScheme, cachedMiniProgramSchemeKey);
+      return cachedMiniProgramScheme;
+    })().catch((error) => {
+      if (miniProgramSchemePromiseKey === pageContextPath) {
+        miniProgramSchemePromise = null;
+        miniProgramSchemePromiseKey = '';
+      }
+      throw error;
+    });
 
     return miniProgramSchemePromise;
   }
@@ -388,110 +252,32 @@
     }
   }
 
+  function bindMiniProgramButtons() {
+    document.querySelectorAll('[data-mini-program-open]').forEach((button) => {
+      if (button.dataset.miniProgramBound === 'true') {
+        return;
+      }
+      button.dataset.miniProgramBound = 'true';
+      button.addEventListener('click', openMiniProgram);
+    });
+  }
+
   function preloadMiniProgramScheme() {
+    if (!document.querySelector('[data-mini-program-open]')) {
+      return;
+    }
     resolveMiniProgramScheme().catch(() => {});
   }
 
-  function openDonationModal() {
-    const modal = document.getElementById('donationModal');
-    if (!modal) return;
-    modal.querySelectorAll('img[data-src]').forEach((img) => {
-      if (!img.getAttribute('src')) {
-        img.src = img.dataset.src;
-      }
-    });
-    modal.style.display = 'block';
-  }
-
-  function closeDonationModal() {
-    const modal = document.getElementById('donationModal');
-    if (modal) modal.style.display = 'none';
-  }
-
-  window.addEventListener('click', function(event) {
-    const modal = document.getElementById('donationModal');
-    if (modal && event.target === modal) closeDonationModal();
-  });
-
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-      closeSiteAnnouncementModal();
-      closeDonationModal();
-      closeContactModal();
-      closeSocialTip();
-      closeQqChannelPopover();
-    }
-  });
-
-  function toggleSocialTip() {
-    const tip = document.getElementById('socialTip');
-    if (!tip) return;
-    const isOpen = tip.style.display === 'block';
-    tip.style.display = isOpen ? 'none' : 'block';
-    const trigger = document.querySelector('[aria-controls="socialTip"]');
-    if (trigger) trigger.setAttribute('aria-expanded', String(!isOpen));
-  }
-
-  function closeSocialTip() {
-    const tip = document.getElementById('socialTip');
-    const trigger = document.querySelector('[aria-controls="socialTip"]');
-    if (tip) tip.style.display = 'none';
-    if (trigger) trigger.setAttribute('aria-expanded', 'false');
-  }
-
-  function openContactModal() {
-    const pop = document.getElementById('contactPopover');
-    if (pop) pop.style.display = 'block';
-  }
-
-  function closeContactModal() {
-    const pop = document.getElementById('contactPopover');
-    if (pop) pop.style.display = 'none';
-  }
-
-  function closeQqChannelPopover() {
-    const pop = document.getElementById('qqChannelPopover');
-    const trigger = document.querySelector('.qq-channel-btn');
-    if (pop) pop.style.display = 'none';
-    if (trigger) trigger.setAttribute('aria-expanded', 'false');
-  }
-
-  window.addEventListener('click', function(e) {
-    const announcementModal = document.getElementById('siteAnnouncementModal');
-    const tip = document.getElementById('socialTip');
-    const contact = document.getElementById('contactPopover');
-    const tipTrigger = document.querySelector('[aria-controls="socialTip"]');
-    const contactBtn = document.querySelector('.contact-btn');
-    const qqPopover = document.getElementById('qqChannelPopover');
-    const qqBtn = document.querySelector('.qq-channel-btn');
-
-    if (announcementModal && e.target === announcementModal) {
-      closeSiteAnnouncementModal();
-    }
-    if (tip && tip.style.display === 'block') {
-      if (e.target !== tip && !tip.contains(e.target) && (!tipTrigger || (e.target !== tipTrigger && !tipTrigger.contains(e.target)))) {
-        closeSocialTip();
-      }
-    }
-    if (contact && contact.style.display === 'block') {
-      if (e.target !== contact && !contact.contains(e.target) && (!contactBtn || (e.target !== contactBtn && !contactBtn.contains(e.target)))) {
-        closeContactModal();
-      }
-    }
-    if (qqPopover && qqPopover.style.display === 'block') {
-      if (e.target !== qqPopover && !qqPopover.contains(e.target) && (!qqBtn || (e.target !== qqBtn && !qqBtn.contains(e.target)))) {
-        closeQqChannelPopover();
-      }
-    }
-  });
+  window.openMiniProgram = openMiniProgram;
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', () => {
+      bindMiniProgramButtons();
       preloadMiniProgramScheme();
-      maybeOpenSiteAnnouncementModal(window.location.pathname);
     }, { once: true });
   } else {
+    bindMiniProgramButtons();
     preloadMiniProgramScheme();
-    maybeOpenSiteAnnouncementModal(window.location.pathname);
   }
 </script>

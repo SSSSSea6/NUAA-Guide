@@ -27,7 +27,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyyaml pypinyin awscli
+          pip install pyyaml awscli
 
       - name: Run improved auto-generate script
         env:
@@ -38,10 +38,6 @@ jobs:
       - name: Validate generated Markdown files
         run: |
           python scripts/validate_md_files.py
-
-      - name: Regenerate search datasets
-        run: |
-          python scripts/build_search_manifest.py
 
       - name: Upload assets to Cloudflare R2
         if: success()
@@ -122,7 +118,6 @@ jobs:
           set -euo pipefail
           for url in \
             "https://www.nuaaguide.online/" \
-            "https://www.nuaaguide.online/data/materials-search.json" \
             "https://nuaa-guide.pages.dev/"; do
             echo "==> $url"
             curl -fsSI "$url" | tee /tmp/headers.txt

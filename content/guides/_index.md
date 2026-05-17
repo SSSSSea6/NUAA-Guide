@@ -1,6 +1,11 @@
 ---
 title: "实用工具"
 description: "整理校园生活与学习中常用的工具与操作指引"
+build:
+  render: always
+  list: always
+cascade:
+  build:
+    render: never
+    list: always
 ---
-
-这里汇集了在南航学习与生活过程中高频使用的工具与指南，帮助你快速上手、少走弯路。

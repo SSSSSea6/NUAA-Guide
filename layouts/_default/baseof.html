@@ -1,10 +1,7 @@
 {{ $styleVersion := substr (sha256 (readFile "static/css/style.css")) 0 12 }}
-{{ $enhancedSearchVersion := substr (sha256 (readFile "static/js/enhanced-search.js")) 0 12 }}
-{{ $searchPageVersion := substr (sha256 (readFile "static/js/search-page.js")) 0 12 }}
-{{ $materialsVersion := substr (sha256 (readFile "static/js/materials.js")) 0 12 }}
-{{ $starfireVersion := substr (sha256 (readFile "static/js/starfire.js")) 0 12 }}
+{{ $pageTransitionVersion := substr (sha256 (readFile "static/js/page-transition.js")) 0 12 }}
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-cn" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,337 +12,71 @@
 
     <script>
         (function() {
-            const STORAGE_KEY = "nuaa-theme";
             try {
-                const stored = localStorage.getItem(STORAGE_KEY);
-                if (stored === "dark" || stored === "light") {
-                    document.documentElement.dataset.theme = stored;
-                } else {
-                    delete document.documentElement.dataset.theme;
+                const transitionKey = "nuaa-page-transition";
+                if (sessionStorage.getItem(transitionKey) === "1") {
+                    document.documentElement.classList.add("is-page-entering");
+                    sessionStorage.removeItem(transitionKey);
+                    window.setTimeout(function() {
+                        document.documentElement.classList.remove("is-page-entering");
+                    }, 700);
                 }
-            } catch (error) {
-                console.warn("[theme] unable to read stored theme preference:", error);
-            }
+            } catch {}
         })();
     </script>
 
     <link rel="stylesheet" href="/css/style.css?v={{ $styleVersion }}">
+    <style>
+      :root {
+        --top-nav-height: 65px;
+      }
+
+      .app-sidebar {
+        position: fixed;
+        inset: 0 0 auto 0;
+        width: 100%;
+        height: var(--top-nav-height);
+        box-sizing: border-box;
+      }
+
+      .app-main {
+        padding-top: calc(28px + var(--top-nav-height));
+      }
+
+      .home-access__hint {
+        top: calc(100% + 12px);
+        bottom: auto;
+      }
+
+      @media (max-width: 640px) {
+        .app-main {
+          padding-top: calc(18px + var(--top-nav-height));
+        }
+      }
+    </style>
 
 </head>
 <body>
-    <div class="theme-toolbar">
-        <button type="button" class="utility-button utility-button--support" onclick="openDonationModal()">
-            <span>支持我</span>
-        </button>
-        <div class="theme-switcher" data-theme-switcher>
-            <button type="button"
-                    class="theme-switcher__button"
-                    data-theme-toggle
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                <span class="theme-switcher__icon" data-theme-icon>🌓</span>
-                <span class="theme-switcher__label" data-theme-label>跟随系统</span>
-                <span class="theme-switcher__chevron" aria-hidden="true"></span>
-            </button>
-            <div class="theme-switcher__panel"
-                 data-theme-panel
-                 role="menu"
-                 aria-hidden="true">
-                <button type="button"
-                        class="theme-switcher__option"
-                        data-theme-value="auto"
-                        role="menuitemradio"
-                        aria-checked="true">
-                    <span>跟随系统</span>
-                    <span class="theme-switcher__option-hint">Auto</span>
-                </button>
-                <button type="button"
-                        class="theme-switcher__option"
-                        data-theme-value="light"
-                        role="menuitemradio"
-                        aria-checked="false">
-                    <span>浅色模式</span>
-                    <span class="theme-switcher__option-hint">Light</span>
-                </button>
-                <button type="button"
-                        class="theme-switcher__option"
-                        data-theme-value="dark"
-                        role="menuitemradio"
-                        aria-checked="false">
-                    <span>深色模式</span>
-                    <span class="theme-switcher__option-hint">Dark</span>
-                </button>
-            </div>
-        </div>
-    </div>
     <div class="app-shell">
         {{ partial "header.html" . }}
         <div class="app-main">
-            <div class="utility-actions" aria-label="Quick actions">
-                <button type="button"
-                        class="utility-button utility-button--miniapp"
-                        data-mini-program-open
-                        onclick="openMiniProgram(event)">
-                    <span>打开小程序</span>
-                </button>
-                <a class="utility-button utility-button--totoro"
-                   href="https://www.nuaaguide.shop/"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    <span class="utility-button__icon" aria-hidden="true"></span>
-                    <span class="sr-only">龙猫代跑</span>
-                </a>
-                <a class="utility-button utility-button--xhs"
-                   href="https://xhslink.com/m/2d5U203HNfp"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    <span class="utility-button__icon" aria-hidden="true"></span>
-                    <span class="sr-only">小红书</span>
-                </a>
-                <a class="utility-button utility-button--bili"
-                   href="https://b23.tv/5aW5JSg"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    <span class="utility-button__icon" aria-hidden="true"></span>
-                    <span class="sr-only">Bilibili</span>
-                </a>
-                <button type="button"
-                        class="utility-button utility-button--qq qq-channel-btn"
-                        aria-haspopup="dialog"
-                        aria-controls="qqChannelPopover">
-                    <span class="utility-button__icon" aria-hidden="true"></span>
-                    <span class="sr-only">QQ 频道</span>
-                </button>
-                <button type="button" class="utility-button contact-btn" aria-haspopup="dialog" aria-controls="contactPopover">
-                    <span>联系我</span>
-                </button>
-            </div>            <main id="swup" class="site-content">
+            <main id="swup" class="site-content transition-holo-flow">
                 {{- block "main" . }}{{- end }}
             </main>
             {{ partial "footer.html" . }}
         </div>
     </div>
 
-    <a class="starfire-fab" href="/starfire/" title="星火计划" aria-label="星火计划">
-        <span class="starfire-fab__icon" aria-hidden="true">★</span>
-        <span class="starfire-fab__label">星火计划</span>
-    </a>
-
-    {{ $isSearchPage := eq .Layout "search" }}
-    {{ $needsMaterialsScript := or (eq .Type "materials") (eq .Type "subjects") }}
-    {{ $needsStarfire := or (eq .Type "starfire") (eq .Layout "starfire") }}
-    {{ if $isSearchPage }}
-    <script type="module" src="/js/enhanced-search.js?v={{ $enhancedSearchVersion }}"></script>
-    <script type="module" src="/js/search-page.js?v={{ $searchPageVersion }}"></script>
-    {{ end }}
-    {{ if $needsMaterialsScript }}
-    <script defer src="/js/materials.js?v={{ $materialsVersion }}"></script>
-    {{ end }}
-    {{ if $needsStarfire }}
-    <script>
-      window.STARFIRE_API_BASE = "{{ .Site.Params.starfire_api_base | default "" }}";
-    </script>
-    <script defer src="/js/starfire.js?v={{ $starfireVersion }}"></script>
-    {{ end }}
+    <script defer src="/js/page-transition.js?v={{ $pageTransitionVersion }}"></script>
 
     <script>
-      const THEME_STORAGE_KEY = "nuaa-theme";
-      const themeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-      const beginThemeTransition = () => {
-        const root = document.documentElement;
-        let ms = 2000;
-        try {
-          const raw = getComputedStyle(root).getPropertyValue('--theme-transition-duration').trim();
-          if (raw) {
-            if (raw.endsWith('ms')) {
-              ms = parseFloat(raw);
-            } else if (raw.endsWith('s')) {
-              ms = Math.round(parseFloat(raw) * 1000);
-            } else {
-              const n = parseFloat(raw);
-              if (!Number.isNaN(n)) ms = n;
-            }
-          }
-        } catch {}
-        root.classList.add('theme-transition');
-        clearTimeout(window.__themeTransitionTimer);
-        window.__themeTransitionTimer = setTimeout(() => {
-          root.classList.remove('theme-transition');
-        }, ms + 100);
-      };
-
-      const getStoredTheme = () => {
-        try {
-          const stored = localStorage.getItem(THEME_STORAGE_KEY);
-          return stored === "light" || stored === "dark" ? stored : "auto";
-        } catch {
-          return "auto";
-        }
-      };
-
-      const storeTheme = (value) => {
-        try {
-          if (value === "auto") {
-            localStorage.removeItem(THEME_STORAGE_KEY);
-          } else {
-            localStorage.setItem(THEME_STORAGE_KEY, value);
-          }
-        } catch (error) {
-          console.warn("[theme] unable to persist theme preference:", error);
-        }
-      };
-
-      const applyThemePreference = (value, animate = false) => {
-        const root = document.documentElement;
-        if (animate) {
-          beginThemeTransition();
-        }
-        if (value === "light") {
-          root.dataset.theme = "light";
-        } else if (value === "dark") {
-          root.dataset.theme = "dark";
-        } else {
-          delete root.dataset.theme;
-        }
-      };
-
-      const initThemeControls = () => {
-        const switcher = document.querySelector("[data-theme-switcher]");
-        if (!switcher || switcher.dataset.initialised === "true") {
-          return;
-        }
-        switcher.dataset.initialised = "true";
-
-        const toggleButton = switcher.querySelector("[data-theme-toggle]");
-        const panel = switcher.querySelector("[data-theme-panel]");
-        const options = switcher.querySelectorAll("[data-theme-value]");
-        const icon = switcher.querySelector("[data-theme-icon]");
-        const label = switcher.querySelector("[data-theme-label]");
-
-        if (!toggleButton || !panel || options.length === 0) {
-          return;
-        }
-
-        const labels = {
-          auto: "跟随系统",
-          light: "浅色模式",
-          dark: "深色模式"
-        };
-
-        const iconMap = {
-          light: "☀️",
-          dark: "🌙"
-        };
-
-        let currentSelection = getStoredTheme();
-
-        const getEffectiveTheme = () => {
-          if (currentSelection === "auto") {
-            return themeMediaQuery.matches ? "dark" : "light";
-          }
-          return currentSelection;
-        };
-
-        const updateUI = () => {
-          const effective = getEffectiveTheme();
-          if (label) {
-            label.textContent = labels[currentSelection] || labels.auto;
-          }
-          if (icon) {
-            icon.textContent = iconMap[effective] || "🌓";
-          }
-          options.forEach((option) => {
-            const value = option.dataset.themeValue || "auto";
-            const isActive = value === currentSelection;
-            option.setAttribute("aria-checked", String(isActive));
-          });
-        };
-
-        const closePanel = () => {
-          switcher.classList.remove("is-open");
-          toggleButton.setAttribute("aria-expanded", "false");
-          panel.setAttribute("aria-hidden", "true");
-        };
-
-        const openPanel = () => {
-          switcher.classList.add("is-open");
-          toggleButton.setAttribute("aria-expanded", "true");
-          panel.setAttribute("aria-hidden", "false");
-        };
-
-        const togglePanel = () => {
-          if (switcher.classList.contains("is-open")) {
-            closePanel();
-          } else {
-            openPanel();
-          }
-        };
-
-        const handleSelection = (value) => {
-          if (!value || value === currentSelection) return;
-          currentSelection = value;
-          storeTheme(currentSelection);
-          applyThemePreference(currentSelection, true);
-          updateUI();
-          closePanel();
-        };
-
-        toggleButton.addEventListener("click", (event) => {
-          event.stopPropagation();
-          togglePanel();
-        });
-
-        options.forEach((option) => {
-          option.addEventListener("click", (event) => {
-            event.preventDefault();
-            const value = option.dataset.themeValue || "auto";
-            handleSelection(value);
-          });
-        });
-
-        document.addEventListener("click", (event) => {
-          if (!switcher.contains(event.target)) {
-            closePanel();
-          }
-        });
-
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "Escape") {
-            closePanel();
-          }
-        });
-
-        const handleSystemChange = () => {
-          if (currentSelection === "auto") {
-            // Add a transition window when system theme changes
-            beginThemeTransition();
-            updateUI();
-          }
-        };
-
-        if (typeof themeMediaQuery.addEventListener === "function") {
-          themeMediaQuery.addEventListener("change", handleSystemChange);
-        } else if (typeof themeMediaQuery.addListener === "function") {
-          themeMediaQuery.addListener(handleSystemChange);
-        }
-
-        applyThemePreference(currentSelection, false);
-        updateUI();
-        closePanel();
-      };
-
-      initThemeControls();
-
       const normalizePath = (pathname) =>
         (pathname || '').replace(/index.html$/, '').toLowerCase();
 
       const getActiveNavId = (pathname) => {
         const path = normalizePath(pathname);
         if (path === '/' || path === '') return 'home';
-        if (path.startsWith('/search')) return 'search';
-        if (path.startsWith('/subjects') || path.startsWith('/materials')) return 'study';
-        if (path.startsWith('/compass')) return 'compass';
+        if (path.startsWith('/materials')) return 'study';
         if (path.startsWith('/guides')) return 'tools';
         return '';
       };
@@ -388,112 +119,10 @@
         };
       })(), { passive: true });
 
-      const moduleLoaders = {
-        materials: () => import("/js/materials.js?v={{ $materialsVersion }}"),
-        searchPage: () => import("/js/search-page.js?v={{ $searchPageVersion }}"),
-      };
-      const modulePromises = {};
-      const ensureModule = (key) => {
-        if (modulePromises[key]) return modulePromises[key];
-        if (!moduleLoaders[key]) return Promise.resolve(null);
-        modulePromises[key] = moduleLoaders[key]().catch((error) => {
-          console.error(`[loader] failed to load ${key} module:`, error);
-          modulePromises[key] = null;
-          return null;
-        });
-        return modulePromises[key] || Promise.resolve(null);
-      };
-
-      const isSearchResultsPath = (pathname) => normalizePath(pathname).startsWith('/search/all');
-      const isMaterialsPath = (pathname) => {
-        const path = normalizePath(pathname);
-        return path.startsWith('/materials') || path.startsWith('/subjects');
-      };
-
       const runInitializers = async (pathname) => {
         updateActiveNav(pathname);
-        const path = normalizePath(pathname || window.location.pathname);
-
-        const loaders = [];
-        if (isMaterialsPath(path) && typeof window.initMaterialsPage !== 'function') {
-          loaders.push(ensureModule('materials'));
-        }
-        if (isSearchResultsPath(path) && typeof window.initSearchPage !== 'function') {
-          loaders.push(ensureModule('searchPage'));
-        }
-        if (loaders.length) {
-          try {
-            await Promise.all(loaders);
-          } catch (error) {
-            console.error('[loader] module preload failed:', error);
-          }
-        }
-
-        const contactBtn = document.querySelector('.contact-btn');
-        const contactPopover = document.getElementById('contactPopover');
-        if (contactBtn && contactPopover && !contactBtn.dataset.boundContact) {
-          contactBtn.dataset.boundContact = 'true';
-          contactBtn.addEventListener('click', (event) => {
-            event.stopPropagation();
-            const isOpen = contactPopover.style.display === 'block';
-            contactPopover.style.display = isOpen ? 'none' : 'block';
-          });
-        }
-
-        const qqChannelBtn = document.querySelector('.qq-channel-btn');
-        const qqChannelPopover = document.getElementById('qqChannelPopover');
-        if (qqChannelBtn && qqChannelPopover && !qqChannelBtn.dataset.boundQq) {
-          qqChannelBtn.dataset.boundQq = 'true';
-          qqChannelBtn.setAttribute('aria-expanded', 'false');
-          qqChannelBtn.addEventListener('click', (event) => {
-            event.stopPropagation();
-            const isOpen = qqChannelPopover.style.display === 'block';
-            qqChannelPopover.style.display = isOpen ? 'none' : 'block';
-            qqChannelBtn.setAttribute('aria-expanded', String(!isOpen));
-          });
-        }
-
-
-        // Normalize donation button label (handle legacy encoding issues)
-        const donationBtn = document.querySelector('.utility-button[onclick="openDonationModal()"] span');
-        if (donationBtn && donationBtn.textContent.trim() !== '支持我') {
-          donationBtn.textContent = '支持我';
-        }
-
-        if (typeof window.initMaterialsPage === 'function') {
-          window.initMaterialsPage();
-        }
-        if (typeof window.initLooseDirectories === 'function') {
-          window.initLooseDirectories();
-        }
-        if (typeof window.initSearchPage === 'function' && isSearchResultsPath(path)) {
-          window.initSearchPage();
-        }
-
-        initSearchWidgets();
-        if (typeof window.maybeOpenSiteAnnouncementModal === 'function') {
-          window.maybeOpenSiteAnnouncementModal(path);
-        }
         restoreScrollPosition(pathname);
       };
-
-      document.addEventListener('click', () => {
-        const contactPopover = document.getElementById('contactPopover');
-        if (contactPopover && contactPopover.classList.contains('is-visible')) {
-          contactPopover.classList.remove('is-visible');
-        }
-      });
-
-      const initSearchWidgets = () => {
-        if (window.NuaaSearch && typeof window.NuaaSearch.initAll === 'function') {
-          window.NuaaSearch.initAll();
-        }
-      };
-
-      if (window.NuaaSearchReady && typeof window.NuaaSearchReady.then === 'function') {
-        window.NuaaSearchReady.then(initSearchWidgets).catch(() => {});
-      }
-      document.addEventListener('nuaasearch:ready', initSearchWidgets);
 
       runInitializers(window.location.pathname);
 

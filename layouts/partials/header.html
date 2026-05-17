@@ -1,46 +1,23 @@
 {{ $ctx := . }}
 {{ $path := $ctx.RelPermalink }}
 {{ $section := $ctx.Section }}
-{{ $kind := $ctx.Kind }}
-{{ $active := "home" }}
+{{ $active := "" }}
 
 {{ if $ctx.IsHome }}
   {{ $active = "home" }}
-{{ else if hasPrefix $path "/search" }}
-  {{ $active = "search" }}
-{{ else if or (eq $section "subjects") (eq $section "materials") (hasPrefix $path "/subjects") (hasPrefix $path "/materials") (eq $kind "taxonomy") (eq $kind "term") }}
+{{ else if or (eq $section "materials") (hasPrefix $path "/materials") }}
   {{ $active = "study" }}
-{{ else if or (eq $section "compass") (hasPrefix $path "/compass") }}
-  {{ $active = "compass" }}
 {{ else if or (eq $section "guides") (hasPrefix $path "/guides") }}
   {{ $active = "tools" }}
 {{ end }}
 
 {{ $navItems := slice
   (dict "id" "home" "title" "\u9996\u9875" "icon" "\U0001F3E0" "url" "/")
-  (dict "id" "search" "title" "\u641c\u7d22" "icon" "\U0001F50D" "url" "/search/")
-  (dict "id" "study" "title" "\u5b66\u4e60\u8d44\u6599" "icon" "\U0001F4DA" "url" "/materials/")
-  (dict "id" "compass" "title" "\u6307\u5357\u9488" "icon" "\U0001F9ED" "url" "/compass/")
   (dict "id" "tools" "title" "\u5b9e\u7528\u5de5\u5177" "icon" "\U0001F6E0" "url" "/guides/")
+  (dict "id" "study" "title" "\u5b66\u4e60\u8d44\u6599" "icon" "\U0001F4DA" "url" "/materials/")
 }}
 
 <aside class="app-sidebar" aria-label="Main navigation">
-  <div class="sidebar-brand">
-    <a href="/" class="brand-link">
-      <picture>
-        <source
-          srcset="{{ "images/logo-160.webp" | relURL }} 160w, {{ "images/logo-320.webp" | relURL }} 320w"
-          type="image/webp">
-        <img
-          src="{{ "images/logo-160.webp" | relURL }}"
-          width="160"
-          height="160"
-          decoding="async"
-          alt="NUAA Guide Logo"
-          class="brand-logo">
-      </picture>
-    </a>
-  </div>
   <nav class="sidebar-nav">
     <ul>
       {{ range $navItems }}
@@ -55,13 +32,3 @@
     </ul>
   </nav>
 </aside>
-
-<nav class="mobile-bottom-nav" aria-label="Mobile primary navigation">
-  {{ range $navItems }}
-    {{ $isActive := eq $active .id }}
-    <a href="{{ .url }}" class="mobile-bottom-nav__item{{ if $isActive }} is-active{{ end }}" data-nav-id="{{ .id }}">
-      <span class="mobile-bottom-nav__icon" aria-hidden="true">{{ .icon }}</span>
-      <span class="mobile-bottom-nav__label">{{ .title }}</span>
-    </a>
-  {{ end }}
-</nav>
