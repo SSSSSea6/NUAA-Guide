@@ -33,4 +33,4 @@ Thumbs.db
 
 # Potentially ignore the source files directory
 # 如果您决定在 Git 之外管理您的原始学习资料文件，请取消下面这行的注释
-# static/files/
+/static/files/
