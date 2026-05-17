@@ -2,7 +2,7 @@ const GUIDE_UPSTREAM_ORIGIN = "https://guide-origin.nuaa.cc";
 const GUIDE_PUBLIC_HOST = "www.nuaaguide.online";
 const GUIDE_HOSTS = new Set(["www.nuaaguide.online", "source.nuaa.cc", "guide-edge.nuaa.cc"]);
 const STATIC_PREFIXES = ["/css/", "/js/", "/images/"];
-const EDGE_CACHE_VERSION = "2026-05-18-v1";
+const EDGE_CACHE_VERSION = "2026-05-18-v2";
 const OVERRIDE_QUERY_KEY = "__nuaa_pool";
 const OVERRIDE_COOKIE_KEY = "nuaa_pool";
 const CAMPUS_POOL = [
@@ -189,6 +189,9 @@ function buildGuideUpstreamUrl(requestUrl) {
     incoming.searchParams.delete(OVERRIDE_QUERY_KEY);
     incoming.searchParams.delete("__nuaa_pool_key");
     incoming.searchParams.delete("__nuaa_edge_cache");
+    if (incoming.pathname.startsWith("/data/")) {
+        incoming.searchParams.set("__nuaa_origin_cache", EDGE_CACHE_VERSION);
+    }
     const upstream = new URL(GUIDE_UPSTREAM_ORIGIN);
     upstream.pathname = incoming.pathname;
     upstream.search = incoming.search;
