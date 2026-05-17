@@ -48,6 +48,31 @@
         bottom: auto;
       }
 
+      .materials-page.materials-handoff-page {
+        box-sizing: border-box;
+        width: 100%;
+        margin-inline: 0;
+        overflow: visible;
+      }
+
+      .materials-handoff {
+        position: relative;
+        z-index: 1;
+        margin-inline: auto;
+      }
+
+      .materials-handoff__miniapp {
+        justify-self: center;
+      }
+
+      .materials-page.materials-handoff-page .materials-flow-bg {
+        position: fixed;
+        inset: -45vh -55vw;
+        z-index: 0;
+        min-width: 0;
+        pointer-events: none;
+      }
+
       @media (max-width: 640px) {
         .app-main {
           padding-top: calc(18px + var(--top-nav-height));
@@ -95,33 +120,8 @@
         document.body.dataset.navActive = currentId || '';
       };
 
-      const scrollKey = (p) => `nuaa-scroll:${p || window.location.pathname}`;
-      const saveScrollPosition = () => {
-        try {
-          sessionStorage.setItem(scrollKey(), String(window.scrollY || 0));
-        } catch {}
-      };
-      const restoreScrollPosition = (path) => {
-        try {
-          const raw = sessionStorage.getItem(scrollKey(path));
-          const y = raw ? parseInt(raw, 10) : 0;
-          if (!Number.isNaN(y) && y > 0) {
-            requestAnimationFrame(() => window.scrollTo(0, y));
-          }
-        } catch {}
-      };
-
-      window.addEventListener('scroll', (() => {
-        let t = null;
-        return () => {
-          if (t) return;
-          t = setTimeout(() => { t = null; saveScrollPosition(); }, 200);
-        };
-      })(), { passive: true });
-
       const runInitializers = async (pathname) => {
         updateActiveNav(pathname);
-        restoreScrollPosition(pathname);
       };
 
       runInitializers(window.location.pathname);
