@@ -197,13 +197,19 @@
 }
 
 .materials-directory__download {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: var(--primary-color);
+  font: inherit;
   font-size: 0.94rem;
   line-height: 1.4;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .materials-directory__download:hover,
@@ -214,6 +220,12 @@
 .materials-directory__download.is-disabled {
   color: var(--text-muted);
   text-decoration: none;
+  cursor: default;
+}
+
+.materials-directory__download:disabled {
+  cursor: default;
+  opacity: 0.62;
 }
 
 @media (max-width: 1120px) {

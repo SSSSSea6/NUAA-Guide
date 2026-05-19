@@ -2,23 +2,20 @@
   const root = document.querySelector('[data-materials-catalog]');
   if (!root) return;
 
-  const catalogUrl = root.dataset.catalogUrl || '';
-  const downloadBaseUrl = root.dataset.downloadUrl || '';
+  const coursesUrl = root.dataset.coursesUrl || '';
+  const courseUrl = root.dataset.courseUrl || '';
+  const ticketUrl = root.dataset.ticketUrl || '';
   const materialsSection = root.dataset.materialsSection || 'undergraduate';
   const coursesNode = root.querySelector('[data-materials-courses]');
   const statusNode = root.querySelector('[data-materials-status]');
-  const isTestCatalog = (() => {
-    try {
-      return new URL(catalogUrl).hostname === 'test-upload.nuaa.cc';
-    } catch {
-      return false;
-    }
-  })();
+  const coursesCacheKey = `nuaa-materials-courses:v2:${coursesUrl}`;
+  const coursesCacheMaxAgeMs = 60 * 1000;
 
   let loaded = false;
   let loading = false;
   let statusTimer = 0;
   let catalogCourses = [];
+  let activeCourseRequestId = 0;
 
   const setText = (node, text) => {
     if (node) node.textContent = text;
@@ -62,6 +59,12 @@
     return normalizeText(course?.sortKey, normalizeText(course?.title, '')).toLowerCase();
   };
 
+  const getMaterialCount = (course) => {
+    const count = Number(course?.materialCount);
+    if (Number.isFinite(count) && count >= 0) return count;
+    return Array.isArray(course?.materials) ? course.materials.length : 0;
+  };
+
   const compareByCourseName = (a, b) => {
     const letterA = a.__letter || '#';
     const letterB = b.__letter || '#';
@@ -82,30 +85,38 @@
   };
 
   const normalizeCourses = (payload) => {
-    const courses = Array.isArray(payload?.catalog?.courses)
-      ? payload.catalog.courses
-      : [];
+    const courses = Array.isArray(payload?.courses) ? payload.courses : [];
 
     return courses
       .map((course, index) => {
-        const materials = Array.isArray(course?.materials) ? course.materials : [];
         const title = normalizeText(course?.title, '未分类');
         const id = normalizeText(course?.id, '') || `course-${index}-${title}`;
+        const materials = Array.isArray(course?.materials) ? course.materials : null;
         return {
           ...course,
           __id: id,
           __title: title,
           __letter: getCourseLetter(course),
           __sortKey: getCourseSortKey(course),
+          __materialsLoaded: Array.isArray(materials),
+          materialCount: getMaterialCount(course),
           materials
         };
       })
-      .filter((course) => course.materials.length > 0)
+      .filter((course) => course.materialCount > 0)
       .sort(compareByCourseName);
   };
 
   const findCourse = (courseId) => {
     return catalogCourses.find((course) => course.__id === courseId) || null;
+  };
+
+  const updateCourse = (course) => {
+    const index = catalogCourses.findIndex((item) => item.__id === course.__id);
+    if (index >= 0) {
+      catalogCourses[index] = course;
+    }
+    return course;
   };
 
   const getCurrentCourseId = () => {
@@ -127,41 +138,36 @@
     return url.toString();
   };
 
-  const normalizePublicUrl = (value) => {
-    const publicUrl = normalizeText(value, '');
-    if (!publicUrl) return '';
+  const buildCourseDetailUrl = (courseId) => {
+    const endpoint = new URL(courseUrl, window.location.origin);
+    endpoint.searchParams.set('section', materialsSection);
+    endpoint.searchParams.set('id', courseId);
+    return endpoint.toString();
+  };
+
+  const readCoursesCache = () => {
+    if (!coursesCacheKey || typeof sessionStorage === 'undefined') return null;
     try {
-      const url = new URL(publicUrl);
-      if (isTestCatalog && url.hostname === 'assets.nuaa.cc') {
-        url.hostname = 'test-assets.nuaa.cc';
-      }
-      return url.toString();
+      const cached = JSON.parse(sessionStorage.getItem(coursesCacheKey) || 'null');
+      if (!cached || typeof cached !== 'object') return null;
+      if (!cached.payload || !Array.isArray(cached.payload.courses)) return null;
+      const fetchedAt = Number(cached.fetchedAt || 0);
+      return { payload: cached.payload, fetchedAt };
     } catch {
-      return publicUrl;
+      return null;
     }
   };
 
-  const getWorkerDownloadUrl = (material) => {
-    const key = normalizeText(material?.key, '');
-    if (!key || !downloadBaseUrl) return '';
+  const writeCoursesCache = (payload) => {
+    if (!coursesCacheKey || typeof sessionStorage === 'undefined') return;
     try {
-      const endpoint = new URL(downloadBaseUrl, window.location.origin);
-      endpoint.searchParams.set('section', materialsSection);
-      endpoint.searchParams.set('key', key);
-      return endpoint.toString();
-    } catch {
-      return `${downloadBaseUrl}?section=${encodeURIComponent(materialsSection)}&key=${encodeURIComponent(key)}`;
+      sessionStorage.setItem(coursesCacheKey, JSON.stringify({
+        fetchedAt: Date.now(),
+        payload
+      }));
+    } catch (error) {
+      console.warn('[materials] unable to write courses cache:', error);
     }
-  };
-
-  const getDownloadTarget = (material) => {
-    const publicUrl = normalizeText(material?.publicUrl, '');
-    const normalizedPublicUrl = normalizePublicUrl(publicUrl);
-    const workerUrl = getWorkerDownloadUrl(material);
-    return {
-      openUrl: normalizedPublicUrl || workerUrl,
-      checkUrl: workerUrl || normalizedPublicUrl
-    };
   };
 
   const setTemporaryStatus = (message) => {
@@ -195,18 +201,14 @@
     title.textContent = normalizeText(material?.title, '未命名资料');
     text.append(title, createMeta(material));
 
-    const target = getDownloadTarget(material);
-    if (target.openUrl) {
-      const link = document.createElement('a');
-      link.className = 'materials-directory__download';
-      link.href = target.openUrl;
-      link.target = '_blank';
-      link.rel = 'noopener';
-      link.dataset.noTransition = 'true';
-      link.dataset.openUrl = target.openUrl;
-      link.dataset.checkUrl = target.checkUrl;
-      link.textContent = '下载';
-      row.append(text, link);
+    const key = normalizeText(material?.key, '');
+    if (key && ticketUrl) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'materials-directory__download';
+      button.dataset.materialKey = key;
+      button.textContent = '下载';
+      row.append(text, button);
     } else {
       const unavailable = document.createElement('span');
       unavailable.className = 'materials-directory__download is-disabled';
@@ -254,7 +256,7 @@
     setText(statusNode, catalogCourses.length > 0 ? '' : '暂无资料');
   };
 
-  const renderCourseDetail = (course) => {
+  const renderCourseDetail = (course, loadingMaterials) => {
     if (!coursesNode) return;
 
     const detail = document.createElement('section');
@@ -272,26 +274,98 @@
     const title = document.createElement('h2');
     title.textContent = course.__title;
     header.append(back, title);
+    detail.append(header);
 
-    const list = document.createElement('ul');
-    list.className = 'materials-directory__list';
-    course.materials.forEach((material) => list.append(createMaterialRow(material)));
+    if (loadingMaterials) {
+      coursesNode.replaceChildren(detail);
+      setText(statusNode, '加载中');
+      return;
+    }
 
-    detail.append(header, list);
+    const materials = Array.isArray(course.materials) ? course.materials : [];
+    if (materials.length > 0) {
+      const list = document.createElement('ul');
+      list.className = 'materials-directory__list';
+      materials.forEach((material) => list.append(createMaterialRow(material)));
+      detail.append(list);
+      setText(statusNode, '');
+    } else {
+      setText(statusNode, '暂无资料');
+    }
     coursesNode.replaceChildren(detail);
-    setText(statusNode, '');
+  };
+
+  const normalizeCourseDetail = (payload, baseCourse) => {
+    if (payload?.ok !== true || !payload?.course) {
+      throw new Error('course detail response is invalid');
+    }
+
+    const course = payload.course;
+    const materials = Array.isArray(course.materials) ? course.materials : [];
+    const merged = {
+      ...baseCourse,
+      ...course,
+      __id: baseCourse.__id,
+      __title: normalizeText(course.title, baseCourse.__title),
+      __letter: getCourseLetter(course),
+      __sortKey: getCourseSortKey(course),
+      __materialsLoaded: true,
+      materialCount: materials.length,
+      materials
+    };
+    return updateCourse(merged);
+  };
+
+  const fetchCourseDetail = async (course) => {
+    if (!courseUrl) throw new Error('course endpoint is not configured');
+    const response = await fetch(buildCourseDetailUrl(course.__id), {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'omit',
+      headers: { Accept: 'application/json' }
+    });
+    if (!response.ok) {
+      throw new Error(`course detail request failed: ${response.status}`);
+    }
+    return normalizeCourseDetail(await response.json(), course);
+  };
+
+  const showCourseDetail = async (course) => {
+    if (!course) return;
+    if (course.__materialsLoaded) {
+      renderCourseDetail(course, false);
+      return;
+    }
+
+    const requestId = activeCourseRequestId + 1;
+    activeCourseRequestId = requestId;
+    renderCourseDetail(course, true);
+
+    try {
+      const detailedCourse = await fetchCourseDetail(course);
+      if (requestId === activeCourseRequestId && getCurrentCourseId() === course.__id) {
+        renderCourseDetail(detailedCourse, false);
+      }
+    } catch (error) {
+      console.warn('[materials] unable to load course detail:', error);
+      if (requestId === activeCourseRequestId && getCurrentCourseId() === course.__id) {
+        renderCourseDetail(course, false);
+        setTemporaryStatus('加载失败');
+      }
+    }
   };
 
   const renderCurrentView = () => {
     const courseId = getCurrentCourseId();
     if (!courseId) {
+      activeCourseRequestId += 1;
       renderCourseIndex();
       return;
     }
 
     const course = findCourse(courseId);
     if (course) {
-      renderCourseDetail(course);
+      showCourseDetail(course);
       return;
     }
 
@@ -302,75 +376,113 @@
     window.history.replaceState({}, '', url);
   };
 
-  const loadCatalog = async (force) => {
-    if (!catalogUrl || loading || (loaded && !force)) return;
+  const applyCoursesPayload = (payload) => {
+    catalogCourses = normalizeCourses(payload);
+    loaded = true;
+    renderCurrentView();
+  };
+
+  const loadCourses = async (force) => {
+    if (!coursesUrl || loading) return;
+
+    const cached = force ? null : readCoursesCache();
+    if (cached && !loaded) {
+      applyCoursesPayload(cached.payload);
+    }
+    if (!force && cached && Date.now() - cached.fetchedAt < coursesCacheMaxAgeMs) {
+      return;
+    }
+
     loading = true;
-    setText(statusNode, '加载中');
+    if (!loaded) setText(statusNode, '加载中');
 
     try {
-      const response = await fetch(catalogUrl, {
+      const response = await fetch(coursesUrl, {
         method: 'GET',
         mode: 'cors',
         credentials: 'omit',
-        cache: 'no-store',
         headers: { Accept: 'application/json' }
       });
       if (!response.ok) {
-        throw new Error(`catalog request failed: ${response.status}`);
+        throw new Error(`courses request failed: ${response.status}`);
       }
-      catalogCourses = normalizeCourses(await response.json());
-      loaded = true;
-      renderCurrentView();
+      const payload = await response.json();
+      if (payload?.ok !== true || !Array.isArray(payload.courses)) {
+        throw new Error('courses response is invalid');
+      }
+      writeCoursesCache(payload);
+      applyCoursesPayload(payload);
     } catch (error) {
-      console.warn('[materials] unable to load catalog:', error);
-      setText(statusNode, '加载失败');
-      if (coursesNode) coursesNode.replaceChildren();
+      console.warn('[materials] unable to load courses:', error);
+      if (!loaded) {
+        setText(statusNode, '加载失败');
+        if (coursesNode) coursesNode.replaceChildren();
+      }
     } finally {
       loading = false;
     }
   };
 
-  const verifyDownload = async (url) => {
-    if (!url) return false;
-    const response = await fetch(url, {
-      method: 'HEAD',
+  const requestDownloadTicket = async (key) => {
+    const response = await fetch(ticketUrl, {
+      method: 'POST',
       mode: 'cors',
       credentials: 'omit',
       cache: 'no-store',
-      redirect: 'follow'
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        section: materialsSection,
+        key
+      })
     });
-    return response.ok;
+
+    if (!response.ok) {
+      throw new Error(`download ticket request failed: ${response.status}`);
+    }
+
+    const payload = await response.json();
+    const url = normalizeText(payload?.url, '');
+    if (payload?.ok !== true || !url) {
+      throw new Error('download ticket response is invalid');
+    }
+    return url;
   };
 
-  const openVerifiedDownload = async (link) => {
-    if (!link || link.dataset.downloadBusy === 'true') return;
+  const openTicketDownload = async (button) => {
+    if (!button || button.dataset.downloadBusy === 'true') return;
 
-    const openUrl = link.dataset.openUrl || link.href;
-    const checkUrl = link.dataset.checkUrl || openUrl;
+    const key = normalizeText(button.dataset.materialKey, '');
+    if (!key || !ticketUrl) {
+      setTemporaryStatus('下载失败，请重试');
+      window.alert('下载失败，请重试');
+      return;
+    }
+
     const pendingWindow = window.open('', '_blank');
     if (!pendingWindow) {
-      setTemporaryStatus('请允许新标签页');
-      window.alert('请允许浏览器打开新标签页');
+      setTemporaryStatus('下载失败，请重试');
+      window.alert('下载失败，请重试');
       return;
     }
     pendingWindow.opener = null;
-    link.dataset.downloadBusy = 'true';
-    link.textContent = '检查中';
+    button.dataset.downloadBusy = 'true';
+    button.disabled = true;
+    button.textContent = '准备中';
 
     try {
-      const ok = await verifyDownload(checkUrl);
-      if (!ok) {
-        throw new Error('download unavailable');
-      }
-      pendingWindow.location.href = openUrl;
+      pendingWindow.location.href = await requestDownloadTicket(key);
     } catch (error) {
       console.warn('[materials] download unavailable:', error);
       if (pendingWindow) pendingWindow.close();
-      setTemporaryStatus('下载失败');
-      window.alert('下载失败');
+      setTemporaryStatus('下载失败，请重试');
+      window.alert('下载失败，请重试');
     } finally {
-      link.dataset.downloadBusy = 'false';
-      link.textContent = '下载';
+      button.dataset.downloadBusy = 'false';
+      button.disabled = false;
+      button.textContent = '下载';
     }
   };
 
@@ -378,10 +490,10 @@
     const target = event.target;
     if (!(target instanceof Element)) return;
 
-    const downloadLink = target.closest('.materials-directory__download[href]');
-    if (downloadLink) {
+    const downloadButton = target.closest('.materials-directory__download[data-material-key]');
+    if (downloadButton) {
       event.preventDefault();
-      openVerifiedDownload(downloadLink);
+      openTicketDownload(downloadButton);
       return;
     }
 
@@ -392,7 +504,7 @@
       const course = findCourse(courseId);
       if (!course) return;
       window.history.pushState({}, '', buildCourseUrl(courseId));
-      renderCourseDetail(course);
+      showCourseDetail(course);
       root.scrollIntoView({ block: 'start' });
       return;
     }
@@ -410,8 +522,8 @@
   window.addEventListener('popstate', renderCurrentView);
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => loadCatalog(false), { once: true });
+    document.addEventListener('DOMContentLoaded', () => loadCourses(false), { once: true });
   } else {
-    loadCatalog(false);
+    loadCourses(false);
   }
 })();

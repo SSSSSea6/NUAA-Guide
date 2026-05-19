@@ -1,5 +1,7 @@
 {{ $styleVersion := substr (sha256 (readFile "static/css/style.css")) 0 12 }}
 {{ $pageTransitionVersion := substr (sha256 (readFile "static/js/page-transition.js")) 0 12 }}
+{{ $materialsPrefetchVersion := substr (sha256 (readFile "static/js/materials-prefetch.js")) 0 12 }}
+{{ $materialsCoursesUrl := site.Params.materials_courses_url | default "https://upload.nuaa.cc/v1/materials/courses?section=undergraduate" }}
 <!DOCTYPE html>
 <html lang="zh-cn" data-theme="dark">
 <head>
@@ -87,6 +89,8 @@
     </div>
 
     <script defer src="/js/page-transition.js?v={{ $pageTransitionVersion }}"></script>
+    <script defer src="/js/materials-prefetch.js?v={{ $materialsPrefetchVersion }}"
+            data-courses-url="{{ $materialsCoursesUrl | htmlEscape }}"></script>
 
     <script>
       const normalizePath = (pathname) =>

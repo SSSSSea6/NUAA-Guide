@@ -9,16 +9,18 @@
     {{ $subjects = slice "高等数学" "大学物理实验" "线性代数" "程序设计" "航空航天概论" "自动控制原理" "马克思主义基本原理" "计算机组成原理" }}
 {{ end }}
 {{ $materialsSection := site.Params.materials_section | default "undergraduate" }}
-{{ $catalogUrl := site.Params.materials_catalog_url | default "https://test-upload.nuaa.cc/v1/materials/catalog?section=undergraduate" }}
-{{ $downloadUrl := site.Params.materials_download_url | default "https://test-upload.nuaa.cc/v1/materials/download" }}
+{{ $coursesUrl := site.Params.materials_courses_url | default "https://upload.nuaa.cc/v1/materials/courses?section=undergraduate" }}
+{{ $courseUrl := site.Params.materials_course_url | default "https://upload.nuaa.cc/v1/materials/course" }}
+{{ $ticketUrl := site.Params.materials_download_ticket_url | default "https://upload.nuaa.cc/v1/materials/download-ticket" }}
 {{ $materialsCatalogVersion := substr (sha256 (readFile "static/js/materials-catalog.js")) 0 12 }}
 
 <section class="materials-page materials-handoff-page"
          id="materials-top"
          data-materials-catalog
          data-materials-section="{{ $materialsSection | htmlEscape }}"
-         data-catalog-url="{{ $catalogUrl | htmlEscape }}"
-         data-download-url="{{ $downloadUrl | htmlEscape }}">
+         data-courses-url="{{ $coursesUrl | htmlEscape }}"
+         data-course-url="{{ $courseUrl | htmlEscape }}"
+         data-ticket-url="{{ $ticketUrl | htmlEscape }}">
     <div class="materials-flow-bg" aria-hidden="true">
         {{ range $trackIndex := seq 0 11 }}
             {{ $trackSubjects := slice }}
