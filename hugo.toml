@@ -15,6 +15,9 @@ disableKinds = ["taxonomy", "term", "RSS"]
   mini_program_scheme = ""
   # 微信小程序 URL Scheme 后端接口。接口可返回纯文本链接，或 JSON：{"url":"weixin://dl/business/?t=..."}
   mini_program_scheme_api = "https://miniapp.nuaa.cc/"
+  materials_section = "undergraduate"
+  materials_catalog_url = "https://upload.nuaa.cc/v1/materials/catalog?section=undergraduate"
+  materials_download_url = "https://upload.nuaa.cc/v1/materials/download"
 
 [outputs]
   home = ["HTML"]

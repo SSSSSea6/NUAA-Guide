@@ -1,0 +1,302 @@
+.materials-page.materials-handoff-page {
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(40px, 7vh, 76px) clamp(20px, 5vw, 64px) 72px;
+}
+
+.materials-directory {
+  position: relative;
+  z-index: 1;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 8px 0 56px;
+}
+
+.materials-directory__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.materials-directory__promise {
+  max-width: 760px;
+  margin: 0;
+  color: rgba(228, 236, 255, 0.58);
+  font-size: clamp(0.9rem, 1.45vw, 1.08rem);
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0;
+}
+
+.materials-directory__miniapp {
+  flex: 0 0 132px;
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  text-align: center;
+}
+
+.materials-directory__miniapp-button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.materials-directory__miniapp-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.materials-directory__miniapp p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.materials-directory__status {
+  min-height: 24px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.materials-directory__courses {
+  display: grid;
+  gap: 28px;
+}
+
+.materials-letter-group {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 22px;
+  padding-top: 2px;
+}
+
+.materials-letter-group h2 {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.materials-course-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 11px 24px;
+  min-width: 0;
+}
+
+.materials-course-link {
+  display: block;
+  min-width: 0;
+  color: var(--primary-color);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.materials-course-link:hover,
+.materials-course-link:focus-visible {
+  color: var(--accent-color);
+}
+
+.materials-directory__detail {
+  display: grid;
+  gap: 14px;
+}
+
+.materials-directory__detail-header {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  min-width: 0;
+}
+
+.materials-directory__detail-header h2 {
+  min-width: 0;
+  margin: 0;
+  color: var(--primary-color);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.materials-directory__back {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.materials-directory__back:hover,
+.materials-directory__back:focus-visible {
+  color: var(--accent-color);
+}
+
+.materials-directory__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border-color);
+}
+
+.materials-directory__item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.materials-directory__item-text {
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.materials-directory__title {
+  min-width: 0;
+  color: var(--primary-color);
+  font-size: 0.98rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.materials-directory__meta {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.materials-directory__download {
+  color: var(--primary-color);
+  font-size: 0.94rem;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.materials-directory__download:hover,
+.materials-directory__download:focus-visible {
+  color: var(--accent-color);
+}
+
+.materials-directory__download.is-disabled {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+@media (max-width: 1120px) {
+  .materials-course-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .materials-course-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .materials-directory__item-text {
+    display: grid;
+    gap: 4px;
+  }
+
+  .materials-directory__meta {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 720px) {
+  .materials-page.materials-handoff-page {
+    align-items: flex-start;
+    justify-content: center;
+    padding: 34px 16px 56px;
+  }
+
+  .materials-directory {
+    width: 100%;
+    padding: 0 0 44px;
+  }
+
+  .materials-directory__header {
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+  }
+
+  .materials-directory__promise {
+    font-size: clamp(0.86rem, 4.2vw, 1rem);
+    line-height: 1.6;
+  }
+
+  .materials-directory__miniapp {
+    flex-basis: 96px;
+    gap: 6px;
+  }
+
+  .materials-directory__miniapp-button {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+  }
+
+  .materials-directory__miniapp p {
+    font-size: 0.72rem;
+  }
+
+  .materials-directory__courses {
+    gap: 24px;
+  }
+
+  .materials-letter-group {
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .materials-course-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 18px;
+  }
+
+  .materials-directory__detail-header {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .materials-directory__item {
+    gap: 12px;
+    padding: 10px 0;
+  }
+}

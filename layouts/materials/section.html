@@ -8,8 +8,17 @@
 {{ if eq (len $subjects) 0 }}
     {{ $subjects = slice "高等数学" "大学物理实验" "线性代数" "程序设计" "航空航天概论" "自动控制原理" "马克思主义基本原理" "计算机组成原理" }}
 {{ end }}
+{{ $materialsSection := site.Params.materials_section | default "undergraduate" }}
+{{ $catalogUrl := site.Params.materials_catalog_url | default "https://test-upload.nuaa.cc/v1/materials/catalog?section=undergraduate" }}
+{{ $downloadUrl := site.Params.materials_download_url | default "https://test-upload.nuaa.cc/v1/materials/download" }}
+{{ $materialsCatalogVersion := substr (sha256 (readFile "static/js/materials-catalog.js")) 0 12 }}
 
-<section class="materials-page materials-handoff-page" id="materials-top">
+<section class="materials-page materials-handoff-page"
+         id="materials-top"
+         data-materials-catalog
+         data-materials-section="{{ $materialsSection | htmlEscape }}"
+         data-catalog-url="{{ $catalogUrl | htmlEscape }}"
+         data-download-url="{{ $downloadUrl | htmlEscape }}">
     <div class="materials-flow-bg" aria-hidden="true">
         {{ range $trackIndex := seq 0 11 }}
             {{ $trackSubjects := slice }}
@@ -37,26 +46,30 @@
         {{ end }}
     </div>
 
-    <div class="materials-handoff">
-        <button type="button"
-                class="materials-handoff__miniapp"
-                data-mini-program-open
-                aria-label="打开微信小程序">
-            <img src="/images/icons/wechat.webp"
-                 alt=""
-                 width="168"
-                 height="168"
-                 loading="eager"
-                 decoding="async">
-        </button>
-        <p class="materials-handoff__hint">点击跳转小程序</p>
-        <p class="materials-handoff__scope">学习资料、大物实验工具...</p>
-        <div class="materials-handoff__promise" aria-label="NUAA Guide 承诺">
-            <p>NUAA Guide承诺，</p>
-            <p>永远保证学习资料可免费获取，</p>
-            <p>并始终以有偿或无偿的形式，</p>
-            <p>收集资料。</p>
+    <div class="materials-directory" aria-live="polite">
+        <div class="materials-directory__header">
+            <p class="materials-directory__promise">
+                NUAA Guide永远保证学习资料免费获取，同时致力于以有偿或无偿的方式收集所有资料。
+            </p>
+            <div class="materials-directory__miniapp">
+                <button type="button"
+                        class="materials-directory__miniapp-button"
+                        data-mini-program-open
+                        aria-label="打开微信小程序">
+                    <img src="/images/icons/wechat.webp"
+                         alt=""
+                         width="72"
+                         height="72"
+                         loading="eager"
+                         decoding="async">
+                </button>
+                <p>微信小程序下载链路更优，点击进入。</p>
+            </div>
         </div>
+        <div class="materials-directory__status" data-materials-status>加载中</div>
+        <div class="materials-directory__courses" data-materials-courses></div>
     </div>
+
 </section>
+<script defer src="/js/materials-catalog.js?v={{ $materialsCatalogVersion }}"></script>
 {{ end }}
