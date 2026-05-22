@@ -98,9 +98,9 @@
 
       const getActiveNavId = (pathname) => {
         const path = normalizePath(pathname);
-        if (path === '/' || path === '') return 'home';
+        if (path === '/' || path === '' || path.startsWith('/guides')) return 'tools';
         if (path.startsWith('/materials')) return 'study';
-        if (path.startsWith('/guides')) return 'tools';
+        if (path.startsWith('/about')) return 'about';
         return '';
       };
 

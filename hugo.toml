@@ -31,12 +31,12 @@ disableKinds = ["taxonomy", "term", "RSS"]
 
 [menu]
   [[menu.main]]
-    name = "首页"
-    url = "/"
+    name = "关于"
+    url = "/about/"
     weight = 1
   [[menu.main]]
     name = "实用工具"
-    url = "/guides/"
+    url = "/"
     weight = 2
   [[menu.main]]
     name = "学习资料"

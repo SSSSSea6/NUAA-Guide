@@ -4,16 +4,18 @@
 {{ $active := "" }}
 
 {{ if $ctx.IsHome }}
-  {{ $active = "home" }}
+  {{ $active = "tools" }}
 {{ else if or (eq $section "materials") (hasPrefix $path "/materials") }}
   {{ $active = "study" }}
 {{ else if or (eq $section "guides") (hasPrefix $path "/guides") }}
   {{ $active = "tools" }}
+{{ else if or (eq $section "about") (hasPrefix $path "/about") }}
+  {{ $active = "about" }}
 {{ end }}
 
 {{ $navItems := slice
-  (dict "id" "home" "title" "\u9996\u9875" "icon" "\U0001F3E0" "url" "/")
-  (dict "id" "tools" "title" "\u5b9e\u7528\u5de5\u5177" "icon" "\U0001F6E0" "url" "/guides/")
+  (dict "id" "about" "title" "\u5173\u4e8e" "icon" "\U0001F3E0" "url" "/about/")
+  (dict "id" "tools" "title" "\u5b9e\u7528\u5de5\u5177" "icon" "\U0001F6E0" "url" "/")
   (dict "id" "study" "title" "\u5b66\u4e60\u8d44\u6599" "icon" "\U0001F4DA" "url" "/materials/")
 }}
 
