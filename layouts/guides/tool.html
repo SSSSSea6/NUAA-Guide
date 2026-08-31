@@ -1,0 +1,57 @@
+{{ define "main" }}
+{{ $downloadUrl := .Params.download_url | default "" }}
+<article class="content-section tool-detail">
+  <div class="ambient-image-bg ambient-image-bg--guides" aria-hidden="true">
+    <span class="ambient-image-bg__asset ambient-image-bg__asset--logo">
+      <img src="/images/logo-160.webp" alt="" width="160" height="160" loading="lazy" decoding="async">
+    </span>
+    <span class="ambient-image-bg__asset ambient-image-bg__asset--wrench">
+      <img src="/images/ambient/wrench.svg" alt="" width="80" height="80" loading="lazy" decoding="async">
+    </span>
+    <span class="ambient-image-bg__asset ambient-image-bg__asset--file">
+      <img src="/images/ambient/file-text.svg" alt="" width="80" height="80" loading="lazy" decoding="async">
+    </span>
+    <span class="ambient-image-bg__asset ambient-image-bg__asset--archive">
+      <img src="/images/ambient/archive.svg" alt="" width="80" height="80" loading="lazy" decoding="async">
+    </span>
+  </div>
+
+  <a class="tool-detail__back" href="/"><span aria-hidden="true">←</span> 返回实用工具</a>
+
+  <header class="tool-detail__head">
+    {{ if eq (.Params.group | default "") "student-made" }}
+      <p class="tool-detail__eyebrow">同学制作工具</p>
+    {{ end }}
+    <h1 class="tool-detail__title">{{ .Title }}</h1>
+  </header>
+
+  <section class="tool-download" aria-label="下载">
+    {{ if $downloadUrl }}
+      <a class="tool-download__btn"
+         href="{{ $downloadUrl }}"
+         rel="noopener noreferrer"
+         download="{{ .Params.download_name | default "download.zip" }}"
+         data-parallel-download>
+        下载安装包{{ with .Params.download_size }} · {{ . }}{{ end }}
+      </a>
+      <div class="tool-download__progress" data-download-progress hidden>
+        <div class="tool-download__track"><span class="tool-download__bar" data-download-bar></span></div>
+        <p class="tool-download__status" data-download-text aria-live="polite"></p>
+        <button type="button" class="tool-download__cancel" data-download-cancel>取消</button>
+      </div>
+    {{ else }}
+      <p class="tool-download__pending">下载链接准备中，稍后开放。</p>
+    {{ end }}
+  </section>
+
+  <div class="tool-detail__body">
+    {{ .Content }}
+  </div>
+
+  <p class="tool-detail__disclaimer">仅为同学自制工具，本平台不对服务稳定性和可用性做保障。</p>
+</article>
+{{ if $downloadUrl }}
+  {{ $parallelDownloadVersion := substr (sha256 (readFile "static/js/parallel-download.js")) 0 12 }}
+  <script defer src="/js/parallel-download.js?v={{ $parallelDownloadVersion }}"></script>
+{{ end }}
+{{ end }}

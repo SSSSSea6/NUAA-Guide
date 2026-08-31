@@ -1,4 +1,11 @@
 {{ $guides := .Site.GetPage "section" "guides" }}
+{{ $all := $guides.Pages.ByWeight }}
+{{ $studentTools := slice }}
+{{ range $all }}
+  {{ if eq (.Params.group | default "") "student-made" }}
+    {{ $studentTools = $studentTools | append . }}
+  {{ end }}
+{{ end }}
 <div class="content-section guides-section">
   <div class="ambient-image-bg ambient-image-bg--guides" aria-hidden="true">
     <span class="ambient-image-bg__asset ambient-image-bg__asset--logo">
@@ -25,7 +32,7 @@
   {{ end }}
 
   <div class="guide-tool-stack">
-    {{ range $guides.Pages.ByWeight }}
+    {{ range $all }}
       {{ if eq .Title "龙猫代跑" }}
         <article class="guide-tool-panel guide-tool-panel--totoro">
           <a class="guide-tool-panel--totoro__link"
@@ -42,7 +49,22 @@
           </a>
           <span class="guide-tool-panel--totoro__hint">点击进入</span>
         </article>
-      {{ else }}
+
+        {{ with $studentTools }}
+          <article class="guide-tool-panel guide-tool-panel--group">
+            <header class="guide-tool-panel__header">
+              <h2>同学制作工具</h2>
+            </header>
+            <div class="guide-tool-panel__body">
+              <div class="doc-link-list">
+                {{ range . }}
+                  <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                {{ end }}
+              </div>
+            </div>
+          </article>
+        {{ end }}
+      {{ else if ne (.Params.group | default "") "student-made" }}
         <article class="guide-tool-panel">
           <header class="guide-tool-panel__header">
             <h2>{{ .Title }}</h2>
