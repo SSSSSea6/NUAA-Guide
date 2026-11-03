@@ -1,0 +1,25 @@
+# NUAA Guide site block, appended to /etc/caddy/Caddyfile on the Hong Kong server.
+# Releases are unpacked by nuaaguide-deploy.sh; `current` points at the live one.
+nuaaguide.online, www.nuaaguide.online {
+	root * /var/www/nuaa-guide/current
+	encode zstd gzip
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+
+	# CSS/JS/images are referenced with content-hash ?v= query strings.
+	@assets path /css/* /js/* /images/*
+	header @assets Cache-Control "public, max-age=31536000, immutable"
+	@pages not path /css/* /js/* /images/*
+	header @pages Cache-Control "public, max-age=60, stale-while-revalidate=600"
+
+	file_server
+
+	handle_errors 404 {
+		encode zstd gzip
+		rewrite * /404.html
+		file_server
+	}
+}

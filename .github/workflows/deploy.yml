@@ -8,9 +8,11 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: deploy-hk
+  cancel-in-progress: false
+
 env:
-  CLOUDFLARE_ACCOUNT_ID: a2b7fc794d1db64ae85a3a5aa96d645a
-  CLOUDFLARE_PROJECT_NAME: nuaa-guide
   HUGO_VERSION: "0.121.1"
 
 jobs:
@@ -39,38 +41,37 @@ jobs:
           hugo-version: ${{ env.HUGO_VERSION }}
           extended: true
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
       - name: Build website
         run: hugo --gc --minify --cleanDestinationDir
 
-      - name: Deploy guide origin Worker
-        run: npx wrangler@latest deploy --config cloudflare/guide-origin-proxy/wrangler.toml
+      # The server side is deploy/hk/nuaaguide-deploy.sh, bound to this key as a forced command.
+      - name: Deploy to Hong Kong server
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-
-      - name: Deploy guide main Worker
-        run: npx wrangler@latest deploy --config cloudflare/main-proxy-worker/wrangler.toml
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-
-      - name: Deploy to Cloudflare Pages
-        run: npx wrangler@latest pages deploy public --project-name="${CLOUDFLARE_PROJECT_NAME}" --branch=main
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          DEPLOY_SSH_KEY: ${{ secrets.HK_DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.HK_DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_HOST: ${{ secrets.HK_DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.HK_DEPLOY_PORT }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          tar -czf - -C public . | ssh -T -i ~/.ssh/deploy_key -p "$DEPLOY_PORT" \
+            -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes \
+            "nuaaguide@$DEPLOY_HOST" deploy
 
       - name: Smoke public routes
         shell: bash
         run: |
           set -euo pipefail
-          for url in \
-            "https://www.nuaaguide.online/" \
-            "https://www.nuaaguide.online/css/style.css" \
-            "https://nuaa-guide.pages.dev/"; do
-            echo "==> $url"
-            curl -fsSI "$url" | tee /tmp/headers.txt
-            grep -i '^cache-control:' /tmp/headers.txt || true
-          done
+          check() {
+            local expected="$1" url="$2" code
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$url")
+            echo "$code $url"
+            [ "$code" = "$expected" ]
+          }
+          check 200 "https://www.nuaaguide.online/"
+          check 200 "https://nuaaguide.online/"
+          check 200 "https://www.nuaaguide.online/materials/"
+          check 200 "https://www.nuaaguide.online/css/style.css"
+          check 404 "https://www.nuaaguide.online/no-such-page/"
