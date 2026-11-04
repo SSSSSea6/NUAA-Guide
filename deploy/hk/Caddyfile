@@ -1,7 +1,12 @@
-# NUAA Guide site block, appended to /etc/caddy/Caddyfile on the Hong Kong server.
-# Releases are unpacked by nuaaguide-deploy.sh; `current` points at the live one.
-nuaaguide.online, www.nuaaguide.online {
-	root * /var/www/nuaa-guide/current
+# Config for the nuaa-guide-web container (see compose.yaml). Plain HTTP only:
+# TLS is terminated by the shared yyb-peak Caddy, which proxies here (site.caddy).
+{
+	admin off
+	auto_https off
+}
+
+:80 {
+	root * /srv/current
 	encode zstd gzip
 
 	header {

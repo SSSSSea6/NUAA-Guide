@@ -1,0 +1,4 @@
+# NUAA Guide site block, appended to /opt/yyb-peak/Caddyfile (the shared Caddy).
+nuaaguide.online, www.nuaaguide.online {
+	reverse_proxy nuaa-guide-web:80
+}

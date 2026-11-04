@@ -1,5 +1,5 @@
 #!/bin/sh
-# Forced SSH command for the `nuaaguide` deploy user on the Hong Kong server.
+# Forced SSH command for the `nuaaguide` deploy user on the Hong Kong business server.
 # Installed as /usr/local/bin/nuaaguide-deploy and bound to the CI key in
 # ~nuaaguide/.ssh/authorized_keys with `restrict,command="..."`.
 #
@@ -32,7 +32,8 @@ if [ ! -f "$staging/index.html" ] || [ ! -f "$staging/404.html" ]; then
 fi
 
 mv "$staging" "$release"
-ln -sfn "$release" "$BASE/current.next"
+# Relative target: the web container mounts $BASE at a different path.
+ln -sfn "releases/$(basename "$release")" "$BASE/current.next"
 mv -T "$BASE/current.next" "$BASE/current"
 
 cd "$BASE/releases"

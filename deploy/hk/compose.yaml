@@ -1,0 +1,22 @@
+# /opt/nuaa-guide/compose.yaml on the Hong Kong business server.
+# Start or update with: docker compose -p nuaa-guide up -d
+services:
+  web:
+    # Same pinned image the shared yyb-peak Caddy runs, so nothing is pulled.
+    image: caddy:2@sha256:685ae3d7c34d9b5f8caeddc5d14051db7bbd88ff1f5a2fa0c16bd8ca328fb7af
+    container_name: nuaa-guide-web
+    restart: unless-stopped
+    mem_limit: 64m
+    read_only: true
+    tmpfs:
+      - /data
+      - /config
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - /var/www/nuaa-guide:/srv:ro
+    networks:
+      - yyb-peak_default
+
+networks:
+  yyb-peak_default:
+    external: true
